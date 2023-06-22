@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Juanolarte11/EpicGameStoreBack#readme",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "sequelize": "^6.32.1"
   }
