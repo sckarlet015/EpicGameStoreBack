@@ -1,0 +1,19 @@
+{
+  "name": "epicgamestoreback",
+  "version": "1.0.0",
+  "description": "backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Juanolarte11/EpicGameStoreBack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Juanolarte11/EpicGameStoreBack/issues"
+  },
+  "homepage": "https://github.com/Juanolarte11/EpicGameStoreBack#readme"
+}
