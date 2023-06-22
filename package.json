@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Juanolarte11/EpicGameStoreBack/issues"
   },
-  "homepage": "https://github.com/Juanolarte11/EpicGameStoreBack#readme"
+  "homepage": "https://github.com/Juanolarte11/EpicGameStoreBack#readme",
+  "dependencies": {
+    "sequelize": "^6.32.1"
+  }
 }
