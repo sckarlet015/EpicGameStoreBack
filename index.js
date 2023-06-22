@@ -10,4 +10,4 @@ conn.sync({
   server.listen(3001, () => {
     console.log('Servidor en el puerto 3001'); // eslint-disable-line no-console
   });
-});
+}); 
