@@ -1,8 +1,12 @@
 const { DataTypes } = require('sequelize');
 
-
 module.exports = (sequelize) => {
   sequelize.define('juego', {
+    id: {
+      primaryKey: true,
+      autoIncrement: true,
+      type: DataTypes.INTEGER
+    },
     titulo: {
       type: DataTypes.STRING,
       allowNull: false
@@ -15,7 +19,34 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    // Otros campos del juego (plataforma, género, etc.)
+    idAPI: {
+      type: DataTypes.INTEGER,
+      unique: 'unique_id'
+    },
+    requisitos: {
+      type: DataTypes.TEXT,
+      defaultValue: ''
+    },
+    generos: {
+      type: DataTypes.ARRAY,
+      defaultValue: ['']
+    },
+    plataformas: {
+      type: DataTypes.ARRAY,
+      defaultValue: ['']
+    },
+    imagen: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    tags: {
+      type: DataTypes.ARRAY,
+      defaultValue: ['']
+    },
+    putuación: {
+      type: DataTypes.ARRAY,
+      defaultValue: []
+    }
   })
 }
 
