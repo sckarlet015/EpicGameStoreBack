@@ -1,5 +1,8 @@
-const { API_KEY } = process.env;
+const {
+  API_KEY
+} = process.env;
 const axios = require('axios').default;
+const findVideogameByIdApi = require('./findVideogameByIdApi.js');
 
 const getVideogamesApi = async () => {
   try {
@@ -12,14 +15,16 @@ const getVideogamesApi = async () => {
       const url = `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=${gamesPerPage}`;
       const response = await axios.get(url);
       const videogamesApiRaw = response.data.results;
-      const videogames = videogamesApiRaw.map(({ id, name, background_image, genres, rating }) => ({
+      const videogames = videogamesApiRaw.map(({
         id,
-        name,
-        background_image,
-        genres,
-        rating
+      }) => ({
+        id,
       }));
       videogamesApi.push(...videogames);
+    }
+
+    for (let i = 0; i < videogamesApi.length; i++) {
+      findVideogameByIdApi(videogamesApi[i].id)
     }
 
     console.log(videogamesApi);

@@ -4,6 +4,7 @@ const findVideogameByIdApi = require("../controllers/findVideogameByIdApi.js");
 const findVideogameByIdDB = require("../controllers/findVideogameByIdDB.js");
 const getVideogames = require("../controllers/getVideogames.js");
 const getVideogamesByName = require("../controllers/findVideogameByName.js");
+const getVideogamesDb = require("../controllers/getVideogamesDb.js")
 
 const videogamesRouter = express.Router();
 
@@ -16,7 +17,7 @@ videogamesRouter.get("/", async (req,res) => {
             console.log(name);
             res.status(200).json(videogames);
         }else {
-            const videogames = await getVideogames();
+            const videogames = await getVideogamesDb();
             res.status(200).json(videogames);
         } 
     } catch (error) {
