@@ -4,7 +4,7 @@ const genresRouter = require("./genresRouter.js");
 const videogamesRouter = require("./videogamesRouter.js");
 const platformsRouter = require("./platformsRouter.js")
 const createPlatform = require("../controllers/createPlatforms.js");
-
+const developersRouter= require("./developersRouter.js");
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -20,6 +20,7 @@ router.use(express.json());
 router.use("/platforms", platformsRouter);
 router.use("/genres", genresRouter);
 router.use("/videogames", videogamesRouter)
+router.use("/developers", developersRouter)
 
 module.exports = router;
 
