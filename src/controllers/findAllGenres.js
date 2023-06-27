@@ -1,4 +1,3 @@
-require('dotenv').config();
 const axios = require('axios').default;
 const { API_KEY } = process.env;
 const { Genre } = require("../db.js");
@@ -11,7 +10,6 @@ const findAllGenres = async() => {
       const genresData = response.data.results;
       const genresToAdd = genresData.map(genre => ({"genreName": genre.name}));
       const genres = await Genre.bulkCreate(genresToAdd);
-      console.log("only one time")
       if (response.status === 200) {
         return genres;
         }else {
