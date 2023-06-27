@@ -6,7 +6,8 @@ const arrangeApiGames = (videogames) => {
       genres: game.genres.map((genre) => genre.name),
       platforms: game.platforms.map((platform) => platform.platform.name),
       screenshots: game.screenshots.map((screenshot) => screenshot.image).join(','),
-      rating: game.rating
+      rating: game.rating,
+      price: game.price
     }));
   
     return arrangedGames;

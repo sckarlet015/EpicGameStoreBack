@@ -43,8 +43,8 @@ Genre.belongsToMany(Videogame, { through: "VideogameGenre" });
 Videogame.belongsToMany(Platform, {through: "VideogamePlatform"});
 Platform.belongsToMany(Videogame, {through: "VideogamePlatform"});
 
-Developers.hasMany(Videogame);
-Videogame.belongsTo(Developers);
+// Developers.hasMany(Videogame);
+// Videogame.belongsTo(Developers);
 
 
 module.exports = {

@@ -12,6 +12,10 @@ module.exports = (sequelize) => {
     platformName: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    requirements: {
+      type: DataTypes.TEXT,
+      defaultValue: "Sin requisitos"
     }
   }, {
     timestamps: false

@@ -3,6 +3,7 @@ const axios = require('axios').default;
 const { API_KEY } = process.env;
 const { Developers } = require("../db.js");
 
+
 const getDevelopers = async() => {
   try {
     const developersDb = await Developers.findAll();

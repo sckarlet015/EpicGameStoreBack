@@ -13,10 +13,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    requirements: {
-      type: DataTypes.TEXT,
-      defaultValue: "Sin requisitos"
-    }
   }, {
     timestamps: false
   });

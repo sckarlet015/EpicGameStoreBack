@@ -2,6 +2,10 @@ const {  API_KEY } = process.env;
 const axios = require('axios').default;
 const arrangeApiGames = require("../handlers/arrangeApiGames.js")
 
+const getRandomPrice = () => {
+  return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+};
+
 const getVideogamesApi = async () => {
   try {
     const totalPages = 3;
@@ -19,7 +23,8 @@ const getVideogamesApi = async () => {
         genres,
         platforms,
         screenshots: short_screenshots,
-        rating
+        rating,
+        price: getRandomPrice()
       }));
       videogamesApi.push(...videogames);
     };
