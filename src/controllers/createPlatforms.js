@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { Router } = require('express');
 const { Platform } = require("../db.js");
 const { API_KEY } = process.env;
 require('dotenv').config();
@@ -13,7 +12,6 @@ const createPlatform = async (req, res, next) => {
       const platformsData = response.data.results;
       const platformsToAdd = platformsData.map(platform => ({ platformName: platform.name }));
       await Platform.bulkCreate(platformsToAdd);
-      console.log("solo 1");
     }
     next();
   } catch (error) {
