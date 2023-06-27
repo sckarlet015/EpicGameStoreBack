@@ -4,11 +4,11 @@ const getPlatforms = require("../controllers/getPlatforms.js");
 
 const platformsRouter = express.Router();
 
-// GET Videogames
+// GET platforms
 platformsRouter.get("/", async (req,res) => {
     try {
-        const genres = await getPlatforms();
-         res.status(200).json(genres);
+        const platforms = await getPlatforms();
+         res.status(200).json(platforms);
     } catch (error) {
         res.status(400).json({error: error.message});
     }
