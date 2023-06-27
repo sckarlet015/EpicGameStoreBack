@@ -23,7 +23,7 @@ const findVideogameByIdApi = async (id) => {
                   rating: videogame.rating,
                   image: videogame.background_image,
                 })
-                return newGame
+                return videogameRaw
             } catch (error) {
                console.log(error); 
             }

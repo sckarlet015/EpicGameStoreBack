@@ -14,16 +14,15 @@ videogamesRouter.get("/", async (req,res) => {
         const { name } = req.query;
         if(name){
             const videogames = await getVideogamesByName(name);
-            console.log(name);
             res.status(200).json(videogames);
         }else {
-            const videogames = await getVideogamesDb();
+            const videogames = await getVideogames();
             res.status(200).json(videogames);
         } 
     } catch (error) {
         res.status(400).json({error: error.message});
-    }
-})
+    };
+});
 
 // GET videogame by id 
 
