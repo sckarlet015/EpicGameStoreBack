@@ -21,7 +21,7 @@ const getDevelopers = async() => {
     // if(developersDb.length === 0){
       const response = await axios.get(`https://api.rawg.io/api/developers?key=${API_KEY}&page=${pageNumber}&page_size=${gamesPerPage}`);
       const developersData = response.data.results;
-      const developersToAdd = developersData.map(developer => ({"name": developer.name, "games":developer.games.map(g=>g.name)}));
+      const developersToAdd = developersData.map(developer => ({"name": developer.name, "games":developer.games.map(g=>g.id)}));
       const developer = await Developers.bulkCreate(developersToAdd);
       if (response.status === 200) {
         const developersDb = await Developers.findAll();
