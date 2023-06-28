@@ -3,10 +3,16 @@ const createVideogame = require("./createVideogame.js")
 
 const getVideogamesDb = async () => {
   try {
-    const videogames = await Videogame.findAll();
+    const videogames = await Videogame.findAll({
+      attributes: ['id', 'name', 'description', 'launchDate', 'rating', 'image', 'screenshots', 'price', 'stock', 'active'],
+      include: {
+        model: Genre,
+        attributes: ['id', 'genreName'],
+        through: { attributes: [] },
+      },
+    });
     if(videogames.length ===0 ){
       const newVideogames = await createVideogame();
-      console.log(newVideogames);
       return newVideogames
     }else {
       return videogames
