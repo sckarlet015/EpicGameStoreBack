@@ -1,22 +1,14 @@
 const { Videogame, Genre, Platform } = require("../db.js");
+const getVideogamesApi = require("./getVideogamesApi.js")
 
-const createVideogame = async (name, description, launchDate, rating, image, genreIds, platformsIds) => {
+const createVideogame = async () => {
   try {
-    const newVideogame = await Videogame.create({
-      name,
-      description,
-      launchDate,
-      rating, 
-      image,
-    });
-
-    await newVideogame.addGenres(genreIds);
-    await newVideogame.addPlatforms(platformsIds);
-
-    return newVideogame;
+    const videogamesToAdd = await getVideogamesApi();
+    const createdGames = await Videogame.bulkCreate(videogamesToAdd);
+    console.log(createdGames);
+    return createdGames
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to create videogame');
+    
   }
 };
 

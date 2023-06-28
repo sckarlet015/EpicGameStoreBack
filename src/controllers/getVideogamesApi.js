@@ -6,6 +6,7 @@ const getRandomPrice = () => {
   return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
 };
 
+
 const getVideogamesApi = async () => {
   try {
     const totalPages = 3;
@@ -24,13 +25,13 @@ const getVideogamesApi = async () => {
         platforms,
         screenshots: short_screenshots,
         rating,
-        price: getRandomPrice()
+        price: getRandomPrice(), 
+        stock: getRandomPrice()
       }));
       videogamesApi.push(...videogames);
     };
 
     const videogames = arrangeApiGames(videogamesApi)
-    console.log(videogamesApi);
     return videogames;
   } catch (error) {
     throw new Error(error.response.statusText);
