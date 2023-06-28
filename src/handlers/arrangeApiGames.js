@@ -9,7 +9,7 @@ const arrangeApiGames = (videogames) => {
       rating: game.rating,
       price: game.price
     }));
-  
+    
     return arrangedGames;
   };
   

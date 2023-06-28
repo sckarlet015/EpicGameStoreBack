@@ -4,6 +4,8 @@ const getVideogamesDb = require("./getVideogamesDb.js")
 
 const getVideogames = async () => {
     try {
+        //La base esta vacia?
+        //Crear
         let videogamesApi = await getVideogamesApi();
         //let videogamesDb = await getVideogamesDb()
         const videogames = [...videogamesApi];
