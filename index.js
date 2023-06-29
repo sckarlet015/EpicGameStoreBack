@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(cors());
 
 mercadopago.configure({
-	access_token: "",
+	access_token: "TEST-6338746871170821-062813-66a3ebbc2be2774a962f32cadd2ab029-142587917",
 });
 
 app.get("/", function(req,res){
