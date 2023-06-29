@@ -8,8 +8,6 @@ const developersRouter= require("./developersRouter.js");
 const postUser = require("./userRouter.js");
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-
-
 const router = Router();
 
 // Configurar los routers
@@ -23,6 +21,7 @@ router.use("/genres", genresRouter);
 router.use("/videogames", videogamesRouter)
 router.use("/developers", developersRouter)
 router.use("/users", postUser)
+// router.use("/users", userRouter)
 
 module.exports = router;
 
