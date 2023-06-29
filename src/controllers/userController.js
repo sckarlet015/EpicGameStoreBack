@@ -9,12 +9,11 @@ let user = await Users.create({
 return user;
 };
 
-const getAllUsers = async () =>{
+const getAllUsers = async () => {
 
     const allUsers = await Users.findAll()
 
     return allUsers;
 }
-
 
 module.exports = {userCreate, getAllUsers};
