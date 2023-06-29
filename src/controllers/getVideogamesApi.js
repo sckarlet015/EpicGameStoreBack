@@ -9,10 +9,7 @@ const getRandomPrice = () => {
 const getStockPrice = (max) => {
   return Math.floor(Math.random() * max);
 };
-
-{/*(50 - 5 + 1)) + 5*/}
-
-
+  
 const getVideogamesApi = async () => {
   try {
     const totalPages = 3;

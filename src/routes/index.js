@@ -8,8 +8,6 @@ const developersRouter= require("./developersRouter.js");
 const postUser = require("./userRouter.js");
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-
-
 const router = Router();
 
 // Configurar los routers

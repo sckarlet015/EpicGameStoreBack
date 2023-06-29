@@ -8,10 +8,11 @@ const {
     Platform
   } = require("../db.js");
 
-const findVideogameByIdApi = async (id) => {
-    const url = `https://api.rawg.io/api/games/${id}?key=${API_KEY}`;
+const findVideogameByIdApi = async (apiId) => {
+    const url = `https://api.rawg.io/api/games/${apiId}?key=${API_KEY}`;
+
     try {
-        const localGame = await Videogame.findOne({ where: { id } });
+        const localGame = await Videogame.findOne({ where: { apiId } });
         if (localGame) {
             return localGame;
         } else{
