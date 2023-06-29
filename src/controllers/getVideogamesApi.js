@@ -6,6 +6,12 @@ const getRandomPrice = () => {
   return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
 };
 
+const getStockPrice = (max) => {
+  return Math.floor(Math.random() * max);
+};
+
+{/*(50 - 5 + 1)) + 5*/}
+
 
 const getVideogamesApi = async () => {
   try {
@@ -25,8 +31,8 @@ const getVideogamesApi = async () => {
         platforms,
         screenshots: short_screenshots,
         rating,
-        price: getRandomPrice(), 
-        stock: getRandomPrice()
+        price: getRandomPrice()-(getStockPrice(20)/100), 
+        stock: getStockPrice(15)
       }));
       videogamesApi.push(...videogames);
     };
