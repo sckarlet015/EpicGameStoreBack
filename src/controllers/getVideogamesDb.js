@@ -1,58 +1,26 @@
-// const { Videogame, Genre } = require("../db.js");
-
-// const getVideogamesDb = async () => {
-//     try {
-//         const response = await Videogame.findAll({
-//             include: [
-//               {
-//                 model: Genre,
-//                 attributes: [["genreName", "name"]], // Map genreName to name
-//                 through: {
-//                   attributes: [],
-//                 },
-//               },
-//             ],
-//           });
-//         return response
-//     } catch (error) {
-//         throw new Error(response.statusText);
-//     }
-// }
-
-// module.exports = getVideogamesDb;
-
-
-// CGTP
 const { Videogame, Genre } = require("../db.js");
+const createVideogame = require("./createVideogame.js")
 
 const getVideogamesDb = async () => {
   try {
-    const response = await Videogame.findAll({
-      include: [
-        {
-          model: Genre,
-          attributes: [["genreName", "name"]],
-          through: {
-            attributes: [],
-          },
-        },
-      ],
+    const videogames = await Videogame.findAll({
+      attributes: ['id', 'name', 'description', 'launchDate', 'rating', 'image', 'screenshots', 'price', 'stock', 'active'],
+      include: {
+        model: Genre,
+        attributes: ['id', 'genreName'],
+        through: { attributes: [] },
+      },
     });
-
-    // Extract the genres from the response
-    const modifiedResponse = response.map((game) => {
-      const genres = game.Genres.map((genre) => ({ name: genre.name }));
-
-      return {
-        ...game.toJSON(),
-        genres: [...genres, ...game.Genres],
-      };
-    });
-
-    return modifiedResponse;
+    if(videogames.length ===0 ){
+      const newVideogames = await createVideogame();
+      return newVideogames
+    }else {
+      return videogames
+    }
   } catch (error) {
     throw new Error(error);
-  }
+  };
+  
 };
 
 module.exports = getVideogamesDb;

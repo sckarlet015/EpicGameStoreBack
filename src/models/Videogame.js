@@ -9,13 +9,17 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
+    apiId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     launchDate: {
       type: DataTypes.DATEONLY,
@@ -27,6 +31,10 @@ module.exports = (sequelize) => {
     },
     image: {
       type: DataTypes.STRING,
+      allowNull: true
+    },
+    screenshots: {
+      type: DataTypes.TEXT,
       allowNull: true
     },
     price: {
