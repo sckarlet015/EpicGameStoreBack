@@ -1,4 +1,4 @@
-const { Carrito, Videogame, Users, VideogameCarrito } = require("../db.js");
+const { Carrito, Videogame, Users } = require("../db.js");
 
 const cartCreate = async() => {
     let carrito = await Carrito.create()
@@ -36,23 +36,13 @@ const addGames = async(arrayGame, userID) => {
 
 const getCart = async(cartId) => {
     try {
-        const allCartGames = await Carrito.findByPk(cartId, {
-            include: Videogame,
-          });
-
-          const { id, UserId, Videogames } = allCartGames;
-
+        const allCartGames = await Carrito.findByPk(cartId);
+          const { id, UserId } = allCartGames;
           const extractedData = {
             id: id,
             UserId: UserId,
-            Videogames: Videogames
           };
-          
-          return [extractedData];
-        const allCartGame = await Cart.findAll(
-            {include: VideogameCarrito}
-        )
-        return allCartGame
+          return extractedData;
     } catch (error) {
         console.log(error);
     }
