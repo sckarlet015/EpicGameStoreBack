@@ -49,9 +49,22 @@ const getCart = async(cartId) => {
           };
           
           return [extractedData];
+        const allCartGame = await Cart.findAll(
+            {include: VideogameCarrito}
+        )
+        return allCartGame
     } catch (error) {
         console.log(error);
     }
 }
 
-module.exports = {cartCreate, asociateCart, addGames, getCart}
+const getCarts = async() => {
+    try {
+        const allCartGames = await Carrito.findAll()
+        return allCartGames
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = {cartCreate, asociateCart, addGames, getCart, getCarts}
