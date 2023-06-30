@@ -12,7 +12,7 @@ genresRouter.get('/', async (req, res) => {
         const genres = await findAllGenres()
         res.status(200).json(genres)
     } catch (error) {
-        throw new Error(error);
+        // throw new Error(error);
     }
 });
 

@@ -23,7 +23,7 @@ const getVideogames = require('./src/controllers/getVideogames.js');
 const { conn } = require('./src/db.js');
 const { PORT } = process.env;
 
-/////////////////////////////
+/////////////////////////////MERCADO PAGO
 
 const express = require("express");
 const app = express();
@@ -87,7 +87,7 @@ mercadopago.configure({
 // Syncing all the models at once.
 
 conn.sync({ force: true }).then(async() => {
-  await getVideogames()
+  //await getVideogames()
   server.listen(PORT, "0.0.0.0", () => {
     console.log('%s listening at', PORT); // eslint-disable-line no-console
   });

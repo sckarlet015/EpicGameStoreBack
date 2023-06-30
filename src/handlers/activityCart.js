@@ -1,4 +1,4 @@
-const {addGames, getCart} = require("../controllers/createCart")
+const {addGames, getCart, getCarts} = require("../controllers/createCart")
 
 const asocieVideoGames = async(req, res) => {
     const {
@@ -9,10 +9,21 @@ const asocieVideoGames = async(req, res) => {
     try {
        const cartId = await addGames(arrayGames, userId)
        const getAllCart = await getCart(cartId)
-       return getAllCart
+       res.status(200).json(getAllCart)
     } catch (error) {
         console.log(error)
     }
 }
 
-module.exports = {asocieVideoGames}
+const getAllCarts = async (req, res, next) => {
+    try {
+        console.log("si se utiliza el getAll")
+        const allCars = await getCarts();
+        console.log(allCars);
+        res.status(200).json(allCars)
+    } catch (error) {
+        res.status(400).json({ error:error.message })
+    }
+}
+
+module.exports = {asocieVideoGames, getAllCarts}
