@@ -23,7 +23,7 @@ const getVideogames = require('./src/controllers/getVideogames.js');
 const { conn } = require('./src/db.js');
 const { PORT } = process.env;
 
-/////////////////////////////
+/////////////////////////////MERCADO PAGO
 
 const express = require("express");
 const app = express();
