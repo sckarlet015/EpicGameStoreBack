@@ -11,7 +11,8 @@ const getPay = async (req, res) => {
 
 const postPay = async(req, res) => {
     try {
-        let preference = getPreference(req)
+        let preference = await getPreference(req)
+        console.log(preference);
         let newPreference = createPreference(preference, res)
         return newPreference
     } catch (error) {
