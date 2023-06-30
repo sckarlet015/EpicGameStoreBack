@@ -4,19 +4,19 @@ const findAllGenres = require("./findAllGenres.js")
 
 const addGenresToVideogame = async (videogameId, genreIds) => {
   try {
-    console.log(genreIds);
     const videogame = await Videogame.findOne({ where: { apiId: videogameId } });
     if (!videogame) {
       throw new Error(`Videogame with ID ${videogameId} not found`);
     }
 
     for (const genreId of genreIds) {
-      const genre = await Genre.findByPk(genreId);
+      const genre = await Genre.findOne({ where: { genreName: genreId } });
+      // await Genre.findOne(genreId);
       if (genre) {
         await videogame.addGenre(genre);
       }
     }
-
+    
     return videogame;
   } catch (error) {
     console.error(error);
