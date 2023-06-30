@@ -42,6 +42,7 @@ const createVideogame = async () => {
     for (const videogame of videogamesToAdd) {
       const apiId = videogame.apiId
       const genres = videogame.genres
+
       await addGenresToVideogame(apiId, genres)
     }
 
