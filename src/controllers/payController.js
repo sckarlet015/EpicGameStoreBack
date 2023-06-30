@@ -20,6 +20,7 @@ const getPreference = async(req, res) => {
 		},
 		auto_return: "approved",
     }
+    // console.log(preference);
     return preference
 }
 
