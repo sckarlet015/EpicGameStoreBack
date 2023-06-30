@@ -1,4 +1,4 @@
-const { Carrito, Videogame } = require("../db.js");
+const { Carrito, Videogame, Users, VideogameCarrito } = require("../db.js");
 
 const cartCreate = async() => {
     let carrito = await Carrito.create()
@@ -15,13 +15,15 @@ try {
 
 const addGames = async(arrayGame, userID) => {
     try {
+        var cart;
         for (let i=0;i< arrayGame.length ;i++)
         {
-            const game =  await Videogame.findByPk({where: {id : arrayGame[i].id}})
-            const user = await User.findByPk(userID, {
+            const game =  await Videogame.findByPk(arrayGame[i].id)
+            const user = await Users.findByPk(userID, {
                 include: Carrito,
               });
-            const cart = await Carrito.findByPk({where: {id : user.Carrito.id}})
+              const cartId = user.Carrito.dataValues.id
+            cart = await Carrito.findByPk(cartId)
                 if(game){
                     await game.addCarrito(cart)
                     }
@@ -35,9 +37,18 @@ const addGames = async(arrayGame, userID) => {
 const getCart = async(cartId) => {
     try {
         const allCartGames = await Carrito.findByPk(cartId, {
-            include: VideogameCarrito,
+            include: Videogame,
           });
-        return allCartGames
+
+          const { id, UserId, Videogames } = allCartGames;
+
+          const extractedData = {
+            id: id,
+            UserId: UserId,
+            Videogames: Videogames
+          };
+          
+          return [extractedData];
     } catch (error) {
         console.log(error);
     }
