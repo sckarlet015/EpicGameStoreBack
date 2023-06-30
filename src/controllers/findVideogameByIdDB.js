@@ -1,5 +1,5 @@
 const express = require('express');
-const { Videogame, Genre, Platform } = require ("../db.js");
+const { Videogame, Genre, Platform, Developers } = require ("../db.js");
 const findVideogameByIdApi = require("./findVideogameByIdApi.js")
 
 const findVideogameByIdDB = async (id) => {
@@ -29,8 +29,12 @@ const findVideogameByIdDB = async (id) => {
             attributes: ["platformName"],
             through: {
               attributes: [],
-            },
+            }
           },
+          {
+            model: Developers,
+            attributes: ['id', 'name'],
+          }
         ],
   })
   if(!videogame) throw Error("Videogame does not exist");

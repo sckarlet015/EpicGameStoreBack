@@ -50,16 +50,18 @@ const addDeveloper = async (apiId) => {
   try {
     let condition = true;
     while (condition) {
-      const devs = await getDevelopers();
-      matchingDevelopers = devs.filter(developer => developer.games.includes(apiId));
+      const currentDevs = await Developers.findAll();
+     
+      matchingDevelopers = currentDevs.filter(developer => developer.games.includes(apiId));
       
       if (matchingDevelopers.length > 0) {
+        const firstMatchingDeveloper = matchingDevelopers[0];
+        const videogame = await Videogame.findOne({ where: { apiId } });
+        await videogame.setDeveloper(firstMatchingDeveloper.id);
         condition = false; // Exit the loop if a match is found
+      }else{
+        await getDevelopers();
       }
-      const firstMatchingDeveloper = matchingDevelopers[0];
-      console.log(firstMatchingDeveloper);
-      const videogame = await Videogame.findOne({ where: { apiId } });
-      await videogame.setDeveloper(firstMatchingDeveloper.id);
     }
     
     
