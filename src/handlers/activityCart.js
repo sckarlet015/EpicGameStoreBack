@@ -1,4 +1,4 @@
-const {addGames, getCart} = require("../controllers/createCart")
+const {addGames, getCart, getCarts} = require("../controllers/createCart")
 
 const asocieVideoGames = async(req, res) => {
     const {
@@ -15,4 +15,13 @@ const asocieVideoGames = async(req, res) => {
     }
 }
 
-module.exports = {asocieVideoGames}
+const getAllCarts = async (req, res, next) => {
+    try {
+        const allCars = await getCarts();
+        res.status(200).json(allCars)
+    } catch (error) {
+        res.status(400).json({ error:error.message })
+    }
+}
+
+module.exports = {asocieVideoGames, getAllCarts}

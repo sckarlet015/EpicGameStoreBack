@@ -34,13 +34,22 @@ const addGames = async(arrayGame, userID) => {
 
 const getCart = async(cartId) => {
     try {
-        const allCartGames = await Carrito.findByPk(cartId, {
-            include: VideogameCarrito,
-          });
+        const allCartGames = await Cart.findAll(
+            {include: VideogameCarrito}
+        )
         return allCartGames
     } catch (error) {
         console.log(error);
     }
 }
 
-module.exports = {cartCreate, asociateCart, addGames, getCart}
+const getCarts = async() => {
+    try {
+        const allCartGames = await Carrito.findAll()
+        return allCartGames
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = {cartCreate, asociateCart, addGames, getCart, getCarts}
