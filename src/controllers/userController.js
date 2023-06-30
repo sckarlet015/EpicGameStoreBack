@@ -1,4 +1,5 @@
-const { Users } = require("../db.js");
+const { Users, Carrito } = require("../db.js");
+
 
 const userCreate = async (userName, userPassword, userEmail, userBirth) => {
 let user = await Users.create({
@@ -11,7 +12,15 @@ return user;
 
 const getAllUsers = async () => {
 
-    const allUsers = await Users.findAll()
+    const allUsers = await Users.findAll(
+        {
+            include: [
+                {model : Carrito},
+                ]
+        }
+    )
+
+    
 
     return allUsers;
 }
