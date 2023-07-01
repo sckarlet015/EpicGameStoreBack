@@ -60,7 +60,6 @@ const addDeveloper = async (apiId) => {
         const videogame = await Videogame.findOne({ where: { apiId } });
         const id = matchingDeveloper.id
         await videogame.setDeveloper(id);
-        console.log("developer found");
         condition = false; // Exit the loop if a match is found
       }else{
         await getDevelopers();
