@@ -35,7 +35,6 @@ const getVideogamesApi = async () => {
     };
 
     const videogames = arrangeApiGames(videogamesApi);
-
     return videogames;
   } catch (error) {
     throw new Error(error.response.statusText);

@@ -30,14 +30,8 @@ videogamesRouter.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
         let videogame = {}
-        if(!isNaN(Number(id))) {
-            videogame = await findVideogameByIdApi(id);
-            res.status(200).json(videogame)
-        }else{
-            console.log("good route");
             videogame = await findVideogameByIdDB(id);
             res.status(200).json(videogame);
-        }
     } catch (error) {
         res.status(400).json({error: error.message})
     }

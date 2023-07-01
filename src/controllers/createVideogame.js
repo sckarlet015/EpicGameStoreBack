@@ -34,7 +34,7 @@ const addPlatformsToVideogame = async (videogameId, platformNames) => {
 
     for (const name of platformNames) {
       const platform = await Platform.findOne({ where: { platformName: name } });
-      if (platform) {
+      if (platform) {  
         await videogame.addPlatform(platform);
       }
     }
@@ -49,15 +49,18 @@ const addPlatformsToVideogame = async (videogameId, platformNames) => {
 const addDeveloper = async (apiId) => {
   try {
     let condition = true;
+    const devs = await Developers.findAll();
+
     while (condition) {
       const currentDevs = await Developers.findAll();
-     
-      matchingDevelopers = currentDevs.filter(developer => developer.games.includes(apiId));
+      const matchingDeveloper = currentDevs.find(developer => developer.games.includes(String(apiId)));
+
       
-      if (matchingDevelopers.length > 0) {
-        const firstMatchingDeveloper = matchingDevelopers[0];
+      if (matchingDeveloper) {
         const videogame = await Videogame.findOne({ where: { apiId } });
-        await videogame.setDeveloper(firstMatchingDeveloper.id);
+        const id = matchingDeveloper.id
+        await videogame.setDeveloper(id);
+        console.log("developer found");
         condition = false; // Exit the loop if a match is found
       }else{
         await getDevelopers();
@@ -86,8 +89,8 @@ const createVideogame = async () => {
       const platforms = videogame.platforms
       
       await addDeveloper(apiId);
-      await addPlatformsToVideogame(apiId, platforms)
-      await addGenresToVideogame(apiId, genres)
+      await addPlatformsToVideogame(apiId, platforms);
+      await addGenresToVideogame(apiId, genres);
     }
 
 
