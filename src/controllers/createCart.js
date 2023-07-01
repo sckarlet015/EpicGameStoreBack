@@ -1,32 +1,26 @@
-const { Carrito, Videogame, Users, VideogameCarrito } = require("../db.js");
+const { Carrito, Videogame, Users } = require("../db.js");
 
-const cartCreate = async() => {
-    let carrito = await Carrito.create()
-    return carrito
-}
-
-const asociateCart = async(user, carrito) => {
-try {
-    await user.setCarrito(carrito)
-} catch (error) {
-    console.log(error)
-}
-}
-
-const addGames = async(arrayGame, userID) => {
+const creteCart = async(user) => {
     try {
-        var cart;
-        for (let i=0;i< arrayGame.length ;i++)
-        {
-            const game =  await Videogame.findByPk(arrayGame[i].id)
-            const user = await Users.findByPk(userID, {
-                include: Carrito,
-              });
-              const cartId = user.Carrito.dataValues.id
-            cart = await Carrito.findByPk(cartId)
-                if(game){
-                    await game.addCarrito(cart)
-                    }
+        const newCart = await Carrito.create()
+        await user.setCarrito(newCart)
+        return newCart
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+const addGames = async(gameID, userID) => {
+    try {
+        const game =  await Videogame.findByPk(gameID)
+        const user = await Users.findByPk(userID, {
+            include: Carrito,
+          });
+          const cartId = user.Carrito.dataValues.id
+          const cart = await Carrito.findByPk(cartId)
+              if(game){
+                  await game.addCarrito(cart)
                 }
         return cart.id
     } catch (error) {
@@ -39,13 +33,21 @@ const getCart = async(cartId) => {
         const allCartGames = await Carrito.findByPk(cartId, {
             include: Videogame,
           });
-
           const { id, UserId, Videogames } = allCartGames;
+          let infoVideoGames = Videogames.map((game) => {
+            const newGame = {
+                title : game.name,
+                unit_price: game.price,
+                id: game.id,
+                quantity: 1
+            }
+            return newGame
+          })
 
           const extractedData = {
-            id: id,
-            UserId: UserId,
-            Videogames: Videogames
+            CartID: id,
+            UserID: UserId,
+            Videogames: infoVideoGames
           };
           
           return [extractedData];
@@ -54,4 +56,37 @@ const getCart = async(cartId) => {
     }
 }
 
-module.exports = {cartCreate, asociateCart, addGames, getCart}
+const itemDeleteCart = async (gameID, cartID) => {
+    try {
+      const game = await Videogame.findByPk(gameID);
+      const cart = await Carrito.findByPk(cartID);
+      if (game && cart) {
+        await game.removeCarrito(cart);
+        return cart.id;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      return false; 
+    }
+  };
+  
+
+const deleteCart = async (cartID, userID) => {
+    try {
+      const cart = await Carrito.findByPk(cartID);
+      if (cart) {
+        await cart.update({ status: false });
+        return cart.id
+      } else {
+        return false; 
+      }
+    } catch (error) {
+      console.error(error);
+      return false; 
+    }
+  };
+  
+
+module.exports = {creteCart, addGames, getCart, deleteCart, itemDeleteCart}

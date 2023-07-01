@@ -5,14 +5,21 @@ const pay = async (res) => {
 }
 
 const getPreference = async(req, res) => {
+    console.log(req.body)
+
+    const {CartID, UserID, Videogames} = req.body
+        const cartItemes = Videogames.map((item) => {
+            const items = {
+                title: item.title,
+                unit_price: item.unit_price,
+                quantity: parseInt(item.quantity),
+            }
+
+            return items;
+        })
+
     let preference = {
-        items: [
-			{
-				title: req.body.description,
-				unit_price: Number(req.body.price),
-				quantity: Number(req.body.quantity),
-			}
-		],
+        items: cartItemes,
 		back_urls: {
 			"success": "http://localhost:3000/home",
 			"failure": "http://localhost:3000/home",

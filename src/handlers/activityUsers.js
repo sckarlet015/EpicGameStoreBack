@@ -1,4 +1,4 @@
-const { cartCreate, asociateCart } = require('../controllers/createCart');
+const { creteCart } = require('../controllers/createCart');
 const { userCreate, getAllUsers } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
@@ -14,8 +14,8 @@ const postUsers = async (req, res, next) => {
             userPassword, 
             userEmail, 
             userBirth)
-        const newCart = await cartCreate()
-        asociateCart(newUser, newCart)
+        // const newCart = await cartCreate()
+        const newCart = await creteCart(newUser)
         res.status(200).json({newUser, newCart})
     }catch(error){
         res.status(400).json({ error:error.message })

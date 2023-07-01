@@ -1,13 +1,25 @@
-const {addGames, getCart, getCarts} = require("../controllers/createCart")
+const {addGames, getCart, itemDeleteCart} = require("../controllers/createCart")
 
-const asocieVideoGames = async(req, res) => {
+const getCartId = async(req, res) => {
     const {
-        arrayGames,
+        cartID
+    } = req.body;
+    try {
+        const getAllCart = await getCart(cartID)
+       res.status(200).json(getAllCart)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const addItem = async(req, res) => {
+    const {
+        gameID,
         userId
     } = req.body;
 
     try {
-       const cartId = await addGames(arrayGames, userId)
+       const cartId = await addGames(gameID, userId)
        const getAllCart = await getCart(cartId)
        res.status(200).json(getAllCart)
     } catch (error) {
@@ -15,15 +27,22 @@ const asocieVideoGames = async(req, res) => {
     }
 }
 
-const getAllCarts = async (req, res, next) => {
+const deleteItem = async(req, res) => {
+    const {
+        gameID,
+        cartID
+    } = req.body;
     try {
-        console.log("si se utiliza el getAll")
-        const allCars = await getCarts();
-        console.log(allCars);
-        res.status(200).json(allCars)
+        const resultCartID = await itemDeleteCart(gameID, cartID)
+        const getAllCart = await getCart(resultCartID)
+        res.status(200).json(getAllCart)
     } catch (error) {
-        res.status(400).json({ error:error.message })
+        console.error(error);
     }
 }
 
-module.exports = {asocieVideoGames, getAllCarts}
+const getAllCarts = async (req, res, next) => {
+    
+}
+
+module.exports = {addItem, deleteItem, getCartId}

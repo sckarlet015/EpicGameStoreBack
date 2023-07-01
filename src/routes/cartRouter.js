@@ -1,10 +1,11 @@
 const { Router } = require('express');
-const {asocieVideoGames, getAllCarts} = require("../handlers/activityCart")
+const {addItem, getCartId, deleteItem} = require("../handlers/activityCart")
 
 
 const cartRouter = Router();
 
-cartRouter.post("/", asocieVideoGames)
-cartRouter.get("/admin", getAllCarts)
+cartRouter.post("/", addItem)
+cartRouter.delete("/", deleteItem)
+cartRouter.get("/", getCartId)
 
 module.exports = cartRouter;
