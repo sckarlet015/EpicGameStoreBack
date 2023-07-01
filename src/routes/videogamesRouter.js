@@ -1,5 +1,5 @@
 const express = require('express');
-const createVideogame = require("../controllers/createVideogame.js");
+const createdGame = require("../controllers/createGame.js");
 const findVideogameByIdApi = require("../controllers/findVideogameByIdApi.js");
 const findVideogameByIdDB = require("../controllers/findVideogameByIdDB.js");
 const getVideogames = require("../controllers/getVideogames.js");
@@ -47,7 +47,7 @@ videogamesRouter.get("/:id", async (req, res) => {
 videogamesRouter.post('/', async (req, res) => {
   try {
     const { name, description, launchDate, rating, image, genreIds, platforms, age } = req.body;
-    const newVideogame = await createVideogame(name, description, launchDate, rating, image, genreIds, platforms, age);
+    const newVideogame = await createdGame(name, description, launchDate, rating, image, genreIds, platforms, age);
     res.status(200).json(newVideogame);
   } catch (error) {
     console.error(error);

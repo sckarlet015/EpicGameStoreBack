@@ -1,7 +1,8 @@
-const { Videogame, Genre, Platform } = require("../db.js");
+const { Videogame, Genre, Platform, Developers } = require("../db.js");
 const getVideogamesApi = require("./getVideogamesApi.js")
 const findAllGenres = require("./findAllGenres.js");
-const getPlatforms = require("./getPlatforms.js")
+const getPlatforms = require("./getPlatforms.js");
+const getDevelopers = require("./getDevelopers.js");
 
 const addGenresToVideogame = async (videogameId, genreNames) => {
   try {
@@ -45,6 +46,30 @@ const addPlatformsToVideogame = async (videogameId, platformNames) => {
   }
 };
 
+const addDeveloper = async (apiId) => {
+  try {
+    let condition = true;
+    while (condition) {
+      const currentDevs = await Developers.findAll();
+     
+      matchingDevelopers = currentDevs.filter(developer => developer.games.includes(apiId));
+      
+      if (matchingDevelopers.length > 0) {
+        const firstMatchingDeveloper = matchingDevelopers[0];
+        const videogame = await Videogame.findOne({ where: { apiId } });
+        await videogame.setDeveloper(firstMatchingDeveloper.id);
+        condition = false; // Exit the loop if a match is found
+      }else{
+        await getDevelopers();
+      }
+    }
+    
+    
+  } catch (error) {
+    // Handle any errors that might occur during the loop
+  }
+}
+
 
 
 const createVideogame = async () => {
@@ -60,6 +85,7 @@ const createVideogame = async () => {
       const genres = videogame.genres
       const platforms = videogame.platforms
       
+      await addDeveloper(apiId);
       await addPlatformsToVideogame(apiId, platforms)
       await addGenresToVideogame(apiId, genres)
     }
@@ -78,10 +104,13 @@ const createVideogame = async () => {
           attributes: ['id', 'platformName'],
           through: { attributes: [] },
         },
+        {
+          model: Developers,
+          attributes: ['id', 'name'],
+        },
       ],
     });
-    
-    
+
     const modifiedResponse = videogames.map(videogame => ({
       id: videogame.id,
       name: videogame.name,
@@ -100,8 +129,10 @@ const createVideogame = async () => {
       platforms: videogame.Platforms.map(platform => ({
         id: platform.id,
         platformName: platform.platformName
-      }))
+      })),
+      developer: videogame.Developer
     }));
+
 
     return modifiedResponse;
     

@@ -12,7 +12,7 @@ const getStockPrice = (max) => {
   
 const getVideogamesApi = async () => {
   try {
-    const totalPages = 3;
+    const totalPages = 1;
     const gamesPerPage = 20;
     const videogamesApi = [];
 
@@ -34,7 +34,8 @@ const getVideogamesApi = async () => {
       videogamesApi.push(...videogames);
     };
 
-    const videogames = arrangeApiGames(videogamesApi)
+    const videogames = arrangeApiGames(videogamesApi);
+
     return videogames;
   } catch (error) {
     throw new Error(error.response.statusText);
