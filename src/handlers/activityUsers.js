@@ -1,5 +1,6 @@
 const { creteCart } = require('../controllers/createCart');
-const { userCreate, getAllUsers, getUserById, getUserLogin } =  require('../controllers/userController')
+const { userCreate, getAllUsers } =  require('../controllers/userController')
+
 
 const postUsers = async (req, res, next) => {
     const {

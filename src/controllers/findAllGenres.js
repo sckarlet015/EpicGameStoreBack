@@ -8,7 +8,7 @@ const findAllGenres = async() => {
     if(genresDb.length === 0){
       const response = await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`);
       const genresData = response.data.results;
-      const genresToAdd = genresData.map(genre => ({"genreName": genre.genreName}));
+      const genresToAdd = genresData.map(genre => ({"genreName": genre.name}));
       const genres = await Genre.bulkCreate(genresToAdd);
       if (response.status === 200) {
         return genres;
@@ -16,6 +16,7 @@ const findAllGenres = async() => {
         throw new Error(response.statusText);
         }
     }else{
+      console.log(genresDb );
       return genresDb
     }
   } catch (error) {
