@@ -1,19 +1,22 @@
 const { cartCreate, asociateCart } = require('../controllers/createCart');
-const { userCreate, getAllUsers } =  require('../controllers/userController')
+const { userCreate, getAllUsers, getUserById } =  require('../controllers/userController')
+
 
 const postUsers = async (req, res, next) => {
     const {
         userName, 
         userPassword, 
         userEmail, 
-        userBirth
+        userBirth,
+        userImage,
     } = req.body;
 
     try {
         const newUser = await userCreate(userName, 
             userPassword, 
             userEmail, 
-            userBirth)
+            userBirth,
+            userImage)
         const newCart = await cartCreate()
         asociateCart(newUser, newCart)
         res.status(200).json({newUser, newCart})
@@ -32,4 +35,15 @@ const getUsers = async (req, res, next) => {
     }
 }
 
-module.exports =  { postUsers, getUsers }
+const getUserByIdHandler = async(req, res, next) => {
+    const {id} = req.params;
+    try {
+        const UserByIdH = await getUserById(id);
+        res.status(200).json(UserByIdH)
+    } catch (error) {
+        res.status(400).json({ error:error.message })
+    }
+}
+
+
+module.exports =  { postUsers, getUsers, getUserByIdHandler }

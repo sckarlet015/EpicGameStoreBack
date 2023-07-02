@@ -1,12 +1,13 @@
 const { Users, Carrito } = require("../db.js");
 
 
-const userCreate = async (userName, userPassword, userEmail, userBirth) => {
+const userCreate = async (userName, userPassword, userEmail, userBirth, userImage) => {
 let user = await Users.create({
                 userName,
                 userPassword, 
                 userEmail, 
-                userBirth})
+                userBirth,
+                userImage})
 return user;
 };
 
@@ -19,10 +20,20 @@ const getAllUsers = async () => {
                 ]
         }
     )
-
-    
-
-    return allUsers;
+return allUsers;
 }
 
-module.exports = {userCreate, getAllUsers};
+
+const getUserById = async (id) => {
+    const UserById = await Users.findByPk(id, {
+        include : [
+            {model : Carrito},
+        ]
+    })
+return UserById;
+
+}
+
+
+
+module.exports = {userCreate, getAllUsers, getUserById};
