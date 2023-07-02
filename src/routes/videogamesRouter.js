@@ -30,14 +30,8 @@ videogamesRouter.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
         let videogame = {}
-        if(!isNaN(Number(id))) {
-            videogame = await findVideogameByIdApi(id);
-            res.status(200).json(videogame)
-        }else{
-            console.log("good route");
             videogame = await findVideogameByIdDB(id);
             res.status(200).json(videogame);
-        }
     } catch (error) {
         res.status(400).json({error: error.message})
     }
@@ -46,8 +40,8 @@ videogamesRouter.get("/:id", async (req, res) => {
 // POST /videogames
 videogamesRouter.post('/', async (req, res) => {
   try {
-    const { name, description, launchDate, rating, image, genreIds, platforms, age } = req.body;
-    const newVideogame = await createdGame(name, description, launchDate, rating, image, genreIds, platforms, age);
+    const { name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer } = req.body;
+    const newVideogame = await createdGame(name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer);
     res.status(200).json(newVideogame);
   } catch (error) {
     console.error(error);

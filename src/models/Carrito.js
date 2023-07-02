@@ -9,6 +9,11 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull:false
+    }
   }, {
     timestamps: false
   });

@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
 
    
     games: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
     },
 
