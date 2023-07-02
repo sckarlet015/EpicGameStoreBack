@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-const { cartCreate, asociateCart } = require('../controllers/createCart');
-const { userCreate, getAllUsers, getUserById } =  require('../controllers/userController')
-
-=======
 const { creteCart } = require('../controllers/createCart');
-const { userCreate, getAllUsers } =  require('../controllers/userController')
->>>>>>> 7668cd82b2e7334c0e00e0c83a3f609253f0ac43
+const { userCreate, getAllUsers, getUserById, getUserLogin } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -20,16 +14,9 @@ const postUsers = async (req, res, next) => {
         const newUser = await userCreate(userName, 
             userPassword, 
             userEmail, 
-<<<<<<< HEAD
-            userBirth,
-            userImage)
-        const newCart = await cartCreate()
-        asociateCart(newUser, newCart)
-=======
             userBirth)
         // const newCart = await cartCreate()
         const newCart = await creteCart(newUser)
->>>>>>> 7668cd82b2e7334c0e00e0c83a3f609253f0ac43
         res.status(200).json({newUser, newCart})
     }catch(error){
         res.status(400).json({ error:error.message })
@@ -55,6 +42,19 @@ const getUserByIdHandler = async(req, res, next) => {
         res.status(400).json({ error:error.message })
     }
 }
+const getUserLoginHandler = async (req, res, next) => {
+    const userNull= 'Usuario no encontrado';
+    const passwordError= 'Contraseña incorrecta';
+    const {email, password} = req.body;
+    try {
+        const getLoginH = await getUserLogin(email, password);
+        if(getLoginH===null){res.status(400).json(userNull)}
+        else if(getLoginH===false)res.status(401).json(passwordError)
+        else res.status(200).json(getLoginH)
+        
+    } catch (error) {
+        res.status(400).json({ error:error.message })
+    }
+}
 
-
-module.exports =  { postUsers, getUsers, getUserByIdHandler }
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler }
