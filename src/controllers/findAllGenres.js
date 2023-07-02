@@ -16,6 +16,7 @@ const findAllGenres = async() => {
         throw new Error(response.statusText);
         }
     }else{
+      console.log(genresDb );
       return genresDb
     }
   } catch (error) {

@@ -1,12 +1,14 @@
 const { Users, Carrito } = require("../db.js");
+//const bcrypt = require("bcryptjs")
 
 
-const userCreate = async (userName, userPassword, userEmail, userBirth) => {
+const userCreate = async (userName, userPassword, userEmail, userBirth, userImage) => {
 let user = await Users.create({
                 userName,
                 userPassword, 
                 userEmail, 
-                userBirth})
+                userBirth,
+                userImage})
 return user;
 };
 
@@ -19,10 +21,43 @@ const getAllUsers = async () => {
                 ]
         }
     )
-
-    
-
-    return allUsers;
+return allUsers;
 }
 
-module.exports = {userCreate, getAllUsers};
+
+const getUserById = async (id) => {
+    const UserById = await Users.findByPk(id, {
+        include : [
+            {model : Carrito},
+        ]
+    })
+return UserById;
+
+}
+
+
+const getUserLogin = async (email, password) => {
+    const user = await Users.findOne({
+      where: {
+        userEmail: email,
+      },
+      include: {
+        model: Carrito,
+      },
+    });
+  
+    if (user && user.isActive === true) {
+      if (user.userPassword === password) {
+        return user;
+      } else {
+        return false;
+      }
+    } else {
+      return null;
+    }
+    
+  };
+
+module.exports = {userCreate, getAllUsers, getUserById, getUserLogin};
+
+

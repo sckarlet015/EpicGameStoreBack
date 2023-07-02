@@ -77,11 +77,10 @@ const addDeveloper = async (apiId) => {
 const createVideogame = async () => {
   try {
     const videogamesToAdd = await getVideogamesApi();
-    const createdGames = await Videogame.bulkCreate(videogamesToAdd);
-    const genresDb = await findAllGenres();
-    const PlatformsDb = await Platform.findAll();
+    await Videogame.bulkCreate(videogamesToAdd);
+    genresDb = await findAllGenres();
+    //const PlatformsDb = await Platform.findAll();
 
-    
     for (const videogame of videogamesToAdd) {
       const apiId = videogame.apiId
       const genres = videogame.genres

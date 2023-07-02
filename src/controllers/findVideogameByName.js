@@ -4,7 +4,6 @@ const getVideogamesDb = require ("./getVideogamesDb.js");
 const findVideogamesByName = async (name) => {
     try {
       const videogamesDb = await getVideogamesDb();
-  
       const filteredVideogamesDb = videogamesDb.filter((videogame) =>
         videogame.name.toLowerCase().includes(name.toLowerCase())
       );
