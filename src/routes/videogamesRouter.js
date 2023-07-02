@@ -4,18 +4,23 @@ const findVideogameByIdApi = require("../controllers/findVideogameByIdApi.js");
 const findVideogameByIdDB = require("../controllers/findVideogameByIdDB.js");
 const getVideogames = require("../controllers/getVideogames.js");
 const getVideogamesByName = require("../controllers/findVideogameByName.js");
-const getVideogamesDb = require("../controllers/getVideogamesDb.js")
+const getVideogamesDb = require("../controllers/getVideogamesDb.js");
+const getVideogamesByGenre = require("../controllers/getVideogamesByGenre.js");
 
 const videogamesRouter = express.Router();
 
 // GET Videogames
 videogamesRouter.get("/", async (req,res) => {
     try {
-        const { name } = req.query;
+        const { name, genreName } = req.query;
         if(name){
             const videogames = await getVideogamesByName(name);
             res.status(200).json(videogames);
-        }else {
+        }else if(genreName){
+            const videogames = await getVideogamesByGenre(genreName);
+            res.status(200).json(videogames);
+        }
+        else{
             const videogames = await getVideogames();
             res.status(200).json(videogames);
         } 
