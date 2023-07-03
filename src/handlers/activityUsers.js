@@ -15,6 +15,7 @@ const postUsers = async (req, res, next) => {
         const newUser = await userCreate(userName, 
             userPassword, 
             userEmail, 
+            userImage,
             userBirth)
         // const newCart = await cartCreate()
         const newCart = await creteCart(newUser)
