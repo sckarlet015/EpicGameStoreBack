@@ -1,6 +1,5 @@
 const { creteCart } = require('../controllers/createCart');
-const { userCreate, getAllUsers, getUserLogin } =  require('../controllers/userController')
-
+const { userCreate, getAllUsers, getUserLogin,  getUserById } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -15,6 +14,7 @@ const postUsers = async (req, res, next) => {
         const newUser = await userCreate(userName, 
             userPassword, 
             userEmail, 
+            userImage,
             userBirth)
         // const newCart = await cartCreate()
         const newCart = await creteCart(newUser)
