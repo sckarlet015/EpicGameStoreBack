@@ -28,10 +28,12 @@ const addItem = async(req, res) => {
 }
 
 const deleteItem = async(req, res) => {
+    console.log(req.body);
     const {
         gameID,
         cartID
     } = req.body;
+
     try {
         const resultCartID = await itemDeleteCart(gameID, cartID)
         const getAllCart = await getCart(resultCartID)
