@@ -2,10 +2,10 @@ const {addGames, getCart, itemDeleteCart} = require("../controllers/createCart")
 
 const getCartId = async(req, res) => {
     const {
-        cartID
-    } = req.body;
+        id
+    } = req.params;
     try {
-        const getAllCart = await getCart(cartID)
+        const getAllCart = await getCart(id)
        res.status(200).json(getAllCart)
     } catch (error) {
         console.log(error)

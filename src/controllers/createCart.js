@@ -39,6 +39,7 @@ const getCart = async(cartId) => {
                 title : game.name,
                 unit_price: game.price,
                 id: game.id,
+                image: game.image,
                 quantity: 1
             }
             return newGame
