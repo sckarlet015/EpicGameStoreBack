@@ -2,12 +2,11 @@ const { Users, Carrito } = require("../db.js");
 //const bcrypt = require("bcryptjs")
 
 
-const userCreate = async (userName, userPassword, userEmail, userBirth, userImage) => {
+const userCreate = async (userName, userPassword, userEmail, userImage) => {
 let user = await Users.create({
                 userName,
                 userPassword, 
                 userEmail, 
-                userBirth,
                 userImage})
 return user;
 };

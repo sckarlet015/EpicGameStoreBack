@@ -6,18 +6,17 @@ const postUsers = async (req, res, next) => {
         userName, 
         userPassword, 
         userEmail, 
-        userBirth,
         userImage,
     } = req.body;
 
     try {
-        const newUser = await userCreate(userName, 
+        const newUser = await userCreate(
+            userName, 
             userPassword, 
             userEmail, 
-            userImage,
-            userBirth)
-        // const newCart = await cartCreate()
+            userImage,)
         const newCart = await creteCart(newUser)
+        console.log(newCart, newUser);
         res.status(200).json({newUser, newCart})
     }catch(error){
         res.status(400).json({ error:error.message })
