@@ -1,6 +1,4 @@
-const { Users, Carrito } = require("../db.js");
-//const bcrypt = require("bcryptjs")
-
+const {Users, Carrito} = require("../db.js");
 
 const userCreate = async (userName, userPassword, userEmail, userImage) => {
 let user = await Users.create({
