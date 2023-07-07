@@ -1,33 +1,34 @@
-const { addGames, getCart, itemDeleteCart } = require("../controllers/createCart")
+const {addGames, getCart, itemDeleteCart} = require("../controllers/createCart")
 
-const getCartId = async (req, res) => {
+const getCartId = async(req, res) => {
     const {
         id
     } = req.params;
     try {
         const getAllCart = await getCart(id)
-        res.status(200).json(getAllCart)
+       res.status(200).json(getAllCart)
     } catch (error) {
         console.log(error)
     }
 }
 
-const addItem = async (req, res) => {
+const addItem = async(req, res) => {
     const {
         gameID,
         userId
     } = req.body;
 
     try {
-        const cartId = await addGames(gameID, userId)
-        const getAllCart = await getCart(cartId)
-        res.status(200).json(getAllCart)
+       const cartId = await addGames(gameID, userId)
+       const getAllCart = await getCart(cartId)
+       res.status(200).json(getAllCart)
     } catch (error) {
         console.log(error)
     }
 }
 
-const deleteItem = async (req, res) => {
+const deleteItem = async(req, res) => {
+    console.log(req.body);
     const {
         gameID,
         cartID
@@ -43,7 +44,7 @@ const deleteItem = async (req, res) => {
 }
 
 const getAllCarts = async (req, res, next) => {
-
+    
 }
 
-module.exports = { addItem, deleteItem, getCartId }
+module.exports = {addItem, deleteItem, getCartId}
