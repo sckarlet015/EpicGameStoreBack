@@ -1,8 +1,67 @@
+require('dotenv').config();
 const { Videogame, Genre, Platform, Developers } = require("../db.js");
-const getVideogamesApi = require("./getVideogamesApi.js")
-const findAllGenres = require("./findAllGenres.js");
-const getPlatforms = require("./getPlatforms.js");
-const getDevelopers = require("./getDevelopers.js");
+const { getVideogamesApi } = require('./apiController.js')
+const { findAllGenres } = require("../controllers/genresController.js");
+const { getDevelopers } = require ('./developerController.js')
+
+const createdGame = async (name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer) => {
+    try {
+        const screenshotsString = screenshots.join(',');
+        const newVideogame = await Videogame.create({
+            name,
+            description,
+            launchDate,
+            rating,
+            image,
+            screenshots: screenshotsString,
+            price,
+            stock,
+        });
+
+        const developerDb = await Developers.findOne({
+            where: { name: developer },
+          });
+          
+          if (developerDb) {
+            // Developer with the given name exists in the database
+            await developerDb.update({
+                games: [...developerDb.games, newVideogame.id],
+            });
+          } else {
+            // Developer with the given name does not exist in the database
+            const newDev = await Developers.create({
+                name: developer,
+                games: [newVideogame.id],
+            });
+            await newVideogame.setDeveloper(newDev.id);
+          }
+
+          for (const name of genres) {
+            const genre = await Genre.findOne({
+                where: { genreName: name },
+              });
+            if (genre) {
+                console.log("in use");
+                await newVideogame.addGenre(genre);
+            }
+        };
+
+        for (const name of platforms) {
+            const platform = await Platform.findOne({
+                where: { platformName: name },
+              });
+            if (platform) {
+                await newVideogame.addPlatform(platform);
+            }
+        };
+
+        return newVideogame;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
 
 const addGenresToVideogame = async (videogameId, genreNames) => {
   try {
@@ -66,13 +125,10 @@ const addDeveloper = async (apiId) => {
       }
     }
     
-    
   } catch (error) {
     // Handle any errors that might occur during the loop
   }
 }
-
-
 
 const createVideogame = async () => {
   try {
@@ -90,7 +146,6 @@ const createVideogame = async () => {
       await addPlatformsToVideogame(apiId, platforms);
       await addGenresToVideogame(apiId, genres);
     }
-
 
     const videogames = await Videogame.findAll({
       attributes: ['id', 'name', 'description', 'launchDate', 'rating', 'image', 'screenshots', 'price', 'stock', 'active'],
@@ -133,16 +188,12 @@ const createVideogame = async () => {
       })),
       developer: videogame.Developer
     }));
-
-
     return modifiedResponse;
-    
-    
 
   } catch (error) {
-    
+       
   }
+
 };
 
-module.exports = createVideogame;
-
+module.exports = { createdGame, createVideogame }; 

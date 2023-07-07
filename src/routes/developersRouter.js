@@ -1,17 +1,7 @@
 const express = require('express');
-const getDevelopers = require("../controllers/getDevelopers.js");
-
-
+const { getAllDevelopers } = require("../handlers/activityDevelopers")
 const developersRouter = express.Router();
 
-// GET developers
-developersRouter.get("/", async (req,res) => {
-    try {
-        const developers = await getDevelopers();
-         res.status(200).json(developers);
-    } catch (error) {
-        res.status(400).json({error: error.message});
-    }
-});
+developersRouter.get("/", getAllDevelopers);
 
 module.exports = developersRouter;

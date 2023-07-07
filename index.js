@@ -19,7 +19,6 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 require('dotenv').config();
 const server = require('./src/app.js');
-const getVideogames = require('./src/controllers/getVideogames.js');
 const { conn } = require('./src/db.js');
 const { PORT } = process.env;
 
