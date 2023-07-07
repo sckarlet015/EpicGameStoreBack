@@ -1,6 +1,5 @@
-const { Users, Carrito } = require("../db.js");
+const {Users, Carrito} = require("../db.js");
 const bcrypt = require("bcryptjs");
-
 
 const userCreate = async (userName, userPassword, userEmail, userImage) => {
   const rounds = 8;
