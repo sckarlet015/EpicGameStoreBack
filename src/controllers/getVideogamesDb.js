@@ -1,4 +1,4 @@
-const { Videogame, Genre, Developers, Platform } = require("../db.js");
+const { Videogame, Genre, Developers, Platform, Users } = require("../db.js");
 const createVideogame = require("./createVideogame.js")
 
 const getVideogamesDb = async () => {
@@ -9,7 +9,18 @@ const getVideogamesDb = async () => {
       return newVideogames
     }else {
       const videogames = await Videogame.findAll({
-        attributes: ['id', 'name', 'description', 'launchDate', 'rating', 'image', 'screenshots', 'price', 'stock', 'active'],
+        attributes: [
+          'id', 
+          'name', 
+          'description', 
+          'launchDate', 
+          'rating', 
+          'image', 
+          'screenshots', 
+          'price', 
+          'stock', 
+          'active',
+        ],
         include: [
           {
             model: Genre,
@@ -24,6 +35,11 @@ const getVideogamesDb = async () => {
           {
             model: Developers,
             attributes: ['id', 'name'],
+          },
+          {
+            model: Users,
+            as: 'seller',
+            attributes: ['id'], // Include the seller's userId
           },
         ],
       });
