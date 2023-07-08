@@ -1,22 +1,17 @@
 
 const { Videogame, Favorites, Users} = require("../db.js");
 
-const createFavorites = async (userId, videogameId) => {
+const createFavorites = async (user, videogame) => {
     
-    if(userId && videogameId) {
+
         
         try{
-            const createFavorite = await Favorites.create({
-                userId,
-                videogameId
-                })
-            const user = await Users.findByPk(userId)
-            await user.setFavorite(createFavorite)
-            return true
+            const favorites = await user.addVideogame(videogame)
+            return favorites 
         } catch {
-            return false
+            return {error: "Not user not videogame"}
         }
-    }
+    
 }
 
 
