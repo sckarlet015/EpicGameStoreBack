@@ -58,6 +58,9 @@ Carrito.belongsTo(Users);
 Videogame.belongsToMany(Carrito, {through: "VideogameCarrito"});
 Carrito.belongsToMany(Videogame, {through: "VideogameCarrito"});
 
+Users.hasMany(Videogame, { foreignKey: 'userId', as: 'videogames' });
+Videogame.belongsTo(Users, { foreignKey: 'userId', as: 'seller' });
+
 
 
 
