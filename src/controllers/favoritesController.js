@@ -1,28 +1,23 @@
-const Favorites = require('../models/Favorites');
-const Videogame =require('../models/Videogame');
+const { Videogame, Favorites, Users} = require("../db.js");
 
-const postFavorites = async (userId, videogameId) => {
-    
-    if(userId && videogameId) {
-        const addFavorite = await Favorites.create({
-            userId,
-            videogameId
-            })
-        if(addFavorite) {
-                return 'Se agregó un videogame favorito'
-        }
-    }
+const createFavorites = async (user, videogame) => {
+       
+        try{
+            const favorites = await user.addVideogame(videogame)
+            return favorites 
+        } catch {
+            return {error: "Not user not videogame"}
+        }    
 }
-
 
 const deleteFavorites = async (userId) => {
 
+    ///////////////////////////    
         const delFavorite = await Favorites.destroy({
             where: {
                 id: userId
             }
-        });
-        
+        });       
 }
 
 const getFavorites = async(userId) => {
@@ -47,4 +42,4 @@ const getFavorites = async(userId) => {
 }
 
 
-module.exports = {postFavorites, deleteFavorites, getFavorites}
+module.exports = {createFavorites, deleteFavorites, getFavorites}

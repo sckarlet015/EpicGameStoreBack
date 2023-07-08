@@ -1,15 +1,18 @@
-const { postFavorites, deleteFavorites, getFavorites } = require('../controllers/favoritesController');
+const {  deleteFavorites, getFavorites, createFavorites } = require('../controllers/favoritesController');
+const { Videogame,  Users} = require("../db.js");
 
 const postFavoritesHandler = async (req, res, next) => {
-    const { userId, videogameId } = req.query
+    const  { userId, gameId } = req.body
     try {
-        const favoritesPost = await postFavorites(userId, videogameId);
-        res.status(200).json(favoritesPost)
+    
+        const user = await Users.findByPk(userId)
+        const videogame = await Videogame.findByPk(gameId)
+        const respuesta = await createFavorites(user, videogame)
+        res.status(200).json(respuesta)
     } catch (error) {
         res.status(400).json({ error:error.message })
     }
 }
-
 
 const deleteFavoritesHandler = async (req, res, next) => {
     const { userId } = req.query
@@ -30,8 +33,5 @@ const getFavoritesHandler = async (req, res, next) => {
         res.status(400).json({ error:error.message })
     }
 }
-
-
-
 
 module.exports = {postFavoritesHandler, deleteFavoritesHandler, getFavoritesHandler}
