@@ -1,7 +1,7 @@
-const { Videogame, Genre, Platform, Developers } = require("../db.js");
+const { Videogame, Genre, Platform, Developers, Users } = require("../db.js");
 
 
-const createdGame = async (name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer) => {
+const createdGame = async (name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer, sellerId) => {
     try {
         const screenshotsString = screenshots.join(',');
         const newVideogame = await Videogame.create({
@@ -52,6 +52,9 @@ const createdGame = async (name, description, launchDate, rating, image, screens
             }
         };
 
+        const seller = await Users.findByPk(sellerId);  
+        await newVideogame.setSeller(seller);
+
         return newVideogame;
     } catch (error) {
         console.log(error);
@@ -59,29 +62,3 @@ const createdGame = async (name, description, launchDate, rating, image, screens
 };
 
 module.exports = createdGame;
-
-// Codigo a cambiar 
-
-// const { Videogame, Genre, Platform } = require("../db.js");
-
-// const createVideogame = async (name, description, launchDate, rating, image, genreIds, platformsIds) => {
-//   try {
-//     const newVideogame = await Videogame.create({
-//       name,
-//       description,
-//       launchDate,
-//       rating, 
-//       image,
-//     });
-
-//     await newVideogame.addGenres(genreIds);
-//     await newVideogame.addPlatforms(platformsIds);
-
-//     return newVideogame;
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error('Failed to create videogame');
-//   }
-// };
-
-//module.exports = createVideogame;

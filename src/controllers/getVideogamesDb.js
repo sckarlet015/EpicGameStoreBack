@@ -39,8 +39,8 @@ const getVideogamesDb = async () => {
           {
             model: Users,
             as: 'seller',
-            attributes: ['id'], // Include the seller's userId
-          },
+            attributes: ['id', `userName`], 
+          }
         ],
       });
       return videogames
