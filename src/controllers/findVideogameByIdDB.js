@@ -1,5 +1,5 @@
 const express = require('express');
-const { Videogame, Genre, Platform, Developers } = require ("../db.js");
+const { Videogame, Genre, Platform, Developers, Users } = require ("../db.js");
 const findVideogameByIdApi = require("./findVideogameByIdApi.js")
 
 const findVideogameByIdDB = async (id) => {
@@ -34,6 +34,11 @@ const findVideogameByIdDB = async (id) => {
           {
             model: Developers,
             attributes: ['id', 'name'],
+          },
+          {
+            model: Users,
+            as: 'seller',
+            attributes: ['id', `userName`], 
           }
         ],
   })
