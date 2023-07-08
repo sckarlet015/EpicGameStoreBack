@@ -1,10 +1,13 @@
 const { postFavorites, deleteFavorites, getFavorites } = require('../controllers/favoritesController');
+const { Videogame,  Users} = require("../db.js");
 
 const postFavoritesHandler = async (req, res, next) => {
-    const { userId, videogameId } = req.query
+    const  { userId, videogameId } = req.query
     try {
         const favoritesPost = await postFavorites(userId, videogameId);
         res.status(200).json(favoritesPost)
+        const user = await Users.findByPk(userId)
+        const videogame = await Videogame.findByPk(videogameId)
     } catch (error) {
         res.status(400).json({ error:error.message })
     }

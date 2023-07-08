@@ -1,15 +1,20 @@
-const Favorites = require('../models/Favorites');
-const Videogame =require('../models/Videogame');
 
-const postFavorites = async (userId, videogameId) => {
+const { Videogame, Favorites, Users} = require("../db.js");
+
+const createFavorites = async (userId, videogameId) => {
     
     if(userId && videogameId) {
-        const addFavorite = await Favorites.create({
-            userId,
-            videogameId
-            })
-        if(addFavorite) {
-                return 'Se agregó un videogame favorito'
+        
+        try{
+            const createFavorite = await Favorites.create({
+                userId,
+                videogameId
+                })
+            const user = await Users.findByPk(userId)
+            await user.setFavorite(createFavorite)
+            return true
+        } catch {
+            return false
         }
     }
 }
@@ -47,4 +52,4 @@ const getFavorites = async(userId) => {
 }
 
 
-module.exports = {postFavorites, deleteFavorites, getFavorites}
+module.exports = {createFavorites, deleteFavorites, getFavorites}
