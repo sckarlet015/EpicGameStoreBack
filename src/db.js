@@ -43,8 +43,8 @@ Genre.belongsToMany(Videogame, { through: "VideogameGenre" });
 Videogame.belongsToMany(Platform, {through: "VideogamePlatform"});
 Platform.belongsToMany(Videogame, {through: "VideogamePlatform"});
 
-Users.belongsToMany(Videogame, {through: "UsersWishList"});
-Videogame.belongsToMany(Users, {through: "UsersWishList"});
+Users.belongsToMany(Videogame, {through: "Favoritos"});
+Videogame.belongsToMany(Users, {through: "Favoritos"});
 
 // Users.belongsToMany(Videogame, {through: "UserShop"});
 // Videogame.belongsToMany(Users, {through: "UserShop"});

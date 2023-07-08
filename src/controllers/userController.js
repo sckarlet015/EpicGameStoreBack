@@ -1,4 +1,4 @@
-const {Users, Carrito} = require("../db.js");
+const {Users, Carrito, Videogame} = require("../db.js");
 const bcrypt = require("bcryptjs");
 
 const userCreate = async (userName, userPassword, userEmail, userImage) => {
@@ -31,10 +31,10 @@ const getUserById = async (id) => {
     const UserById = await Users.findByPk(id, {
         include : [
             {model : Carrito},
+            {model : Videogame, through: {attributes:[]}}
         ]
     })
 return UserById;
-
 }
 
 
