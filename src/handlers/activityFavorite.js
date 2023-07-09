@@ -4,7 +4,6 @@ const { Videogame,  Users} = require("../db.js");
 const postFavoritesHandler = async (req, res, next) => {
     const  { userId, gameId } = req.body
     try {
-    
         const user = await Users.findByPk(userId)
         const videogame = await Videogame.findByPk(gameId)
         const respuesta = await createFavorites(user, videogame)
