@@ -14,7 +14,6 @@ const postFavoritesHandler = async (req, res, next) => {
     }
 }
 
-
 const deleteFavoritesHandler = async (req, res, next) => {
     const { userId, gameId } = req.body
     try {
@@ -34,8 +33,5 @@ const getFavoritesHandler = async (req, res, next) => {
         res.status(400).json({ error:error.message })
     }
 }
-
-
-
 
 module.exports = {postFavoritesHandler, deleteFavoritesHandler, getFavoritesHandler}

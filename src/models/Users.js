@@ -21,7 +21,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    
+    userBirth: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
     userImage:{
       type: DataTypes.STRING,
       allowNull: true
@@ -31,16 +34,6 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue:true
     },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: 'cliente'
-      // role list
-      // cliente
-      // vendedor
-      // admin 
-    },
-    
     
   }, {
     timestamps: false
