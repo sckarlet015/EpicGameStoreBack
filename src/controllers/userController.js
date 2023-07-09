@@ -1,9 +1,10 @@
 const {Users, Carrito, Videogame} = require("../db.js");
 const bcrypt = require("bcryptjs");
+
+const userCreate = async (userName, userPassword, userEmail, userImage) => {
 const rounds = 8;
 const passwordHash = await bcrypt.hash(userPassword, rounds);
 
-const userCreate = async (userName, userPassword, userEmail, userImage) => {
 let user = await Users.create({
                 userName,
                 userPassword : passwordHash, 
