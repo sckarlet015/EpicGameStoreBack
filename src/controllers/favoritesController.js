@@ -2,8 +2,6 @@
 const { Videogame, Favorites, Users} = require("../db.js");
 
 const createFavorites = async (user, videogame) => {
-    
-
         
         try{
             const favorites = await user.addVideogame(videogame)
@@ -14,15 +12,14 @@ const createFavorites = async (user, videogame) => {
     
 }
 
-
 const deleteFavorites = async (userId) => {
 
+    ///////////////////////////    
         const delFavorite = await Favorites.destroy({
             where: {
                 id: userId
             }
-        });
-        
+        });       
 }
 
 const getFavorites = async(userId) => {
