@@ -5,6 +5,6 @@ const {postFavoritesHandler, getFavoritesHandler, deleteFavoritesHandler}  = req
 
 favoritesRouter.post('/', postFavoritesHandler);
 favoritesRouter.get('/', getFavoritesHandler);
-favoritesRouter.delete('/', deleteFavoritesHandler);
+favoritesRouter.post('/delete', deleteFavoritesHandler);
 
 module.exports = favoritesRouter;

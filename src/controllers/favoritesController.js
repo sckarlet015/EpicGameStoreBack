@@ -15,14 +15,15 @@ const createFavorites = async (user, videogame) => {
 }
 
 
-const deleteFavorites = async (userId) => {
-
-        const delFavorite = await Favorites.destroy({
-            where: {
-                id: userId
-            }
-        });
-        
+const deleteFavorites = async (user, videogame) => {
+    try{
+        const  userF = await Users.findByPk(user)
+        const  game = await Videogame.findByPk(videogame)
+            await userF.removeVideogame(game)
+            return user
+    }catch{
+        return {error: "Videogame not deleted"}
+    }
 }
 
 const getFavorites = async(userId) => {
