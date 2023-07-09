@@ -58,20 +58,20 @@ const getCart = async(cartId) => {
 }
 
 const itemDeleteCart = async (gameID, cartID) => {
-    try {
-      const game = await Videogame.findByPk(gameID);
-      const cart = await Carrito.findByPk(cartID);
-      if (game && cart) {
-        await game.removeCarrito(cart);
-        return cart.id;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.error(error);
-      return false; 
+  try {
+    const game = await Videogame.findByPk(gameID);
+    const cart = await Carrito.findByPk(cartID);
+    if (game && cart) {
+      await game.removeCarrito(cart);
+      return cart.id;
+    } else {
+      return false;
     }
-  };
+  } catch (error) {
+    console.error(error);
+    return false; 
+  }
+};
   
 
 const deleteCart = async (cartID, userID) => {

@@ -15,9 +15,9 @@ const postFavoritesHandler = async (req, res, next) => {
 }
 
 const deleteFavoritesHandler = async (req, res, next) => {
-    const { userId } = req.query
+    const { userId, gameId } = req.body
     try {
-        const favoritesDelete = await deleteFavorites(userId);
+        const favoritesDelete = await deleteFavorites(userId, gameId);
         res.status(200).json(favoritesDelete)
     } catch (error) {
         res.status(400).json({ error:error.message })
