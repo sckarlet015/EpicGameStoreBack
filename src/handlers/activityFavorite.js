@@ -25,7 +25,7 @@ const deleteFavoritesHandler = async (req, res, next) => {
 }
 
 const getFavoritesHandler = async (req, res, next) => {
-    const { userId } = req.query
+    const { userId } = req.params
     try {
         const favoritesGet = await getFavorites(userId);
         res.status(200).json(favoritesGet)
