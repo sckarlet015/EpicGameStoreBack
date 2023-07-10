@@ -183,7 +183,7 @@ const patchGame = async (videogameId, updates) => {
       if(newscreenshots) await videogame.update({ screenshots: newscreenshots });
       if(newPrice) await videogame.update({ price: newPrice });
       if(newStock) await videogame.update({ stock: newStock });
-      if(newActive) await videogame.update({ active: newActive });
+      if(newActive) await videogame.update({ active: false });
       const updatedVideogame = await Videogame.findByPk(videogameId);
       return updatedVideogame;
     };
