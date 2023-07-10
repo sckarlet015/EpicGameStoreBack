@@ -28,7 +28,11 @@ const getVideogamesDb = async () => {
             attributes: ['id', 'name'],
           },
         ],
+        where: {
+          active: true
+        }
       });
+      
       return videogames
     }
   } catch (error) {
@@ -66,34 +70,6 @@ const getVideogamesByGenre = async (name) => {
     };
 };
 
-const activeVideogame = async (videogameId, userId) => {
-  try {
-    const videogame = await Videogame.findByPk(videogameId);
-    const videogameUser = videogame.userId;
-    const user = await Users.findByPk(userId);
-    const userRole = user.role;
-    userStatus = user.isActive;
-
-    if(!userStatus) return "Cuenda inactiva";
-
-    if(userRole === "admin"){
-        await videogame.update({ active: !videogame.active });
-        const updatedVideogame = await Videogame.findByPk(videogameId);
-        return updatedVideogame;
-    };
-
-    if(videogameUser !== userId){
-        return "invalid user";
-    }else{
-        await videogame.update({ active: false });
-        const updatedVideogame = await Videogame.findByPk(videogameId);
-        return updatedVideogame;
-    };
-  } catch (error) {
-      return new Error(error.message);
-  };
-};
-
 const createGame = async (name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer, sellerId) => {
   try {
 
@@ -102,6 +78,12 @@ const createGame = async (name, description, launchDate, rating, image, screensh
     userStatus = user.isActive;
     if(!userStatus) return "Cuenda inactiva";
     //if(userRole === "cliente") return "Por favor ingresa con una cuenta de vendedor";
+
+    const game = await Videogame.findOne({
+      where: { name: name}
+    })
+      
+    if(game) return "intenta con otro nombre"
 
     const screenshotsString = screenshots.join(',');
     const newVideogame = await Videogame.create({
@@ -116,9 +98,10 @@ const createGame = async (name, description, launchDate, rating, image, screensh
     });
 
     const developerDb = await Developers.findOne({
-        where: { name: developer },
-      });
-      
+        where: { name: developer }
+    });
+
+
       if (developerDb) {
         // Developer with the given name exists in the database
         await developerDb.update({
@@ -138,7 +121,6 @@ const createGame = async (name, description, launchDate, rating, image, screensh
             where: { genreName: name },
           });
         if (genre) {
-            console.log("in use");
             await newVideogame.addGenre(genre);
         }
     };
@@ -159,7 +141,55 @@ const createGame = async (name, description, launchDate, rating, image, screensh
     return newVideogame;
 } catch (error) {
     return new Error(error.message);
-}
+};
+};
+
+const patchGame = async (videogameId, updates) => {
+  try {
+    const userId = updates.userId;
+    const newName = updates.name;
+    const newDescription = updates.description;
+    const newImage = updates.image;
+    const newscreenshots = updates.screenshots;
+    const newPrice = updates.price;
+    const newStock = updates.stock;
+    const newActive = updates.active
+    const videogame = await Videogame.findByPk(videogameId);
+    const videogameUser = videogame.userId;
+    const user = await Users.findByPk(userId);
+    const userRole = user.role;
+    userStatus = user.isActive;
+
+    if(!userStatus) return "Cuenda inactiva";
+
+    if(userRole === "admin"){
+        if(newName) await videogame.update({ name: newName });
+        if(newDescription) await videogame.update({ description: newDescription });
+        if(newImage) await videogame.update({ image: newImage });
+        if(newscreenshots) await videogame.update({ screenshots: newscreenshots });
+        if(newPrice) await videogame.update({ price: newPrice });
+        if(newStock) await videogame.update({ stock: newStock });
+        if(newActive) await videogame.update({ active: newActive });
+        const updatedVideogame = await Videogame.findByPk(videogameId);
+        return updatedVideogame;
+    };
+
+    if(videogameUser !== userId){
+        return "invalid user";
+    }else{
+      if(newName) await videogame.update({ name: newName });
+      if(newDescription) await videogame.update({ description: newDescription });
+      if(newImage) await videogame.update({ image: newImage });
+      if(newscreenshots) await videogame.update({ screenshots: newscreenshots });
+      if(newPrice) await videogame.update({ price: newPrice });
+      if(newStock) await videogame.update({ stock: newStock });
+      if(newActive) await videogame.update({ active: newActive });
+      const updatedVideogame = await Videogame.findByPk(videogameId);
+      return updatedVideogame;
+    };
+  } catch (error) {
+      return new Error(error.message);
+  };
 };
 
 
@@ -167,6 +197,6 @@ module.exports = {
   getVideogames , 
   getVideogamesByGenre, 
   getVideogamesDb, 
-  activeVideogame,
+  patchGame,
   createGame
 }

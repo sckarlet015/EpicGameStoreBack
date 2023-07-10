@@ -1,5 +1,5 @@
 const { findVideogameByIdDB, findVideogameByName} = require("../controllers/findController.js");
-const { getVideogames, getVideogamesByGenre, activeVideogame, createGame } = require("../controllers/videogamesController.js")
+const { getVideogames, getVideogamesByGenre, patchGame, createGame } = require("../controllers/videogamesController.js")
 
 
 const getAllVideogames = async (req,res) => {
@@ -46,8 +46,8 @@ const postVideogames = async (req, res) => {
 const patchVideogame = async(req, res) => {
     try {
         const { id } = req.params
-        const { userId } = req.body
-        const response = await activeVideogame(id, userId);
+        const updates = req.body
+        const response = await patchGame(id, updates);
         res.status(200).json(response);
     } catch (error) {
         
