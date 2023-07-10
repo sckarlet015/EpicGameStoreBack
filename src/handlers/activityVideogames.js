@@ -1,5 +1,5 @@
 const { findVideogameByIdDB, findVideogameByName} = require("../controllers/findController.js");
-const { getVideogames, getVideogamesByGenre } = require("../controllers/videogamesController.js")
+const { getVideogames, getVideogamesByGenre, patchGame, createGame } = require("../controllers/videogamesController.js")
 
 
 const getAllVideogames = async (req,res) => {
@@ -15,7 +15,7 @@ const getAllVideogames = async (req,res) => {
         else{
             const videogames = await getVideogames();
             res.status(200).json(videogames);
-        } 
+        };
     } catch (error) {
         res.status(400).json({error: error.message});
     };
@@ -24,23 +24,34 @@ const getAllVideogames = async (req,res) => {
 const getVideogamesById = async (req, res) => {
     const { id } = req.params;
     try {
-        let videogame = {}
+        let videogame = {};
             videogame = await findVideogameByIdDB(id);
             res.status(200).json(videogame);
     } catch (error) {
-        res.status(400).json({error: error.message})
-    }
-}
+        res.status(400).json({error: error.message});
+    };
+};
 
 const postVideogames = async (req, res) => {
     try {
-      const { name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer } = req.body;
-      const newVideogame = await createdGame(name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer);
+      const { name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer, sellerId } = req.body;
+      const newVideogame = await createGame(name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer, sellerId);
       res.status(200).json(newVideogame);
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal server error');
-    }
-  }
+    };
+};
 
-module.exports= { getAllVideogames, getVideogamesById, postVideogames }
+const patchVideogame = async(req, res) => {
+    try {
+        const { id } = req.params
+        const updates = req.body
+        const response = await patchGame(id, updates);
+        res.status(200).json(response);
+    } catch (error) {
+        
+    }
+}
+
+module.exports= { getAllVideogames, getVideogamesById, postVideogames, patchVideogame }

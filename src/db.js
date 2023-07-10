@@ -43,8 +43,8 @@ Genre.belongsToMany(Videogame, { through: "VideogameGenre" });
 Videogame.belongsToMany(Platform, {through: "VideogamePlatform"});
 Platform.belongsToMany(Videogame, {through: "VideogamePlatform"});
 
-Users.belongsToMany(Videogame, {through: "UsersWishList"});
-Videogame.belongsToMany(Users, {through: "UsersWishList"});
+Users.belongsToMany(Videogame, {through: "Favoritos"});
+Videogame.belongsToMany(Users, {through: "Favoritos"});
 
 // Users.belongsToMany(Videogame, {through: "UserShop"});
 // Videogame.belongsToMany(Users, {through: "UserShop"});
@@ -57,6 +57,9 @@ Carrito.belongsTo(Users);
 
 Videogame.belongsToMany(Carrito, {through: "VideogameCarrito"});
 Carrito.belongsToMany(Videogame, {through: "VideogameCarrito"});
+
+Users.hasMany(Videogame, { foreignKey: 'userId', as: 'videogames' });
+Videogame.belongsTo(Users, { foreignKey: 'userId', as: 'seller' });
 
 
 

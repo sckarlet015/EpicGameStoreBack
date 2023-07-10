@@ -27,6 +27,5 @@ router.use("/users", userRouter)
 router.use("/pay", payRouter)
 router.use("/cart", cartRouter)
 router.use("/favorites", favoritesRouter)
-
 module.exports = router;
 

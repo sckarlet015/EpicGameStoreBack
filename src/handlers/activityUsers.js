@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const { userCreate, getAllUsers, getUserLogin,  getUserById } =  require('../controllers/userController')
+const {userCreate, getAllUsers, getUserById, getUserLogin, putUser } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -7,18 +7,16 @@ const postUsers = async (req, res, next) => {
         userPassword, 
         userEmail, 
         userImage,
-        
     } = req.body;
-    console.log(req.body)
+
     try {
         const newUser = await userCreate(
             userName, 
-             userPassword, 
-             userEmail, 
-             userImage,
-             )
+            userPassword, 
+            userEmail, 
+            userImage,)
         const newCart = await creteCart(newUser)
-       // console.log(newCart, newUser);
+        console.log(newCart, newUser);
         res.status(200).json({newUser, newCart})
     }catch(error){
         res.status(400).json({ error:error.message })
@@ -59,41 +57,4 @@ const getUserLoginHandler = async (req, res, next) => {
     }
 }
 
-
-// const isActiveHandler = async (req, res, next) => {
-//     const {id} = req.params;
-//     const {isActiveBoolean} = req.body; 
-//     try {
-//         const userIsActive= await isActiveUser(id, isActiveBoolean);
-//         res.status(200).json(userIsActive)
-//     } catch (error) {
-//         res.status(400).json({ error:error.message })
-//     }
-// }
-
-// const putUserRoleHandler = async (req, res, next) => {
-//     const {id} = req.params;
-//     const {userRole} = req.body; 
-//     try {
-//         const roleUser= await putUserRole(id, userRole);
-//         res.status(200).json(roleUser)
-//     } catch (error) {
-//         res.status(400).json({ error:error.message })
-//     }
-// }
-
-
-const putUserHandler = async (req, res, next) => {
-    const {id} = req.params;
-    const {userName, userPassword, userEmail, userImage} = req.body; 
-    try {
-        const userPut= await putUser(id, userName, userPassword, userEmail, userImage);
-        res.status(200).json(userPut)
-    } catch (error) {
-        res.status(400).json({ error:error.message })
-    }
-}
-
-
-
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, putUserHandler}
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler }
