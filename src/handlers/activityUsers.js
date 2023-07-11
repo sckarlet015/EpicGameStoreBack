@@ -24,7 +24,6 @@ const postUsers = async (req, res, next) => {
 
 const getUsers = async (req, res, next) => {
     try {
-        console.log(req.user);
         const role = req.user.role;
         
         if(role === `admin`){

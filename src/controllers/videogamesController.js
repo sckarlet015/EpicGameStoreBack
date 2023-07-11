@@ -77,7 +77,6 @@ const createGame = async (name, description, launchDate, rating, image, screensh
     userRole = user.role;
     userStatus = user.isActive;
     if(!userStatus) return "Cuenda inactiva";
-    //if(userRole === "cliente") return "Por favor ingresa con una cuenta de vendedor";
 
     const game = await Videogame.findOne({
       where: { name: name}
@@ -134,9 +133,9 @@ const createGame = async (name, description, launchDate, rating, image, screensh
         }
     };
 
-    //if(userRole === "vendedor"){
-        await newVideogame.setSeller(user);
-    //};
+    if(userRole === "vendedor"){
+      await newVideogame.setSeller(user);
+    };
 
     return newVideogame;
 } catch (error) {
