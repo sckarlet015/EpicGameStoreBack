@@ -6,8 +6,8 @@ const {postUsers , getUsers, getUserByIdHandler, getUserLoginHandler, patchUser}
 
 userRouter.post(`/login`, getUserLoginHandler);
 userRouter.post('/', postUsers);
-userRouter.get('/', getUsers);
 userRouter.get('/:id', getUserByIdHandler);
+userRouter.get('/', jwtMiddleware, getUsers);
 userRouter.patch(`/:id`, jwtMiddleware, patchUser);
 
 module.exports = userRouter;
