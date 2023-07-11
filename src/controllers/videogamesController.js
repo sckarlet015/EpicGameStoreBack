@@ -160,7 +160,13 @@ const patchGame = async (videogameId, updates) => {
     const userRole = user.role;
     userStatus = user.isActive;
 
-    if(!userStatus) return "Cuenda inactiva";
+    if(!userStatus) return "Cuenta inactiva";
+
+    const videogameByName = await Videogame.findOne({
+      where: { name: newName}
+    })
+
+    if(videogameByName) return "Juego con este nombre ya existe";
 
     if(userRole === "admin"){
         if(newName) await videogame.update({ name: newName });

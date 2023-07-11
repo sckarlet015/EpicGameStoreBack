@@ -73,8 +73,30 @@ const putUser = async (id, userName, userPassword, userEmail, userImage) => {
     }
     });
     return 'Usuario actualizado'
-  }
+  };
 
-module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser};
+const patchUserInfo = async (userId, updates) => {
+    const newName = updates.userName;
+    const newEmail = updates.userEmail;
+    const newImage = updates.userImage;
+    const newRole = updates.role;
+
+    const user = Users.findByPk(userId);
+
+    const userByName = await Users.findOne({
+      where: { name: newName}
+    });
+    if(userByName) return "nombre en uso";
+
+    const userByEmail = await Users.findOne({
+      where: { userEmail: newEmail}
+    });
+    if(userByEmail) return "email en uso";
+
+
+
+};
+
+module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo};
 
 
