@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate, getAllUsers, getUserById, getUserLogin, putUser } =  require('../controllers/userController')
+const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -16,18 +16,22 @@ const postUsers = async (req, res, next) => {
             userEmail, 
             userImage,)
         const newCart = await creteCart(newUser)
-        console.log(newCart, newUser);
         res.status(200).json({newUser, newCart})
     }catch(error){
         res.status(400).json({ error:error.message })
-        console.log(error)
     }
 }
 
 const getUsers = async (req, res, next) => {
     try {
-        const allUsers = await getAllUsers();
-        res.status(200).json(allUsers)
+        const role = req.user.role;
+        
+        if(role === `admin`){
+            const allUsers = await getAllUsers();
+            res.status(200).json(allUsers);
+        }else{
+            res.status(403).json("invalid request");
+        }
     } catch (error) {
         res.status(400).json({ error:error.message })
     }
@@ -55,6 +59,18 @@ const getUserLoginHandler = async (req, res, next) => {
     } catch (error) {
         res.status(400).json({ error:error.message })
     }
-}
+};
 
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler }
+const patchUser = async (req, res) => {
+    try {
+        const userId = req.user.id
+        const { id } = req.params;
+        const updates = req.body;
+        const response = await patchUserInfo(id, userId, updates);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({ error:error.message })
+    }
+};
+
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser }
