@@ -34,6 +34,15 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue:true
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'cliente'
+      // role list
+      // cliente
+      // vendedor
+      // admin 
+    },
     
   }, {
     timestamps: false

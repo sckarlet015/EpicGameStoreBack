@@ -77,7 +77,6 @@ const createGame = async (name, description, launchDate, rating, image, screensh
     userRole = user.role;
     userStatus = user.isActive;
     if(!userStatus) return "Cuenda inactiva";
-    //if(userRole === "cliente") return "Por favor ingresa con una cuenta de vendedor";
 
     const game = await Videogame.findOne({
       where: { name: name}
@@ -134,9 +133,9 @@ const createGame = async (name, description, launchDate, rating, image, screensh
         }
     };
 
-    //if(userRole === "vendedor"){
-        await newVideogame.setSeller(user);
-    //};
+    if(userRole === "vendedor"){
+      await newVideogame.setSeller(user);
+    };
 
     return newVideogame;
 } catch (error) {
@@ -144,9 +143,8 @@ const createGame = async (name, description, launchDate, rating, image, screensh
 };
 };
 
-const patchGame = async (videogameId, updates) => {
+const patchGame = async (videogameId, userId, updates) => {
   try {
-    const userId = updates.userId;
     const newName = updates.name;
     const newDescription = updates.description;
     const newImage = updates.image;
@@ -158,35 +156,39 @@ const patchGame = async (videogameId, updates) => {
     const videogameUser = videogame.userId;
     const user = await Users.findByPk(userId);
     const userRole = user.role;
-    userStatus = user.isActive;
+    const userStatus = user.isActive;
+    const updateFields = {};
 
-    if(!userStatus) return "Cuenda inactiva";
+    if(!userStatus) return "Cuenta inactiva";
+
+    if (videogameUser !== userId && userRole !== 'admin') return 'invalid request';
+
+    if (newName) {
+      const videogameByName = await Videogame.findOne({
+        where: { name: newName}
+      });
+      if (videogameByName) return 'nombre en uso';
+      updateFields.name = newName;
+    };
+
+    if (newDescription) updateFields.description = newDescription;
+    if(newImage) updateFields.image = newImage;
+    if(newscreenshots) updateFields.screenshots = newscreenshots;
+    if(newPrice) updateFields.price = newPrice;
+    if(newStock) updateFields.stock = newStock;
+
+
 
     if(userRole === "admin"){
-        if(newName) await videogame.update({ name: newName });
-        if(newDescription) await videogame.update({ description: newDescription });
-        if(newImage) await videogame.update({ image: newImage });
-        if(newscreenshots) await videogame.update({ screenshots: newscreenshots });
-        if(newPrice) await videogame.update({ price: newPrice });
-        if(newStock) await videogame.update({ stock: newStock });
-        if(newActive) await videogame.update({ active: newActive });
-        const updatedVideogame = await Videogame.findByPk(videogameId);
-        return updatedVideogame;
+        if(newActive) updateFields.active = newActive;
+    }else{
+      if(newActive) await videogame.update({ active: false });
     };
 
-    if(videogameUser !== userId){
-        return "invalid user";
-    }else{
-      if(newName) await videogame.update({ name: newName });
-      if(newDescription) await videogame.update({ description: newDescription });
-      if(newImage) await videogame.update({ image: newImage });
-      if(newscreenshots) await videogame.update({ screenshots: newscreenshots });
-      if(newPrice) await videogame.update({ price: newPrice });
-      if(newStock) await videogame.update({ stock: newStock });
-      if(newActive) await videogame.update({ active: newActive });
-      const updatedVideogame = await Videogame.findByPk(videogameId);
-      return updatedVideogame;
-    };
+    await videogame.update(updateFields);
+    const updatedVideogame = await Videogame.findByPk(videogameId);
+    return updatedVideogame;
+    
   } catch (error) {
       return new Error(error.message);
   };
