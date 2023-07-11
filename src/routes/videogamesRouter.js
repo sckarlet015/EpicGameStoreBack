@@ -8,7 +8,7 @@ const videogamesRouter = express.Router();
 videogamesRouter.get("/", getAllVideogames);
 videogamesRouter.get("/:id", getVideogamesById)
 videogamesRouter.post('/', jwtMiddleware, postVideogames);
-videogamesRouter.patch(`/:id`, patchVideogame);
+videogamesRouter.patch(`/:id`, jwtMiddleware, patchVideogame);
 
 module.exports = videogamesRouter;
 

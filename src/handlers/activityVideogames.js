@@ -44,19 +44,24 @@ const postVideogames = async (req, res) => {
             res.status(200).json(newVideogame);
         };
     } catch (error) {
-        console.error(error);
         res.status(500).send('Internal server error');
     };
 };
 
 const patchVideogame = async(req, res) => {
     try {
-        const { id } = req.params
-        const updates = req.body
-        const response = await patchGame(id, updates);
-        res.status(200).json(response);
+        const role = req.user.role; 
+        const userId = req.user.id 
+        const { id } = req.params;
+        const updates = req.body;
+        if(role === "cliente"){
+            res.status(403).json("ingresa con una cuenta de vendedor");
+        }else{
+            const response = await patchGame(id, userId, updates);
+            res.status(200).json(response);
+        };
     } catch (error) {
-        
+        res.status(500).send('Internal server error');
     }
 }
 
