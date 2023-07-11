@@ -1,5 +1,7 @@
 const {Users, Carrito, Videogame} = require("../db.js");
+const { JWT_SECRET } = process.env;
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 
 const userCreate = async (userName, userPassword, userEmail, userImage) => {
 const rounds = 8;
@@ -37,8 +39,23 @@ const getUserById = async (id) => {
 return UserById;
 }
 
+const generateToken = (user) => {
+  const payload = {
+    id: user.id,
+    userEmail: user.userEmail,
+    role: user.role,
+  };
+
+  const options = {
+    expiresIn: '4h',
+  };
+
+  const token = jwt.sign(payload, JWT_SECRET, options);
+  return token;
+};
 
 const getUserLogin = async (email, password) => {
+
   const user = await Users.findOne({
     where: {
       userEmail: email,
@@ -51,15 +68,17 @@ const getUserLogin = async (email, password) => {
   if (user && user.isActive === true) {
     const passwordMatch= await bcrypt.compare(password, user.userPassword)
     if (passwordMatch) {
-      return user;
+      const token = generateToken(user);
+      console.log(token); // Generate the JWT token
+      return { user, token };
     } else {
       return false;
     }
   } else {
     return null;
-  }
-  
+  }; 
 };
+
 const putUser = async (id, userName, userPassword, userEmail, userImage) => {
 
   await Users.update({
@@ -75,26 +94,51 @@ const putUser = async (id, userName, userPassword, userEmail, userImage) => {
     return 'Usuario actualizado'
   };
 
-const patchUserInfo = async (userId, updates) => {
-    const newName = updates.userName;
-    const newEmail = updates.userEmail;
-    const newImage = updates.userImage;
-    const newRole = updates.role;
+const patchUserInfo = async (id, userId, updates) => {
+  const newName = updates.userName;
+  const newEmail = updates.userEmail;
+  const newImage = updates.userImage;
+  const newRole = updates.role;
+  const newBirth = updates.birth;
+  const newActive = updates.active; 
+  const user = await Users.findByPk(userId);
+  const userToChange = await Users.findByPk(id);
+  const userRole = user.role;
+  const updateFields = {};
 
-    const user = Users.findByPk(userId);
-
+  if (id !== userId && userRole !== 'admin') return 'invalid request';
+    
+  if (newName) {
     const userByName = await Users.findOne({
-      where: { name: newName}
+      where: { userName: newName }
     });
-    if(userByName) return "nombre en uso";
+    if (userByName) return 'nombre en uso';
+    updateFields.userName = newName;
+  };
 
+  if (newEmail) {
     const userByEmail = await Users.findOne({
-      where: { userEmail: newEmail}
+      where: { userEmail: newEmail }
     });
-    if(userByEmail) return "email en uso";
+    if (userByEmail) return 'email en uso';
+    updateFields.userEmail = newEmail;
+  }
+
+  if (newImage) updateFields.userImage = newImage;
 
 
+  if(userRole === `admin`){
+    if (newRole) updateFields.role = newRole;
+    if (newBirth) updateFields.userBirth = newBirth;
+    if (newActive) updateFields.active = newActive;
+  }else{
+    if (newRole) updateFields.role = 'vendedor';
+    if (newActive) updateFields.active = false;
+  };
 
+  await userToChange.update(updateFields);
+  const updatedUser = await Users.findByPk(id);
+  return updatedUser;
 };
 
 module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo};

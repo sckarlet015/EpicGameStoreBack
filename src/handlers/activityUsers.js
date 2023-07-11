@@ -57,9 +57,10 @@ const getUserLoginHandler = async (req, res, next) => {
 
 const patchUser = async (req, res) => {
     try {
+        const userId = req.user.id
         const { id } = req.params;
         const updates = req.body;
-        const response = await patchUserInfo(id, updates);
+        const response = await patchUserInfo(id, userId, updates);
         res.status(200).json(response);
     } catch (error) {
         res.status(400).json({ error:error.message })
