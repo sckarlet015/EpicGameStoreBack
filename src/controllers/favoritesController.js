@@ -1,10 +1,7 @@
 
-const { Videogame, Favorites, Users} = require("../db.js");
+const { Videogame, Users} = require("../db.js");
 
 const createFavorites = async (user, videogame) => {
-    
-
-        
         try{
             const favorites = await user.addVideogame(videogame)
             return favorites 
@@ -27,25 +24,27 @@ const deleteFavorites = async (user, videogame) => {
 }
 
 const getFavorites = async(userId) => {
-    const videosFav = await Favorites.findAll({
-        where: {
-            userId
-        },
-    })
-    const infoVideosFav = []
-    if(videosFav) {
-        for (let i = 0; i < videosFav.length; i++) {
-            const videoGames = await Videogame.findByPk(videosFav[i].id,
-                {attributes: ['id', 'name', 'image']}
-                )
-                infoVideosFav.push(videoGames)
-            }
+
+    const allFav = await Users.findByPk(userId,
+        {
+            include: [
+            
+                {model : Videogame, through: {attributes:[]}}
+                ]
         }
+    )
 
-    if(infoFavs.length) {
-        return infoVideosFav
-    } 
+    let infoFav = allFav.Videogames.map( fav => {
+        const newFav = {
+            id : fav.id,
+            userName: fav.userName,
+            userPassword: fav.userPassword
+            
+        }
+    })
+        return infoFav
+
+          
 }
-
 
 module.exports = {createFavorites, deleteFavorites, getFavorites}
