@@ -160,10 +160,9 @@ const getByEmail = async (email) => {
       model: Carrito,
     }
   });
-  console.log(user);
   if(user) return user 
   
-  return null;
+  return {message: "correo en uso"};
 }
 
 module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail};

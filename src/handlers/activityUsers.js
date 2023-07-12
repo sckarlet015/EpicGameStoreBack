@@ -82,10 +82,10 @@ const getUserByEmail = async(req,res) => {
         const { email } = req.params;
         const response = await getByEmail(email);
     
-        if(response){
-            res.status(200).json(response)
+        if(response.message){
+            res.status(400).json({error: response.message})
         }else{
-            res.status(400)
+            res.status(200).json(response);
         }
     } catch (error) {
         res.status(400).json({ error:error.message })
