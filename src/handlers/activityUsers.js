@@ -27,20 +27,18 @@ const postUsers = async (req, res, next) => {
 };
 
 const getUsers = async (req, res, next) => {
-    // try {
-    //     const role = req.user.role;
+    try {
+        const role = req.user.role;
         
-    //     if(role === `admin`){
-    //         const allUsers = await getAllUsers();
-    //         res.status(200).json(allUsers);
-    //     }else{
-    //         res.status(403).json("invalid request");
-    //     }
-    // } catch (error) {
-    //     res.status(400).json({ error:error.message })
-    // }
-    const allUsers = await getAllUsers();
+        if(role === `admin`){
+            const allUsers = await getAllUsers();
             res.status(200).json(allUsers);
+        }else{
+            res.status(403).json("invalid request");
+        }
+    } catch (error) {
+        res.status(400).json({ error:error.message })
+    }
 }
 
 const getUserByIdHandler = async(req, res, next) => {
@@ -79,4 +77,20 @@ const patchUser = async (req, res) => {
     }
 };
 
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser }
+const getUserByEmail = async(req,res) => {
+    try {
+        const { email } = req.params;
+        const response = await getByEmail(email);
+    
+        if(response){
+            res.status(200).json(response)
+        }else{
+            res.status(400)
+        }
+    } catch (error) {
+        res.status(400).json({ error:error.message })
+    }
+
+}
+
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser , getUserByEmail }
