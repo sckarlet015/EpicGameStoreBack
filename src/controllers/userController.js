@@ -27,6 +27,24 @@ let user = await Users.create({
 return user;
 };
 
+const adminCreate = async (userName, userPassword, userEmail) => {
+
+  const rounds = 8;
+  const passwordHash = await bcrypt.hash(userPassword, rounds);
+
+  const adminCheck = await Users.findOne({ role: 'admin' });
+  if(adminCheck) return {message: `admin already created`};
+
+  let user = await Users.create({
+    userName,
+    userPassword : passwordHash, 
+    userEmail, 
+    role: `admin`
+    });
+  return user;
+
+};
+
 const getAllUsers = async () => {
 
     const allUsers = await Users.findAll(
@@ -176,6 +194,6 @@ const getByEmailRegister = async(email) => {
   }
 }
 
-module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister};
+module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister, adminCreate};
 
 

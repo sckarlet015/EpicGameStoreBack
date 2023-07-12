@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister } =  require('../controllers/userController')
+const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister, adminCreate } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -101,10 +101,32 @@ const getUserEmailRegister = async(req, res) => {
             res.status(200).json(response)
         } else {
             res.status(400).json({error: response.message})
-        }
+        };
     } catch (error) {
         res.status(400).json({error: error.message})
+    };
+};
+
+const createAdmin = async(req,res) => {
+    const {
+        userName, 
+        userPassword, 
+        userEmail, 
+    } = req.body;
+    try {
+        const response = await adminCreate(
+            userName, 
+            userPassword, 
+            userEmail
+        );
+        if(response.message){
+            res.status(400).json({error: response.message});
+        }else{
+            res.status(200).json(response);
+        }
+    } catch (error) {
+        
     }
 }
 
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister }
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
