@@ -1,5 +1,5 @@
 
-const { Videogame, Users} = require("../db.js");
+const { Videogame, Users, Genre} = require("../db.js");
 
 const createFavorites = async (user, videogame) => {
         try{
@@ -23,28 +23,21 @@ const deleteFavorites = async (user, videogame) => {
     }
 }
 
-const getFavorites = async(userId) => {
 
-    const allFav = await Users.findByPk(userId,
-        {
-            include: [
-            
-                {model : Videogame, through: {attributes:[]}}
-                ]
-        }
-    )
 
-    let infoFav = allFav.Videogames.map( fav => {
-        const newFav = {
-            id : fav.id,
-            userName: fav.userName,
-            userPassword: fav.userPassword
+const getFavorites = async (userId) => {
+    const UserById = await Users.findByPk(userId, {
+        include : [
             
-        }
+            {model : Videogame, through: {attributes:[ ]},
+            include : [
+            { model :Genre, through: {attributes:[]} }
+            ]}
+        ]
     })
-        return infoFav
-
-          
-}
+  return UserById;
+  }
 
 module.exports = {createFavorites, deleteFavorites, getFavorites}
+
+
