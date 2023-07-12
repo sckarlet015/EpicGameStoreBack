@@ -153,6 +153,15 @@ const patchUserInfo = async (id, userId, updates) => {
   return updatedUser;
 };
 
-module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo};
+const getByEmail = async (email) => {
+  const user = await Users.findOne({
+    where: { userEmail: email }
+  });
+  if(user) return user 
+  
+  return null;
+}
+
+module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail};
 
 
