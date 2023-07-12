@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail } =  require('../controllers/userController')
+const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -81,11 +81,11 @@ const getUserByEmail = async(req,res) => {
     try {
         const { email } = req.params;
         const response = await getByEmail(email);
-    
-        if(response.message){
-            res.status(400).json({error: response.message})
-        }else{
+
+        if(response){
             res.status(200).json(response);
+        }else{
+            res.status(400).json({error: response.message})
         }
     } catch (error) {
         res.status(400).json({ error:error.message })
@@ -93,4 +93,18 @@ const getUserByEmail = async(req,res) => {
 
 }
 
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail }
+const getUserEmailRegister = async(req, res) => {
+    try {
+        const { email } = req.params;
+        const response = await getByEmailRegister(email);
+        if(response){
+            res.status(200).json(response)
+        } else {
+            res.status(400).json({error: response.message})
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister }
