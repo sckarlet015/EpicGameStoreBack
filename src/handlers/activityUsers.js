@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo } =  require('../controllers/userController')
+const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -93,4 +93,4 @@ const getUserByEmail = async(req,res) => {
 
 }
 
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser , getUserByEmail }
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail }
