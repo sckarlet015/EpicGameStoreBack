@@ -163,7 +163,7 @@ const getByEmail = async (email) => {
   console.log(user);
   if(user) return user 
   
-  return 1;
+  return null;
 }
 
 module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail};
