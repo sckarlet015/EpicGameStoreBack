@@ -8,19 +8,23 @@ const postUsers = async (req, res, next) => {
         userEmail, 
         userImage,
     } = req.body;
-
     try {
         const newUser = await userCreate(
             userName, 
             userPassword, 
             userEmail, 
-            userImage,)
-        const newCart = await creteCart(newUser)
-        res.status(200).json({newUser, newCart})
+            userImage
+        );
+        if(newUser.message){
+            res.status(302).json({ newUser });
+        }else{
+            const newCart = await creteCart(newUser);
+            res.status(201).json({newUser, newCart});
+        }
     }catch(error){
-        res.status(400).json({ error:error.message })
-    }
-}
+        res.status(400).json({ error:error.message });
+    };
+};
 
 const getUsers = async (req, res, next) => {
     try {

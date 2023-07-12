@@ -6,6 +6,7 @@ require('dotenv').config();
 const jwtMiddleware = async (req, res, next) => {
     // JWT verification middleware
     // Get the token from the request headers
+    console.log(req.headers.authorization);
     const token = req.headers.authorization?.split(' ')[1];
   
     if (!token) {
