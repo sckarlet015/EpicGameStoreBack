@@ -162,10 +162,20 @@ const getByEmail = async (email) => {
   });
   console.log(user);
   if(user) return user 
-  
+
   return null;
 }
 
-module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail};
+const getByEmailRegister = async(email) => {
+  const user = await Users.findOne({
+    where: { userEmail: email }
+  })
+  if(user) return false
+  else{
+    return true
+  }
+}
+
+module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister};
 
 

@@ -21,7 +21,7 @@ const getPreference = async(req, res) => {
     let preference = {
         items: cartItemes,
 		back_urls: {
-			"success": "http://localhost:3000/home",
+			"success": "http://localhost:3000/favorites",
 			"failure": "http://localhost:3000/home",
 			"pending": ""
 		},
