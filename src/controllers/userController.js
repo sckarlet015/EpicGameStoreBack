@@ -7,11 +7,23 @@ const userCreate = async (userName, userPassword, userEmail, userImage) => {
 const rounds = 8;
 const passwordHash = await bcrypt.hash(userPassword, rounds);
 
+const userByName = await Users.findOne({
+  where: { userName: userName }
+});
+
+if(userByName) return {message : "Nombre en uso"};
+
+const userByEmail = await Users.findOne({
+  where: { userEmail: userEmail }
+});
+
+if(userByEmail) return {message : "Email en uso"};
+
 let user = await Users.create({
                 userName,
                 userPassword : passwordHash, 
                 userEmail, 
-                userImage})
+                userImage});
 return user;
 };
 
@@ -141,6 +153,29 @@ const patchUserInfo = async (id, userId, updates) => {
   return updatedUser;
 };
 
-module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo};
+const getByEmail = async (email) => {
+  const user = await Users.findOne({
+    where: { userEmail: email },
+    include: {
+      model: Carrito,
+    }
+  });
+  console.log(user);
+  if(user) return user 
+
+  return null;
+}
+
+const getByEmailRegister = async(email) => {
+  const user = await Users.findOne({
+    where: { userEmail: email }
+  })
+  if(user) return false
+  else{
+    return true
+  }
+}
+
+module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister};
 
 

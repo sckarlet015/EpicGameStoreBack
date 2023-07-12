@@ -43,7 +43,7 @@ const createdGame = async (name, description, launchDate, rating, image, screens
             if (genre) {
                 console.log("in use");
                 await newVideogame.addGenre(genre);
-            }
+            } 
         };
 
         for (const name of platforms) {

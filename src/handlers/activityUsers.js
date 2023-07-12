@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo } =  require('../controllers/userController')
+const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -8,19 +8,23 @@ const postUsers = async (req, res, next) => {
         userEmail, 
         userImage,
     } = req.body;
-
     try {
         const newUser = await userCreate(
             userName, 
             userPassword, 
             userEmail, 
-            userImage,)
-        const newCart = await creteCart(newUser)
-        res.status(200).json({newUser, newCart})
+            userImage
+        );
+        if(newUser.message){
+            res.status(302).json({ newUser });
+        }else{
+            const newCart = await creteCart(newUser);
+            res.status(201).json({newUser, newCart});
+        }
     }catch(error){
-        res.status(400).json({ error:error.message })
-    }
-}
+        res.status(400).json({ error:error.message });
+    };
+};
 
 const getUsers = async (req, res, next) => {
     try {
@@ -73,4 +77,34 @@ const patchUser = async (req, res) => {
     }
 };
 
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser }
+const getUserByEmail = async(req,res) => {
+    try {
+        const { email } = req.params;
+        const response = await getByEmail(email);
+
+        if(response){
+            res.status(200).json(response);
+        }else{
+            res.status(400).json({error: response.message})
+        }
+    } catch (error) {
+        res.status(400).json({ error:error.message })
+    }
+
+}
+
+const getUserEmailRegister = async(req, res) => {
+    try {
+        const { email } = req.params;
+        const response = await getByEmailRegister(email);
+        if(response){
+            res.status(200).json(response)
+        } else {
+            res.status(400).json({error: response.message})
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister }
