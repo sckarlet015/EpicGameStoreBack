@@ -20,6 +20,7 @@
 require('dotenv').config();
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const { FRONT_LINK } = process.env;
 const { PORT } = process.env;
 
 /////////////////////////////MERCADO PAGO
@@ -28,9 +29,15 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mercadopago = require("mercadopago");
+const corsOptions ={
+  origin: FRONT_LINK, 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
+
 
 mercadopago.configure({
 	access_token: "TEST-5157264431610939-070317-a713bdde3854ba34269cb1dd745a72bc-344061438",
