@@ -11,7 +11,6 @@ const getVideogamesDb = async () => {
       return newVideogames
     }else {
       const videogames = await Videogame.findAll({
-        attributes: ['id', 'name', 'description', 'launchDate', 'rating', 'image', 'screenshots', 'price', 'stock', 'active'],
         include: [
           {
             model: Genre,
@@ -29,7 +28,7 @@ const getVideogamesDb = async () => {
           },
         ],
         where: {
-          active: true
+          status: `active`
         }
       });
       

@@ -1,6 +1,6 @@
 const express = require('express');
 const { jwtMiddleware } = require(`../handlers/activityJsonWebToken.js`);
-const { getAllVideogames, getVideogamesById, postVideogames, patchVideogame } = require('../handlers/activityVideoGames.js')
+const { getAllVideogames, getVideogamesById, postVideogames, patchVideogame } = require('../handlers/activityVideogames.js');
 
 const videogamesRouter = express.Router();
 

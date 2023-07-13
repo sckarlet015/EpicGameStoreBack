@@ -6,13 +6,17 @@ const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const { FRONT_LINK } = process.env;
 
-// const cors = require('cors');
+const cors = require('cors');
 
 require('./db.js');
 
 const server = express();
 
-// server.use(cors())
+server.use(cors({
+  origin: 'http://localhost:3000', // Update with your client's origin
+  methods: ['GET', 'PUT', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 server.name = 'API';
 

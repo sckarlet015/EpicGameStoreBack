@@ -148,7 +148,7 @@ const createVideogame = async () => {
     }
 
     const videogames = await Videogame.findAll({
-      attributes: ['id', 'name', 'description', 'launchDate', 'rating', 'image', 'screenshots', 'price', 'stock', 'active'],
+      attributes: ['id', 'name', 'description', 'launchDate', 'rating', 'image', 'screenshots', 'price', 'stock', 'status'],
       include: [
         {
           model: Genre,
