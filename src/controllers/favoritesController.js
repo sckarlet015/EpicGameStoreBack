@@ -2,8 +2,6 @@
 const { Videogame, Favorites, Users} = require("../db.js");
 
 const createFavorites = async (user, videogame) => {
-    
-
         
         try{
             const favorites = await user.addVideogame(videogame)
