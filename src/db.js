@@ -61,15 +61,10 @@ Carrito.belongsToMany(Videogame, {through: "VideogameCarrito"});
 Users.hasMany(Videogame, { foreignKey: 'userId', as: 'videogames' });
 Videogame.belongsTo(Users, { foreignKey: 'userId', as: 'seller' });
 
-// Users.hasOne(Review);
-// Review.belongsTo(Users);
-
-
-Users.belongsToMany(Videogame, {through: "UsersReview"});
-Videogame.belongsToMany(Users, {through: "UsersReview"});
-
-
-
+Users.hasMany(Review);
+Review.belongsTo(Users);
+Review.belongsTo(Videogame);
+Videogame.hasMany(Review);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

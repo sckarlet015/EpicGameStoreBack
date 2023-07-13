@@ -2,6 +2,10 @@
 const { Videogame, Users, Genre} = require("../db.js");
 
 const createFavorites = async (user, videogame) => {
+<<<<<<< HEAD
+=======
+        
+>>>>>>> b21e9ab3fcb9e47e5654e5d3f4f03622f59a2470
         try{
             const favorites = await user.addVideogame(videogame)
             return favorites 
