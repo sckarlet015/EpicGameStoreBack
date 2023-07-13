@@ -10,7 +10,7 @@ const getVideogamesDb = async () => {
       const newVideogames = await createVideogame();
       return newVideogames
     }else {
-      const videogames = await Videogame.findAll({
+      const videogames = await Videogame.findAll({  
         include: [
           {
             model: Genre,
@@ -134,6 +134,12 @@ const createGame = async (name, description, launchDate, rating, image, screensh
 
     if(userRole === "vendedor"){
       await newVideogame.setSeller(user);
+    };
+
+    if(userRole === "admin"){
+      await newVideogame.update({
+        status: `active` 
+      });
     };
 
     return newVideogame;
