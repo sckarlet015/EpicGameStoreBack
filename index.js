@@ -30,11 +30,16 @@ const app = express();
 const cors = require("cors");
 const mercadopago = require("mercadopago");
 
-app.use(express.json());
+
 app.use(cors({
-  allowedHeaders: ['Authorization'],
-  origin: FRONT_LINK
+  origin: 'http://localhost:3000', // Update with your client's origin
+  methods: ['GET', 'PUT', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+
+app.use(express.json());
+
 
 
 mercadopago.configure({
