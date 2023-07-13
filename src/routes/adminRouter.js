@@ -5,7 +5,7 @@ const { getUsers } = require("../handlers/activityAdmin.js")
 
 const adminRouter = Router();
 
-adminRouter.get("/users", jwtAdminMiddleware, getUsers)
+adminRouter.get("/users", jwtAdminMiddleware, getUsers);
 
 
 module.exports = adminRouter;

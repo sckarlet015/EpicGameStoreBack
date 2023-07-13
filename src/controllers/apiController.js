@@ -29,7 +29,8 @@ const getVideogamesApi = async () => {
           screenshots: short_screenshots,
           rating,
           price: getRandomPrice()-(getStockPrice(20)/100), 
-          stock: getStockPrice(15)
+          stock: getStockPrice(15),
+          status: `active`
         }));
         videogamesApi.push(...videogames);
       };
@@ -51,7 +52,8 @@ const arrangeApiGames = (videogames) => {
     screenshots: game.screenshots.map((screenshot) => screenshot.image).join(','),
     rating: game.rating,
     price: game.price,
-    stock: game.stock
+    stock: game.stock,
+    status: game.status
   }));
   
   return arrangedGames;
