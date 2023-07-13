@@ -1,11 +1,9 @@
-
-const { Videogame, Users, Genre} = require("../db.js");
+const { Videogame, Favorites, Users} = require("../db.js");
 
 const createFavorites = async (user, videogame) => {
-<<<<<<< HEAD
-=======
+    
+
         
->>>>>>> b21e9ab3fcb9e47e5654e5d3f4f03622f59a2470
         try{
             const favorites = await user.addVideogame(videogame)
             return favorites 
@@ -27,21 +25,69 @@ const deleteFavorites = async (user, videogame) => {
     }
 }
 
-
-
-const getFavorites = async (userId) => {
-    const UserById = await Users.findByPk(userId, {
-        include : [
-            
-            {model : Videogame, through: {attributes:[ ]},
-            include : [
-            { model :Genre, through: {attributes:[]} }
-            ]}
-        ]
+const getFavorites = async(userId) => {
+    const videosFav = await Favorites.findAll({
+        where: {
+            userId
+        },
     })
-  return UserById;
-  }
+    const infoVideosFav = []
+    if(videosFav) {
+        for (let i = 0; i < videosFav.length; i++) {
+            const videoGames = await Videogame.findByPk(videosFav[i].id,
+                {attributes: ['id', 'name', 'image']}
+                )
+                infoVideosFav.push(videoGames)
+            }
+        }
+
+    if(infoFavs.length) {
+        return infoVideosFav
+    } 
+}
+
 
 module.exports = {createFavorites, deleteFavorites, getFavorites}
+// const { Videogame, Users, Genre} = require("../db.js");
+
+// const createFavorites = async (user, videogame) => {
+        
+//         try{
+//             const favorites = await user.addVideogame(videogame)
+//             return favorites 
+//         } catch {
+//             return {error: "Not user not videogame"}
+//         }
+    
+// }
+
+
+// const deleteFavorites = async (user, videogame) => {
+//     try{
+//         const  userF = await Users.findByPk(user)
+//         const  game = await Videogame.findByPk(videogame)
+//             await userF.removeVideogame(game)
+//             return user
+//     }catch{
+//         return {error: "Videogame not deleted"}
+//     }
+// }
+
+
+
+// const getFavorites = async (userId) => {
+//     const UserById = await Users.findByPk(userId, {
+//         include : [
+            
+//             {model : Videogame, through: {attributes:[ ]},
+//             include : [
+//             { model :Genre, through: {attributes:[]} }
+//             ]}
+//         ]
+//     })
+//   return UserById;
+//   }
+
+// module.exports = {createFavorites, deleteFavorites, getFavorites}
 
 

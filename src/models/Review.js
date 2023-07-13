@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     comment: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true
     },
   }, {

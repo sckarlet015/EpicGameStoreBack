@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const reviewRouter = Router();
-const  { postReview }  = require("../handlers/activityReview")
+const  { postReview, getReviews }  = require("../handlers/activityReview")
 
 reviewRouter.post('/', postReview)
+reviewRouter.get('/', getReviews)
 
 module.exports = reviewRouter
