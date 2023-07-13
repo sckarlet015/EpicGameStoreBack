@@ -29,64 +29,18 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mercadopago = require("mercadopago");
-const corsOptions ={
-  origin: FRONT_LINK, 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200
-}
 
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors({
+  allowedHeaders: ['Authorization'],
+  origin: FRONT_LINK
+}));
 
 
 mercadopago.configure({
 	access_token: "TEST-5157264431610939-070317-a713bdde3854ba34269cb1dd745a72bc-344061438",
 });
-
-// app.get("/", function(req,res){
-//   res.send('el servidor de mercado pago funciona ^^')
-// })
-
-// app.post("/create_preference", (req, res) => {
-
-// 	let preference = {
-// 		items: [
-// 			{
-// 				title: req.body.description,
-// 				unit_price: Number(req.body.price),
-// 				quantity: Number(req.body.quantity),
-// 			}
-// 		],
-// 		back_urls: {
-// 			"success": "http://localhost:3000/home",
-// 			"failure": "http://localhost:3000/home",
-// 			"pending": ""
-// 		},
-// 		auto_return: "approved",
-// 	};
-
-// 	mercadopago.preferences
-//     .create(preference)
-// 		.then(function (response) {
-// 			res.json({
-// 				id: response.body.id
-// 			});
-// 		}).catch(function (error) {
-// 			console.log(error);
-// 		});
-// });
-
-// app.get('/feedback', function (req, res) {
-// 	res.json({
-// 		Payment: req.query.payment_id,
-// 		Status: req.query.status,
-// 		MerchantOrder: req.query.merchant_order_id
-// 	});
-// });
-
-// app.listen(8080, () => {
-//   console.log('The server is now running at 8080')
-// })  
+  
 
 /////////////////////////////
 
