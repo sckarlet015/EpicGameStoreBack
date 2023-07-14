@@ -26,27 +26,8 @@ const postUsers = async (req, res, next) => {
     };
 };
 
-const getUsers = async (req, res, next) => {
-    try {
-        const role = req.user.role;
-        
-        if(role === `admin`){
-            const allUsers = await getAllUsers();
-            res.status(200).json(allUsers);
-        }else{
-            res.status(403).json("invalid request");
-        }
-    } catch (error) {
-        res.status(400).json({ error:error.message })
-    }
-}
-
-
-
-
 const getUserByIdHandler = async(req, res, next) => {
     const {id} = req.params;
-
     try {
         const UserByIdH = await getUserById(id);
         res.status(200).json(UserByIdH)
@@ -133,6 +114,4 @@ const createAdmin = async(req,res) => {
     }
 }
 
-
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
-
+module.exports =  { postUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }

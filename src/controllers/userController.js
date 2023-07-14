@@ -161,13 +161,12 @@ const patchUserInfo = async (id, userId, updates) => {
   if(userRole === `admin`){
     if (newRole) updateFields.role = newRole;
     if (newBirth) updateFields.userBirth = newBirth;
-    if (newActive !== undefined) updateFields.isActive = newActive;
+    if (newActive) updateFields.active = newActive;
   }else{
     if (newRole) updateFields.role = 'vendedor';
-    if (newActive) updateFields.isActive = false;
+    if (newActive) updateFields.active = false;
   };
 
-  console.log(updateFields);
   await userToChange.update(updateFields);
   const updatedUser = await Users.findByPk(id);
   return updatedUser;
