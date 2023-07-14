@@ -30,6 +30,7 @@ const app = express();
 const cors = require("cors");
 const mercadopago = require("mercadopago");
 
+<<<<<<< HEAD
 
 app.use(cors({
   origin: 'http://localhost:3000', // Update with your client's origin
@@ -41,6 +42,19 @@ app.use(cors({
 app.use(express.json());
 
 
+=======
+app.use(express.json());
+// app.use(cors({
+//   allowedHeaders: ['Authorization'],
+//   origin: "*"
+// }));
+app.use(cors({
+  allowedHeaders: ['Authorization'],
+  allowedOrigins: ['http://localhost:3000/'],
+}));
+
+
+>>>>>>> 67f73af (161)
 
 mercadopago.configure({
 	access_token: "TEST-5157264431610939-070317-a713bdde3854ba34269cb1dd745a72bc-344061438",
