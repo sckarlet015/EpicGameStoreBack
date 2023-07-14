@@ -3,21 +3,24 @@ const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInf
 
 const postUsers = async (req, res, next) => {
     const {
-        userName,
-        userPassword,
-        userEmail,
+        userName, 
+        userPassword, 
+        userEmail, 
         userImage,
-        
     } = req.body;
     try {
         const newUser = await userCreate(
             userName, 
-             userPassword, 
-             userEmail, 
-             userImage,
-             )
-        const newCart = await creteCart(newUser)
-        res.status(200).json({newUser, newCart})
+            userPassword, 
+            userEmail, 
+            userImage
+        );
+        if(newUser.message){
+            res.status(302).json({ newUser });
+        }else{
+            const newCart = await creteCart(newUser);
+            res.status(201).json({newUser, newCart});
+        }
     }catch(error){
         res.status(400).json({ error:error.message });
     };
@@ -38,32 +41,37 @@ const getUsers = async (req, res, next) => {
             res.status(403).json("invalid request");
         }
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        res.status(400).json({ error:error.message })
     }
 }
 
+<<<<<<< HEAD
 const getUserByIdHandler = async (req, res, next) => {
     const { id } = req.params;
 >>>>>>> 2a227e4 (155)
+=======
+const getUserByIdHandler = async(req, res, next) => {
+    const {id} = req.params;
+>>>>>>> f56657a (160)
     try {
         const UserByIdH = await getUserById(id);
         res.status(200).json(UserByIdH)
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        res.status(400).json({ error:error.message })
     }
 }
 const getUserLoginHandler = async (req, res, next) => {
-    const userNull = 'Usuario no encontrado';
-    const passwordError = 'Contraseña incorrecta';
-    const { email, password } = req.body;
+    const userNull= 'Usuario no encontrado';
+    const passwordError= 'Contraseña incorrecta';
+    const {email, password} = req.body;
     try {
         const getLoginH = await getUserLogin(email, password);
-        if (getLoginH === null) { res.status(400).json(userNull) }
-        else if (getLoginH === false) res.status(401).json(passwordError)
+        if(getLoginH===null){res.status(400).json(userNull)}
+        else if(getLoginH===false)res.status(401).json(passwordError)
         else res.status(200).json(getLoginH)
-
+        
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        res.status(400).json({ error:error.message })
     }
 };
 
@@ -80,6 +88,9 @@ const patchUser = async (req, res) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f56657a (160)
 const getUserByEmail = async(req,res) => {
     try {
         const { email } = req.params;
@@ -132,7 +143,11 @@ const createAdmin = async(req,res) => {
     }
 }
 
+<<<<<<< HEAD
 module.exports =  { postUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
 =======
 module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser }
 >>>>>>> 2a227e4 (155)
+=======
+module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
+>>>>>>> f56657a (160)
