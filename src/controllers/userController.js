@@ -136,7 +136,8 @@ const patchUserInfo = async (id, userId, updates) => {
   const userRole = user.role;
   const updateFields = {};
 
-  if (id !== userId && userRole !== 'admin') return 'invalid request';
+  if (id !== userId && userRole !== 'admin') return { message: "Invalid request" }
+  if(newRole !== `cliente` && newRole !== `vendedor` && newRole !== `admin`) return { message: "Ingresa un rol valido" };
     
   if (newName) {
     const userByName = await Users.findOne({
