@@ -2,7 +2,7 @@ const { Videogame, Users, Review } = require ("../db.js");
 
 const createReview = async (userId, gameId, rating, comment) =>{
 
-    try {
+        try {
          
         const newUser = await Users.findByPk(userId)
         console.log(newUser)
@@ -11,21 +11,45 @@ const createReview = async (userId, gameId, rating, comment) =>{
 
         const newReview = await Review.create(
             {
-                rating,
-                comment
+                rating: rating,
+                comment: comment
             }
         )
         
         await newReview.addUsers(newUser)
 
         console.log(newReview)
-        // await newReview.setVideogame(newGame)
+        await newReview.addVideogame(newGame)
+        return newReview
         
-        // return newReview
-
-    } catch (error) {
+        } catch (error) {
         return {error: 'Not comments'}
     }
-
+    
 }
-module.exports = { createReview }
+
+const getReviewsById = async (userId) => {
+
+    const reviewById = await Videogame.findByPk(userId, {
+        include : [
+        
+            {model : Review,
+             include: [
+                {model: Users}
+             ]} 
+        ]
+    })
+  return reviewById;
+  }
+
+
+  const getAllReviews = async () => {
+    const allReviews = await Review.findAll()
+    return allReviews
+
+  }
+
+
+
+
+module.exports = { createReview, getReviewsById, getAllReviews }

@@ -31,14 +31,26 @@ const cors = require("cors");
 const mercadopago = require("mercadopago");
 
 
+
 app.use(cors({
   origin: 'http://localhost:3000', // Update with your client's origin
-  methods: ['GET', 'PUT', 'POST', `PATCH`],
+  methods: ['GET', 'PUT', 'POST','PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 
 app.use(express.json());
+
+
+app.use(express.json());
+// app.use(cors({
+//   allowedHeaders: ['Authorization'],
+//   origin: "*"
+// }));
+app.use(cors({
+  allowedHeaders: ['Authorization'],
+  allowedOrigins: ['http://localhost:3000/'],
+}));
 
 
 

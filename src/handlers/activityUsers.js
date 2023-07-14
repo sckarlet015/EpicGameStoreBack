@@ -51,6 +51,7 @@ const getUserLoginHandler = async (req, res, next) => {
 };
 
 const patchUser = async (req, res) => {
+    console.log(req.body);
     try {
         const userId = req.user.id
         const { id } = req.params;
