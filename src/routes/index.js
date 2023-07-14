@@ -9,6 +9,8 @@ const userRouter = require("./userRouter.js");
 const payRouter = require('./payRouter.js');
 const cartRouter = require('./cartRouter.js');
 const favoritesRouter = require('./favoritesRouter.js');
+const adminRouter = require(`./adminRouter.js`);
+const reviewRouter = require('./reviewRouter.js')
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -29,5 +31,8 @@ router.use("/users", userRouter);
 router.use("/pay", payRouter);
 router.use("/cart", cartRouter);
 router.use("/favorites", favoritesRouter);
+router.use("/admin", adminRouter);
+
+router.use("/reviews",reviewRouter )
 module.exports = router;
 

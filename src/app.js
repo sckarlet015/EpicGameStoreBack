@@ -14,7 +14,7 @@ const server = express();
 
 server.use(cors({
   origin: 'http://localhost:3000', // Update with your client's origin
-  methods: ['GET', 'PUT', 'POST'],
+  methods: ['GET', 'PUT', 'POST', `PATCH`],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 

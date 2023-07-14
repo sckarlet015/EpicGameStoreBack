@@ -10,8 +10,7 @@ const getVideogamesDb = async () => {
       const newVideogames = await createVideogame();
       return newVideogames
     }else {
-      const videogames = await Videogame.findAll({
-        attributes: ['id', 'name', 'description', 'launchDate', 'rating', 'image', 'screenshots', 'price', 'stock', 'active'],
+      const videogames = await Videogame.findAll({  
         include: [
           {
             model: Genre,
@@ -29,7 +28,7 @@ const getVideogamesDb = async () => {
           },
         ],
         where: {
-          active: true
+          status: `active`
         }
       });
       
@@ -137,6 +136,12 @@ const createGame = async (name, description, launchDate, rating, image, screensh
       await newVideogame.setSeller(user);
     };
 
+    if(userRole === "admin"){
+      await newVideogame.update({
+        status: `active` 
+      });
+    };
+
     return newVideogame;
 } catch (error) {
     return new Error(error.message);
@@ -161,7 +166,10 @@ const patchGame = async (videogameId, userId, updates) => {
 
     if(!userStatus) return "Cuenta inactiva";
 
-    if (videogameUser !== userId && userRole !== 'admin') return 'invalid request';
+    if(videogame.status === `pendingApproval` && userRole !== 'admin') return { message: "Juego pendiente de validación" }
+    if (videogameUser !== userId && userRole !== 'admin') return { message: "cuenta no autorizada" };
+    if(videogame.status === "banned" && userRole !== 'admin') return { message: "Este juego fue desactivado, por favor contactanos"};
+    if(newActive !== "banned" && newActive !== "active" && newActive !== "inactive") return { message: "Por favor ingresa un status valido"};
 
     if (newName) {
       const videogameByName = await Videogame.findOne({
@@ -180,9 +188,9 @@ const patchGame = async (videogameId, userId, updates) => {
 
 
     if(userRole === "admin"){
-        if(newActive) updateFields.active = newActive;
+        if(newActive) updateFields.status = newActive;
     }else{
-      if(newActive) await videogame.update({ active: false });
+      if(newActive === `active` || newActive === `inactive`) updateFields.status = newActive;
     };
 
     await videogame.update(updateFields);
