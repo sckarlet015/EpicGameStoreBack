@@ -16,10 +16,10 @@ const createReview = async (userId, gameId, rating, comment) =>{
             }
         )
         
-        newReview.addUsers(newUser)
+        await newReview.addUsers(newUser)
 
         console.log(newReview)
-        newReview.addVideogame(newGame)
+        await newReview.addVideogame(newGame)
         return newReview
         
         } catch (error) {
@@ -30,14 +30,26 @@ const createReview = async (userId, gameId, rating, comment) =>{
 
 const getReviewsById = async (userId) => {
 
-    const reviewById = await Users.findByPk(userId, {
+    const reviewById = await Videogame.findByPk(userId, {
         include : [
-            {model : Review},
-            {model : Videogame, through: {attributes:[]}}
+        
+            {model : Review,
+             include: [
+                {model: Users}
+             ]} 
         ]
     })
   return reviewById;
   }
 
 
-module.exports = { createReview, getReviewsById }
+  const getAllReviews = async () => {
+    const allReviews = await Review.findAll()
+    return allReviews
+
+  }
+
+
+
+
+module.exports = { createReview, getReviewsById, getAllReviews }

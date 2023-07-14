@@ -66,6 +66,7 @@ Videogame.belongsTo(Users, { foreignKey: 'userId', as: 'seller' });
 // Review.belongsTo(Users);
 // Review.belongsTo(Videogame);
 // Videogame.hasMany(Review);
+
 Review.belongsToMany(Users, { through: "ReviewUsers" });
 Users.belongsToMany(Review, { through: "ReviewUsers" });
 

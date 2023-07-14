@@ -1,8 +1,6 @@
-const { Videogame, Favorites, Users} = require("../db.js");
+const { Videogame, Users, Genre} = require("../db.js");
 
 const createFavorites = async (user, videogame) => {
-    
-
         
         try{
             const favorites = await user.addVideogame(videogame)
@@ -25,32 +23,29 @@ const deleteFavorites = async (user, videogame) => {
     }
 }
 
-const getFavorites = async(userId) => {
-    const videosFav = await Favorites.findAll({
-        where: {
-            userId
-        },
+
+const getFavorites = async (userId) => {
+    const UserById = await Users.findByPk(userId, {
+        include : [
+            
+            {model : Videogame, through: {attributes:[ ]},
+            include : [
+            { model :Genre, through: {attributes:[]} }
+            ]}
+        ]
     })
-    const infoVideosFav = []
-    if(videosFav) {
-        for (let i = 0; i < videosFav.length; i++) {
-            const videoGames = await Videogame.findByPk(videosFav[i].id,
-                {attributes: ['id', 'name', 'image']}
-                )
-                infoVideosFav.push(videoGames)
-            }
-        }
-
-    if(infoFavs.length) {
-        return infoVideosFav
-    } 
-}
-
+  return UserById;
+  }
 
 module.exports = {createFavorites, deleteFavorites, getFavorites}
-// const { Videogame, Users, Genre} = require("../db.js");
+
+
+
+// const { Videogame, Favorites, Users} = require("../db.js");
 
 // const createFavorites = async (user, videogame) => {
+    
+
         
 //         try{
 //             const favorites = await user.addVideogame(videogame)
@@ -73,21 +68,26 @@ module.exports = {createFavorites, deleteFavorites, getFavorites}
 //     }
 // }
 
-
-
-// const getFavorites = async (userId) => {
-//     const UserById = await Users.findByPk(userId, {
-//         include : [
-            
-//             {model : Videogame, through: {attributes:[ ]},
-//             include : [
-//             { model :Genre, through: {attributes:[]} }
-//             ]}
-//         ]
+// const getFavorites = async(userId) => {
+//     const videosFav = await Favorites.findAll({
+//         where: {
+//             userId
+//         },
 //     })
-//   return UserById;
-//   }
+//     const infoVideosFav = []
+//     if(videosFav) {
+//         for (let i = 0; i < videosFav.length; i++) {
+//             const videoGames = await Videogame.findByPk(videosFav[i].id,
+//                 {attributes: ['id', 'name', 'image']}
+//                 )
+//                 infoVideosFav.push(videoGames)
+//             }
+//         }
+
+//     if(infoFavs.length) {
+//         return infoVideosFav
+//     } 
+// }
+
 
 // module.exports = {createFavorites, deleteFavorites, getFavorites}
-
-

@@ -1,4 +1,4 @@
-const { createReview, getReviewsById } = require("../controllers/reviewController")
+const { createReview, getReviewsById, getAllReviews } = require("../controllers/reviewController")
 const { Videogame, Users, Review } = require ("../db.js");
 
 const postReview = async (req,res) =>{
@@ -21,7 +21,7 @@ const postReview = async (req,res) =>{
 
 
 const getReviews = async(req, res) => {
-    const { userId} = req.body
+    const { userId} = req.params
     try {
         const reviewsGet = await getReviewsById(userId)
         res.status(200).json(reviewsGet)
@@ -31,4 +31,15 @@ const getReviews = async(req, res) => {
     }
 }
 
-module.exports =  { postReview, getReviews } 
+const getReviewsAll = async(req, res) => {
+
+    try {
+        const reviewsGetAll = await getAllReviews()
+        res.status(200).json(reviewsGetAll)
+
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
+module.exports =  { postReview, getReviews, getReviewsAll } 

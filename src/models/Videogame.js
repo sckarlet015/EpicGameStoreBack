@@ -47,10 +47,10 @@ module.exports = (sequelize) => {
       allowNull: true,
       defaultValue: 5
     },
-    active: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true
-    }
+    status: {
+      type: DataTypes.ENUM('pendingApproval', 'active', 'inactive', 'banned'),
+      defaultValue: 'pendingApproval'
+    }    
   },
   {timestamps: false}
   );

@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
 const { jwtAdminMiddleware } = require(`../handlers/activityJsonWebToken.js`);
+const { getUsers } = require("../handlers/activityAdmin.js")
 
 const adminRouter = Router();
 
-adminRouter.get("/users", jwtAdminMiddleware)
+adminRouter.get("/users", jwtAdminMiddleware, getUsers);
 
-// userRouter.patch(`/:id`, jwtMiddleware, patchUser);
 
 module.exports = adminRouter;
 
