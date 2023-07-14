@@ -4,8 +4,7 @@ const { Videogame, Users, Review } = require ("../db.js");
 const postReview = async (req,res) =>{
     const { userId, gameId, rating, comment} = req.body
     console.log(req.body)
-    try {
-      
+    try {     
 
         const respuesta = await createReview(
             userId,
