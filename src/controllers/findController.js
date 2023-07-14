@@ -35,28 +35,33 @@ const findVideogameByIdDB = async (id) => {
       launchDate: launchDate
     });
   }
-  let videogame = await Videogame.findByPk(id, {
-      include: [
-          {
-            model: Genre,
-            attributes: ["genreName"],
-            through: {
-              attributes: [],
-            },
-          },
-          {
-            model: Platform,
-            attributes: ["platformName"],
-            through: {
-              attributes: [],
-            }
-          },
-          {
-            model: Developers,
-            attributes: ['id', 'name'],
-          }
-        ],
-  })
+  let videogame = await Videogame.findOne({
+    where: {
+      id: id,
+      status: 'active',
+    },
+    include: [
+      {
+        model: Genre,
+        attributes: ['genreName'],
+        through: {
+          attributes: [],
+        },
+      },
+      {
+        model: Platform,
+        attributes: ['platformName'],
+        through: {
+          attributes: [],
+        },
+      },
+      {
+        model: Developers,
+        attributes: ['id', 'name'],
+      },
+    ],
+  });
+  
   if(!videogame) throw Error("Videogame does not exist");
   return videogame
 };
