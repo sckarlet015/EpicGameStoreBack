@@ -136,9 +136,13 @@ const patchUserInfo = async (id, userId, updates) => {
   const userRole = user.role;
   const updateFields = {};
 
-  if (id !== userId && userRole !== 'admin') return 'invalid request';
+  if (id !== userId && userRole !== 'admin') return { message: "Invalid request" }
+  if(newRole){
+    if(newRole !== `cliente` && newRole !== `vendedor` && newRole !== `admin`) return { message: "Ingresa un rol valido" };
+  }
     
   if (newName) {
+    console.log(newName);
     const userByName = await Users.findOne({
       where: { userName: newName }
     });
@@ -160,12 +164,13 @@ const patchUserInfo = async (id, userId, updates) => {
   if(userRole === `admin`){
     if (newRole) updateFields.role = newRole;
     if (newBirth) updateFields.userBirth = newBirth;
-    if (newActive) updateFields.active = newActive;
+    if (newActive !== undefined) updateFields.isActive = newActive;
   }else{
     if (newRole) updateFields.role = 'vendedor';
-    if (newActive) updateFields.active = false;
+    if (newActive) updateFields.isActive = false;
   };
 
+  console.log(updateFields);
   await userToChange.update(updateFields);
   const updatedUser = await Users.findByPk(id);
   return updatedUser;
