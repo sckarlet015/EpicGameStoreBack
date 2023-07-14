@@ -1,6 +1,5 @@
 const { Videogame, Platform, Developers, Genre, Users} = require("../db.js");
 require('dotenv').config();
-const axios = require('axios').default;
 const { createVideogame } = require("./createController.js")
 
 const getVideogamesDb = async () => {
