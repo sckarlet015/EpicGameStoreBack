@@ -8,14 +8,7 @@ const {postUsers , getUserByIdHandler, getUserLoginHandler, patchUser, getUserBy
 userRouter.get(`/emailLogin/:email`, getUserByEmail)
 userRouter.get(`/emailRegister/:email`, getUserEmailRegister)
 userRouter.get('/:id', getUserByIdHandler);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> f56657a (160)
 userRouter.get('/', jwtMiddleware, getUsers);
->>>>>>> 38140c5 (156)
 userRouter.post(`/login`, getUserLoginHandler);
 userRouter.post('/', postUsers);
 userRouter.post(`/createAdmin`, createAdmin)

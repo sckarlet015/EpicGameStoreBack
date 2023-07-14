@@ -26,10 +26,6 @@ const postUsers = async (req, res, next) => {
     };
 };
 
-<<<<<<< HEAD
-const getUserByIdHandler = async(req, res, next) => {
-    const {id} = req.params;
-=======
 const getUsers = async (req, res, next) => {
     try {
         const role = req.user.role;
@@ -45,14 +41,12 @@ const getUsers = async (req, res, next) => {
     }
 }
 
-<<<<<<< HEAD
-const getUserByIdHandler = async (req, res, next) => {
-    const { id } = req.params;
->>>>>>> 2a227e4 (155)
-=======
+
+
+
 const getUserByIdHandler = async(req, res, next) => {
     const {id} = req.params;
->>>>>>> f56657a (160)
+
     try {
         const UserByIdH = await getUserById(id);
         res.status(200).json(UserByIdH)
@@ -87,10 +81,6 @@ const patchUser = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f56657a (160)
 const getUserByEmail = async(req,res) => {
     try {
         const { email } = req.params;
@@ -143,11 +133,6 @@ const createAdmin = async(req,res) => {
     }
 }
 
-<<<<<<< HEAD
-module.exports =  { postUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
-=======
-module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser }
->>>>>>> 2a227e4 (155)
-=======
+
 module.exports =  { postUsers, getUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
->>>>>>> f56657a (160)
+
