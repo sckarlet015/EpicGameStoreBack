@@ -35,15 +35,9 @@ module.exports = (sequelize) => {
       defaultValue:true
     },
     role: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('cliente', 'vendedor', 'admin'),
       allowNull: false,
-      defaultValue: 'cliente'
-      // role list
-      // cliente
-      // vendedor
-      // admin 
-    },
-    
+    }
   }, {
     timestamps: false
   });

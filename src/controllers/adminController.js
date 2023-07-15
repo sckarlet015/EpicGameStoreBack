@@ -80,10 +80,42 @@ const findUserById = async(id) => {
   return { message: `user not found` };
 };
 
+const findUserByStatus = async (userStatus) => {
+  const users = await Users.findAll({
+    where: {
+      status: userStatus
+    },
+    include: [
+      { model: Carrito },
+      { model: Videogame, through: { attributes: [] } }
+    ]
+  });
+
+  if(users) return users;
+  return { message: `no hay usuarios`};
+};
+
+const findUserByRole = async (userRole) => {
+  const users = await Users.findAll({
+    where: {
+      role: userRole
+    },
+    include: [
+      { model: Carrito },
+      { model: Videogame, through: { attributes: [] } }
+    ]
+  });
+
+  if(users) return users;
+  return { message: `no hay usuarios`};
+};
+
 module.exports = { 
     findVideogameByStatus,
     findVideogamesBySeller,
     findAllVideogames,
     findGameById,
-    findUserById
+    findUserById,
+    findUserByRole,
+    findUserByStatus
   }
