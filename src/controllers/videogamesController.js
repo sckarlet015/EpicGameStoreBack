@@ -1,6 +1,5 @@
-const { Videogame, Platform, Developers, Genre, Users} = require("../db.js");
+const { Videogame, Platform, Developers, Genre, Users, Stat } = require("../db.js");
 require('dotenv').config();
-const axios = require('axios').default;
 const { createVideogame } = require("./createController.js")
 
 const getVideogamesDb = async () => {
@@ -60,7 +59,6 @@ const getVideogamesByGenre = async (name) => {
             return genreNames.includes(name.toLowerCase());
         });
         
-    console.log(filteredVideogamesDb.length);
 
       const mergedVideogames = [...filteredVideogamesDb];
       return mergedVideogames;
@@ -141,6 +139,9 @@ const createGame = async (name, description, launchDate, rating, image, screensh
         status: `active` 
       });
     };
+
+    const stat = await Stat.create();
+    await newVideogame.setStat(stat);
 
     return newVideogame;
 } catch (error) {

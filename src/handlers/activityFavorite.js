@@ -4,9 +4,12 @@ const { Videogame,  Users} = require("../db.js");
 const postFavoritesHandler = async (req, res, next) => {
     const  { userId, gameId } = req.body
     try {
-        const user = await Users.findByPk(userId)
-        const videogame = await Videogame.findByPk(gameId)
-        const respuesta = await createFavorites(user, videogame)
+    
+        const user = await Users.findByPk(userId);
+        const videogame = await Videogame.findByPk(gameId);
+        const respuesta = await createFavorites(user, videogame);
+        const stat = await videogame.getStat();
+        await stat.increment('favorites');
         res.status(200).json(respuesta)
     } catch (error) {
         res.status(400).json({ error:error.message })
