@@ -31,7 +31,7 @@ router.use("/users", userRouter);
 router.use("/pay", payRouter);
 router.use("/cart", cartRouter);
 router.use("/favorites", favoritesRouter);
-router.use("/reviews",reviewRouter )
-router.use("/send-email", emailRouter);
+//router.use("/reviews",reviewRouter )
+//router.use("/send-email", emailRouter);
 module.exports = router;
 

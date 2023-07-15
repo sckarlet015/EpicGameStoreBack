@@ -28,7 +28,7 @@ return user;
 };
 
 const adminCreate = async (userName, userPassword, userEmail) => {
-
+  console.log("in use");
   const rounds = 8;
   const passwordHash = await bcrypt.hash(userPassword, rounds);
 
