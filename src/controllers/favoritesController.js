@@ -16,6 +16,8 @@ const deleteFavorites = async (user, videogame) => {
     try{
         const  userF = await Users.findByPk(user)
         const  game = await Videogame.findByPk(videogame)
+        const stat = await game.getStat();
+        await stat.increment('unfavorites');
             await userF.removeVideogame(game)
             return user
     }catch{

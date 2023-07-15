@@ -7,7 +7,6 @@ const getVideogamesDb = async () => {
     const dbvideogames = await Videogame.findAll();
     if(dbvideogames.length ===0 ){
       const newVideogames = await createVideogame();
-      console.log(newVideogames);
       return newVideogames
     }else {
       const videogames = await Videogame.findAll({  
@@ -60,7 +59,6 @@ const getVideogamesByGenre = async (name) => {
             return genreNames.includes(name.toLowerCase());
         });
         
-    console.log(filteredVideogamesDb.length);
 
       const mergedVideogames = [...filteredVideogamesDb];
       return mergedVideogames;
