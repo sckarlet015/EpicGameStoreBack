@@ -10,7 +10,7 @@ userRouter.get(`/emailRegister/:email`, getUserEmailRegister)
 userRouter.get('/:id', getUserByIdHandler);
 userRouter.post(`/login`, getUserLoginHandler);
 userRouter.post('/', postUsers);
-userRouter.post(`/createAdmin`, createAdmin)
+userRouter.post(`/createAdmin`, createAdmin);
 userRouter.patch(`/:id`, jwtMiddleware, patchUser);
 
 module.exports = userRouter;

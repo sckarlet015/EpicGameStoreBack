@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister, adminCreate } =  require('../controllers/userController')
+const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -8,19 +8,15 @@ const postUsers = async (req, res, next) => {
         userEmail, 
         userImage,
     } = req.body;
+
     try {
         const newUser = await userCreate(
             userName, 
             userPassword, 
             userEmail, 
-            userImage
-        );
-        if(newUser.message){
-            res.status(302).json({ newUser });
-        }else{
-            const newCart = await creteCart(newUser);
-            res.status(201).json({newUser, newCart});
-        }
+            userImage,)
+        const newCart = await creteCart(newUser)
+        res.status(200).json({newUser, newCart})
     }catch(error){
         res.status(400).json({ error:error.message });
     };
@@ -51,6 +47,7 @@ const getUserLoginHandler = async (req, res, next) => {
 };
 
 const patchUser = async (req, res) => {
+    console.log(req.body);
     try {
         const userId = req.user.id
         const { id } = req.params;

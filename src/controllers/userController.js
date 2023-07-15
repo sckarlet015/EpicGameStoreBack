@@ -28,7 +28,7 @@ return user;
 };
 
 const adminCreate = async (userName, userPassword, userEmail) => {
-
+  console.log("in use");
   const rounds = 8;
   const passwordHash = await bcrypt.hash(userPassword, rounds);
 
@@ -60,13 +60,18 @@ return allUsers;
 
 
 const getUserById = async (id) => {
-  const UserById = await Users.findByPk(id, {
-      include : [
-          {model : Carrito},
-          {model : Videogame, through: {attributes:[]}}
-      ]
-  })
-return UserById;
+  const UserById = await Users.findOne({
+    where: {
+      id,
+      isActive: true
+    },
+    include: [
+      { model: Carrito },
+      { model: Videogame, through: { attributes: [] } }
+    ]
+  });
+  if(UserById) return UserById;
+  return { message: `usuario no encontrado`};
 }
 
 const generateToken = (user) => {
@@ -137,9 +142,12 @@ const patchUserInfo = async (id, userId, updates) => {
   const updateFields = {};
 
   if (id !== userId && userRole !== 'admin') return { message: "Invalid request" }
-  if(newRole !== `cliente` && newRole !== `vendedor` && newRole !== `admin`) return { message: "Ingresa un rol valido" };
+  if(newRole){
+    if(newRole !== `cliente` && newRole !== `vendedor` && newRole !== `admin`) return { message: "Ingresa un rol valido" };
+  }
     
   if (newName) {
+    console.log(newName);
     const userByName = await Users.findOne({
       where: { userName: newName }
     });
