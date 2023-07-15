@@ -1,4 +1,4 @@
-const { Videogame, Platform, Developers, Genre, Users} = require("../db.js");
+const { Videogame, Platform, Developers, Genre, Users, Stat } = require("../db.js");
 require('dotenv').config();
 const { createVideogame } = require("./createController.js")
 
@@ -141,6 +141,9 @@ const createGame = async (name, description, launchDate, rating, image, screensh
         status: `active` 
       });
     };
+
+    const stat = await Stat.create();
+    await newVideogame.setStat(stat);
 
     return newVideogame;
 } catch (error) {
