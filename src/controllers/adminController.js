@@ -83,7 +83,7 @@ const findUserById = async(id) => {
 const findUserByStatus = async (userStatus) => {
   const users = await Users.findAll({
     where: {
-      status: userStatus
+      isActive: userStatus
     },
     include: [
       { model: Carrito },
