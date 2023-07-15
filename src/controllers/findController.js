@@ -1,6 +1,6 @@
 require('dotenv').config();
 const axios = require('axios').default;
-const { Videogame, Genre, Platform, Developers } = require ("../db.js");3
+const { Videogame, Genre, Platform, Developers, Stat } = require ("../db.js");3
 const { API_KEY } = process.env;
 const { getVideogamesDb } = require("./videogamesController.js");
 
@@ -58,11 +58,15 @@ const findVideogameByIdDB = async (id) => {
       {
         model: Developers,
         attributes: ['id', 'name'],
-      },
+      }
     ],
   });
   
   if(!videogame) throw Error("Videogame does not exist");
+
+  const stat = await videogame.getStat();
+  await stat.increment('click');
+
   return videogame
 };
 
