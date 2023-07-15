@@ -7,6 +7,7 @@ const getVideogamesDb = async () => {
     const dbvideogames = await Videogame.findAll();
     if(dbvideogames.length ===0 ){
       const newVideogames = await createVideogame();
+      console.log(newVideogames);
       return newVideogames
     }else {
       const videogames = await Videogame.findAll({  

@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Videogame, Genre, Platform, Developers } = require("../db.js");
+const { Videogame, Genre, Platform, Developers, Stat } = require("../db.js");
 const { getVideogamesApi } = require('./apiController.js')
 const { findAllGenres } = require("../controllers/genresController.js");
 const { getDevelopers } = require ('./developerController.js')
@@ -122,13 +122,25 @@ const addDeveloper = async (apiId) => {
         condition = false; // Exit the loop if a match is found
       }else{
         await getDevelopers();
-      }
-    }
+      };
+    };
     
   } catch (error) {
-    // Handle any errors that might occur during the loop
+    throw new Error('Failed to add developers to the videogame');
+  };
+};
+
+const addStatToVideogame = async (apiId) => {
+  try {
+    const stat = await Stat.create();
+    const game = await Videogame.findOne({
+      where: { apiId: apiId }
+    });
+    await game.setStat(stat);
+  } catch (error) {
+    throw new Error('Failed to add stats to the videogame');
   }
-}
+};
 
 const createVideogame = async () => {
   try {
@@ -145,6 +157,7 @@ const createVideogame = async () => {
       await addDeveloper(apiId);
       await addPlatformsToVideogame(apiId, platforms);
       await addGenresToVideogame(apiId, genres);
+      await addStatToVideogame(apiId);
     }
 
     const videogames = await Videogame.findAll({
