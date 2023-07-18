@@ -101,7 +101,6 @@ const getUserLogin = async (email, password) => {
     const passwordMatch= await bcrypt.compare(password, user.userPassword)
     if (passwordMatch) {
       const token = generateToken(user);
-      console.log(token); // Generate the JWT token
       return { user, token };
     } else {
       return false;
@@ -127,6 +126,7 @@ const putUser = async (id, userName, userPassword, userEmail, userImage) => {
   };
 
 const patchUserInfo = async (id, userId, updates) => {
+  console.log(updates);
   const newName = updates.userName;
   const newEmail = updates.userEmail;
   const newImage = updates.userImage;
@@ -179,14 +179,15 @@ const patchUserInfo = async (id, userId, updates) => {
 };
 
 const getByEmail = async (email) => {
+ 
   const user = await Users.findOne({
     where: { userEmail: email },
     include: {
       model: Carrito,
     }
   });
-  console.log(user);
-  if(user) return user 
+  const token = generateToken(user);
+  if(user) return {user, token} 
 
   return null;
 }
