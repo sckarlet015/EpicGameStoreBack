@@ -110,6 +110,34 @@ const findUserByRole = async (userRole) => {
   return { message: `no hay usuarios`};
 };
 
+const userStats = async () => {
+  try {
+    const totalUsers = await Users.count();
+    const totalVendors = await Users.count({ where: { role: 'vendedor' } });
+    const totalClients = await Users.count({ where: { role: 'cliente' } });
+    const activeUsers = await Users.count({ where: { isActive: true } });
+    const inactiveUsers = await Users.count({ where: { isActive: false } });
+
+    const stats = {
+      totalUsers,
+      totalVendors,
+      totalClients,
+      activeUsers,
+      inactiveUsers,
+    };
+
+    const userData = await Users.findAll({
+      attributes: ['createdAt'], // Include the createdAt attribute
+    });
+
+    const createdDates = userData.map((user) => user.createdAt); // Extract the createdAt values
+
+    return { ...stats , createdDates };
+  } catch (error) {
+    throw new Error('Error retrieving user statistics');
+  }
+};
+
 module.exports = { 
     findVideogameByStatus,
     findVideogamesBySeller,
@@ -117,5 +145,6 @@ module.exports = {
     findGameById,
     findUserById,
     findUserByRole,
-    findUserByStatus
+    findUserByStatus,
+    userStats
   }
