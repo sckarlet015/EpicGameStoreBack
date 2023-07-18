@@ -129,19 +129,9 @@ const createAdmin = async(req,res) => {
             res.status(200).json(response);
         }
     } catch (error) {
-<<<<<<< HEAD
-<<<<<<< HEAD
         res.status(400).json({error: error.message})
     };
 };
-=======
-        console.log(error);
-=======
-        
->>>>>>> 91f9c19 (179)
-    }
-}
->>>>>>> 880a383 (181)
 
 const getDetailUser = async (req, res) => {
     try {
