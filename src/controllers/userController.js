@@ -182,14 +182,15 @@ const patchUserInfo = async (id, userId, updates) => {
 };
 
 const getByEmail = async (email) => {
+ 
   const user = await Users.findOne({
     where: { userEmail: email },
     include: {
       model: Carrito,
     }
   });
-  console.log(user);
-  if(user) return user 
+  const token = generateToken(user);
+  if(user) return {user, token} 
 
   return null;
 }
