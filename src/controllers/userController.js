@@ -117,7 +117,7 @@ const generateToken = (user) => {
 };
 
 const getUserLogin = async (email, password) => {
-
+  console.log(email);
   const user = await Users.findOne({
     where: {
       userEmail: email,
@@ -126,7 +126,7 @@ const getUserLogin = async (email, password) => {
       model: Carrito,
     },
   });
-
+  console.log(user);
   if (user && user.isActive === true) {
     const passwordMatch= await bcrypt.compare(password, user.userPassword)
     if (passwordMatch) {
