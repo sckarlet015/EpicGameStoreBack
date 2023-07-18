@@ -9,11 +9,7 @@ userRouter.get(`/emailLogin/:email`, getUserByEmail)
 userRouter.get(`/emailRegister/:email`, getUserEmailRegister)
 userRouter.post(`/login`, getUserLoginHandler);
 userRouter.post('/', postUsers);
-userRouter.post(`/createAdmin`, createAdmin);
-userRouter.get('/vendor/:id', getVendorByIdHandler);
-userRouter.get('/vendorDetail/:id', jwtMiddleware, getDetailVendor);
-userRouter.get('/user/:id', getUserByIdHandler);
-userRouter.get("/userDetail/:id", jwtMiddleware, getDetailUser);
+userRouter.post(`/createAdmin`, createAdmin)
 userRouter.patch(`/:id`, jwtMiddleware, patchUser);
 
 module.exports = userRouter;

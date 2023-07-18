@@ -1,5 +1,9 @@
 const { creteCart } = require('../controllers/cartController');
+<<<<<<< HEAD
 const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail, getUserDetail, getVendorById, getVendorDetail } =  require('../controllers/userController')
+=======
+const {userCreate,  getUserById, getUserLogin,  patchUserInfo } =  require('../controllers/userController')
+>>>>>>> 91f9c19 (179)
 
 const postUsers = async (req, res, next) => {
     const {
@@ -48,7 +52,6 @@ const getUserLoginHandler = async (req, res, next) => {
     const {email, password} = req.body;
     try {
         const getLoginH = await getUserLogin(email, password);
-        console.log(getLoginH);
         if(getLoginH===null){res.status(400).json(userNull)}
         else if(getLoginH===false)res.status(401).json(passwordError)
         else res.status(200).json(getLoginH)
@@ -107,6 +110,7 @@ const createAdmin = async(req,res) => {
         userPassword, 
         userEmail, 
     } = req.body;
+    console.log(req.body);
     try {
         const response = await adminCreate(
             userName, 
@@ -120,11 +124,15 @@ const createAdmin = async(req,res) => {
         }
     } catch (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         res.status(400).json({error: error.message})
     };
 };
 =======
         console.log(error);
+=======
+        
+>>>>>>> 91f9c19 (179)
     }
 }
 >>>>>>> 880a383 (181)
