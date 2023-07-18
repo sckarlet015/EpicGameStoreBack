@@ -163,6 +163,7 @@ const patchGame = async (videogameId, userId, updates) => {
     const userRole = user.role;
     const userStatus = user.isActive;
     const updateFields = {};
+    console.log("aquiiiiii" + updates);
 
     if(!userStatus) return "Cuenta inactiva";
 
