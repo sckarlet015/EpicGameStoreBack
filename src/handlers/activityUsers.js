@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail, getUserDetail, getVendorById } =  require('../controllers/userController')
+const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail, getUserDetail, getVendorById, getVendorDetail } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -124,7 +124,6 @@ const createAdmin = async(req,res) => {
 
 const getDetailUser = async (req, res) => {
     try {
-        console.log("in use");
         const userId = req.user.id;
         const { id } = req.params;
         if(userId !== id){
@@ -138,6 +137,22 @@ const getDetailUser = async (req, res) => {
     };
 };
 
+const getDetailVendor = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { id } = req.params;
+        if(userId !== id){
+            res.status(403).json("invalid request")
+        }else{
+            const response = await getVendorDetail(id);
+            res.status(200).json(response);
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    };
+};
+
+
 module.exports =  { 
     postUsers, 
     getUserByIdHandler, 
@@ -146,5 +161,6 @@ module.exports =  {
     getUserEmailRegister, 
     createAdmin,
     getDetailUser,
-    getVendorByIdHandler
+    getVendorByIdHandler,
+    getDetailVendor
 }
