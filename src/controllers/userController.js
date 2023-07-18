@@ -69,6 +69,35 @@ const getUserById = async (id) => {
   });
   if(UserById) return UserById;
   return { message: `usuario no encontrado`};
+};
+
+const getVendorById = async (id) => {
+  try {
+    const vendor = await Users.findOne({
+      where: {
+        id,
+        isActive: true
+      },
+      attributes: ['id', 'userName', 'userImage', 'createdAt'],
+      include: [
+        {
+          model: Videogame,
+          as: 'videogames',
+          where: {
+            status: 'active'
+          }
+        }
+      ]
+    });
+
+    if (!vendor) {
+      throw new Error('Vendor not found');
+    }
+
+    return vendor;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 const generateToken = (user) => {
@@ -217,6 +246,18 @@ const getUserDetail = async (id) => {
   return { message: `usuario no encontrado`};
 } 
 
-module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister, adminCreate, getUserDetail};
+module.exports = {
+  userCreate, 
+  getAllUsers, 
+  getUserById, 
+  getUserLogin, 
+  putUser, 
+  patchUserInfo, 
+  getByEmail, 
+  getByEmailRegister, 
+  adminCreate, 
+  getUserDetail,
+  getVendorById
+};
 
 
