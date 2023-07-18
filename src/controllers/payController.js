@@ -51,6 +51,14 @@ const getFeedback = async(req) => {
 		MerchantOrder: req.query.merchant_order_id
 	});
     return feed;
-}
+};
 
-module.exports = {getPreference, createPreference, getFeedback, pay};
+const handlePayment = async (cartId) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+};
+
+module.exports = {getPreference, createPreference, getFeedback, pay, handlePayment};

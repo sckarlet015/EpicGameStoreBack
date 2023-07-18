@@ -1,11 +1,11 @@
-const { getPreference, createPreference, getFeedback, pay } = require("../controllers/payController");
+const { getPreference, createPreference, getFeedback, pay, handlePayment } = require("../controllers/payController");
 
 const getPay = async (req, res) => {
     try {
         let getpay = await pay(res)
         res.status(200).JSON(getpay)
     } catch (error) {
-        console.log(error)
+        res.status(400).json({ error:error.message });
     }
 }
 
@@ -16,17 +16,32 @@ const postPay = async(req, res) => {
         let newPreference = createPreference(preference, res)
         return newPreference
     } catch (error) {
-        console.log(error)
-    }
-}
+        res.status(400).json({ error:error.message });
+    };
+};
 
 const getFeedPay = async(req, res) => {
     try {
         const feed = await getFeedback(req)
         res.status(200).JSON(feed)
     } catch (error) {
-        console.log(error)
+        res.status(400).json({ error:error.message });
+    };
+};
+
+const managePay = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const response = await handlePayment(id)
+        res.status(200).JSON(response)
+    } catch (error) {
+        res.status(400).json({ error:error.message });
     }
 }
 
-module.exports = {getPay, postPay, getFeedPay}
+module.exports = {
+    getPay, 
+    postPay, 
+    getFeedPay,
+    managePay
+}

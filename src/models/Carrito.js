@@ -13,6 +13,10 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
       allowNull:false
+    },
+    pusrchaseDate: {
+      type: DataTypes.DATEONLY,
+      allowNull:false
     }
   }, {
     timestamps: false
