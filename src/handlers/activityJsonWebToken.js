@@ -46,7 +46,6 @@ const jwtAdminMiddleware = async (req, res, next) => {
       userRole = user.role
 
       if(userRole !== `admin`) return res.status(403).json({ message: 'please enter an admin account' });
-
       next();
     });
 }

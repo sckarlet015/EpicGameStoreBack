@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail } =  require('../controllers/userController')
+const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail, getUserDetail } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -108,7 +108,31 @@ const createAdmin = async(req,res) => {
         }
     } catch (error) {
         
-    }
-}
+    };
+};
 
-module.exports =  { postUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
+const getDetailUser = async (req, res) => {
+    try {
+        console.log("in use");
+        const userId = req.user.id;
+        const { id } = req.params;
+        if(userId !== id){
+            res.status(403).json("invalid request")
+        }else{
+            const response = await getUserDetail(id);
+            res.status(200).json(response);
+        }
+    } catch (error) {
+        
+    };
+};
+
+module.exports =  { 
+    postUsers, 
+    getUserByIdHandler, 
+    getUserLoginHandler, 
+    patchUser, getUserByEmail, 
+    getUserEmailRegister, 
+    createAdmin,
+    getDetailUser
+}

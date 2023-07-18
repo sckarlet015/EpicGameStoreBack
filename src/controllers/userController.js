@@ -65,10 +65,7 @@ const getUserById = async (id) => {
       id,
       isActive: true
     },
-    include: [
-      { model: Carrito },
-      { model: Videogame, through: { attributes: [] } }
-    ]
+    attributes: ['id', 'userName', `userImage`]
   });
   if(UserById) return UserById;
   return { message: `usuario no encontrado`};
@@ -204,6 +201,21 @@ const getByEmailRegister = async(email) => {
   }
 }
 
-module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister, adminCreate};
+const getUserDetail = async (id) => {
+  const UserById = await Users.findOne({
+    where: {
+      id,
+      isActive: true
+    },
+    include: [
+      { model: Carrito },
+      { model: Videogame, through: { attributes: [] } }
+    ]
+  });
+  if(UserById) return UserById;
+  return { message: `usuario no encontrado`};
+} 
+
+module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister, adminCreate, getUserDetail};
 
 
