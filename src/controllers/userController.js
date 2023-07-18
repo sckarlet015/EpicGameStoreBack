@@ -65,7 +65,7 @@ const getUserById = async (id) => {
       id,
       isActive: true
     },
-    attributes: ['id', 'userName', `userImage`]
+    attributes: ['id', 'userName', `userImage`, `createdAt`]
   });
   if(UserById) return UserById;
   return { message: `usuario no encontrado`};
