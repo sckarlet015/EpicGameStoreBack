@@ -28,10 +28,11 @@ const createReview = async (userId, gameId, rating, comment) =>{
     
 }
 
-const getReviewsById = async (gameId) => {
+const getReviewsById = async (userId) => {
 
-    const reviewById = await Videogame.findByPk(gameId, {
-        include : [        
+    const reviewById = await Videogame.findByPk(userId, {
+        include : [
+        
             {model : Review,
              include: [
                 {model: Users}
@@ -40,6 +41,7 @@ const getReviewsById = async (gameId) => {
     })
   return reviewById;
   }
+
 
   const getAllReviews = async () => {
     const allReviews = await Review.findAll()

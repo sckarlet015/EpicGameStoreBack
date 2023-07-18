@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate } =  require('../controllers/userController')
+const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -25,23 +25,12 @@ const postUsers = async (req, res, next) => {
 const getUserByIdHandler = async(req, res, next) => {
     const {id} = req.params;
     try {
-        const UserById = await getUserById(id);
-        res.status(200).json(UserById)
+        const UserByIdH = await getUserById(id);
+        res.status(200).json(UserByIdH)
     } catch (error) {
         res.status(400).json({ error:error.message })
-    };
-};
-
-const getVendorByIdHandler = async (req, res) => {
-    const {id} = req.params;
-    try {
-        const vendorById = await getVendorById(id);
-        res.status(200).json(vendorById)
-    } catch (error) {
-        res.status(400).json({error: error.message})
     }
-};
-
+}
 const getUserLoginHandler = async (req, res, next) => {
     const userNull= 'Usuario no encontrado';
     const passwordError= 'Contraseña incorrecta';
@@ -118,49 +107,8 @@ const createAdmin = async(req,res) => {
             res.status(200).json(response);
         }
     } catch (error) {
-        res.status(400).json({error: error.message})
-    };
-};
-
-const getDetailUser = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { id } = req.params;
-        if(userId !== id){
-            res.status(403).json("invalid request")
-        }else{
-            const response = await getUserDetail(id);
-            res.status(200).json(response);
-        }
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    };
-};
-
-const getDetailVendor = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { id } = req.params;
-        if(userId !== id){
-            res.status(403).json("invalid request")
-        }else{
-            const response = await getVendorDetail(id);
-            res.status(200).json(response);
-        }
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    };
-};
-
-
-module.exports =  { 
-    postUsers, 
-    getUserByIdHandler, 
-    getUserLoginHandler, 
-    patchUser, getUserByEmail, 
-    getUserEmailRegister, 
-    createAdmin,
-    getDetailUser,
-    getVendorByIdHandler,
-    getDetailVendor
+        
+    }
 }
+
+module.exports =  { postUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
