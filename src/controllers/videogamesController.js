@@ -149,6 +149,7 @@ const createGame = async (name, description, launchDate, rating, image, screensh
 };
 
 const patchGame = async (videogameId, userId, updates) => {
+  console.log(updates);
   try {
     const newName = updates.name;
     const newDescription = updates.description;
@@ -158,12 +159,11 @@ const patchGame = async (videogameId, userId, updates) => {
     const newStock = updates.stock;
     const newActive = updates.active
     const videogame = await Videogame.findByPk(videogameId);
-    const videogameUser = videogame.userId;
+    const videogameUser = videogame?.userId;
     const user = await Users.findByPk(userId);
-    const userRole = user.role;
-    const userStatus = user.isActive;
+    const userRole = user?.role;
+    const userStatus = user?.isActive;
     const updateFields = {};
-    console.log("aquiiiiii" + updates);
 
     if(!userStatus) return "Cuenta inactiva";
 
@@ -186,19 +186,17 @@ const patchGame = async (videogameId, userId, updates) => {
     if(newPrice) updateFields.price = newPrice;
     if(newStock) updateFields.stock = newStock;
 
-
-
     if(userRole === "admin"){
         if(newActive) updateFields.status = newActive;
     }else{
       if(newActive === `active` || newActive === `inactive`) updateFields.status = newActive;
     };
-
     await videogame.update(updateFields);
     const updatedVideogame = await Videogame.findByPk(videogameId);
     return updatedVideogame;
     
   } catch (error) {
+    console.log(error);
       return new Error(error.message);
   };
 };
