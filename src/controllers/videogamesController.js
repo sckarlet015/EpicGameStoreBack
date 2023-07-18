@@ -69,7 +69,6 @@ const getVideogamesByGenre = async (name) => {
 
 const createGame = async (name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer, sellerId) => {
   try {
-
     const user = await Users.findByPk(sellerId);
     userRole = user.role;
     userStatus = user.isActive;

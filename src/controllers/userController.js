@@ -199,7 +199,7 @@ const patchUserInfo = async (id, userId, updates) => {
     if (newActive !== undefined) updateFields.isActive = newActive;
   }else{
     if (newRole) updateFields.role = 'vendedor';
-    if (newActive) updateFields.isActive = false;
+    if (newActive !== undefined) updateFields.isActive = false;
   };
 
   console.log(updateFields);
@@ -273,6 +273,7 @@ const getVendorDetail = async (id) => {
 
   return vendor;
 };
+
 
 module.exports = {
   userCreate, 
