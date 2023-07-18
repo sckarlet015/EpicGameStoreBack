@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     userBirth: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       defaultValue: DataTypes.NOW
     },
     userImage:{
@@ -38,7 +38,11 @@ module.exports = (sequelize) => {
       type: DataTypes.ENUM('cliente', 'vendedor', 'admin'),
       defaultValue: `cliente`,
       allowNull: false,
-    }
+    },
+    createdAt: {
+      type: DataTypes.DATEONLY,
+      defaultValue: DataTypes.NOW
+    }    
   }, {
     timestamps: false
   });
