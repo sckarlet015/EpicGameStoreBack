@@ -48,6 +48,7 @@ const getUserLoginHandler = async (req, res, next) => {
     const {email, password} = req.body;
     try {
         const getLoginH = await getUserLogin(email, password);
+        console.log(getLoginH);
         if(getLoginH===null){res.status(400).json(userNull)}
         else if(getLoginH===false)res.status(401).json(passwordError)
         else res.status(200).json(getLoginH)
@@ -118,9 +119,15 @@ const createAdmin = async(req,res) => {
             res.status(200).json(response);
         }
     } catch (error) {
+<<<<<<< HEAD
         res.status(400).json({error: error.message})
     };
 };
+=======
+        console.log(error);
+    }
+}
+>>>>>>> 880a383 (181)
 
 const getDetailUser = async (req, res) => {
     try {
