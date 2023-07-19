@@ -122,9 +122,9 @@ const getUserLogin = async (email, password) => {
     where: {
       userEmail: email,
     },
-    include: {
-      model: Carrito,
-    },
+    // include: {
+    //   model: Carrito,
+    // },
   });
 
   if (user && user.isActive === true) {
