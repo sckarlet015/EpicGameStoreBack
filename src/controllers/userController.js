@@ -122,9 +122,9 @@ const getUserLogin = async (email, password) => {
     where: {
       userEmail: email,
     },
-    include: {
-      model: Carrito,
-    },
+    // include: {
+    //   model: Carrito,
+    // },
   });
   console.log(user);
   if (user && user.isActive === true) {
@@ -156,7 +156,6 @@ const putUser = async (id, userName, userPassword, userEmail, userImage) => {
   };
 
 const patchUserInfo = async (id, userId, updates) => {
-  console.log(updates);
   const newName = updates.userName;
   const newEmail = updates.userEmail;
   const newImage = updates.userImage;
@@ -201,8 +200,6 @@ const patchUserInfo = async (id, userId, updates) => {
     if (newRole) updateFields.role = 'vendedor';
     if (newActive !== undefined) updateFields.isActive = false;
   };
-
-  console.log(updateFields);
   await userToChange.update(updateFields);
   const updatedUser = await Users.findByPk(id);
   return updatedUser;

@@ -1,13 +1,6 @@
 const { creteCart } = require('../controllers/cartController');
-<<<<<<< HEAD
-<<<<<<< HEAD
 const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail, getUserDetail, getVendorById, getVendorDetail } =  require('../controllers/userController')
-=======
-const {userCreate,  getUserById, getUserLogin,  patchUserInfo } =  require('../controllers/userController')
->>>>>>> 91f9c19 (179)
-=======
-const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate } =  require('../controllers/userController')
->>>>>>> 605506b (180)
+
 
 const postUsers = async (req, res, next) => {
     const {
@@ -55,7 +48,6 @@ const getUserLoginHandler = async (req, res, next) => {
     const userNull= 'Usuario no encontrado';
     const passwordError= 'Contraseña incorrecta';
     const {email, password} = req.body;
-    console.log(email);
     try {
         const getLoginH = await getUserLogin(email, password);
         if(getLoginH===null){res.status(400).json(userNull)}

@@ -2,12 +2,14 @@ const { getAllUsers } = require('../controllers/userController.js');
 const { findVideogameByStatus, findVideogamesBySeller, findAllVideogames, findGameById, findUserById, findUserByStatus, findUserByRole, userStats } = require (`../controllers/adminController.js`)
 
 const getUsers = async (req, res, next) => {
+    console.log(req.query );
     try {
         const {
             active,
             role
         } = req.query
         if(active){
+            console.log("Hola");
             const allUsers = await findUserByStatus(active)
             res.status(200).json(allUsers);
         }else if(role){
@@ -56,7 +58,6 @@ const getVideogamesById = async (req,res) => {
 const getUserById = async (req,res) =>{
     try {
         const { id } = req.params;
-        console.log(id);
         const user = await findUserById(id);
         res.status(200).json(user);
     } catch (error) {

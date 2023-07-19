@@ -49,7 +49,6 @@ const postVideogames = async (req, res) => {
 };
 
 const patchVideogame = async(req, res) => {
-    console.log(req.user);
     try {
         const role = req.user.role; 
         const userId = req.user.id 

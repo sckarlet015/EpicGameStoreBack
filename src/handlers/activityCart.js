@@ -28,7 +28,6 @@ const addItem = async(req, res) => {
 }
 
 const deleteItem = async(req, res) => {
-    console.log(req.body);
     const {
         gameID,
         cartID

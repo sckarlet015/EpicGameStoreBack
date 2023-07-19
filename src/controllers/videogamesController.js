@@ -149,7 +149,6 @@ const createGame = async (name, description, launchDate, rating, image, screensh
 };
 
 const patchGame = async (videogameId, userId, updates) => {
-  console.log(updates);
   try {
     const newName = updates.name;
     const newDescription = updates.description;
