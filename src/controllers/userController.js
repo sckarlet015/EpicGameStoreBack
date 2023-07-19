@@ -28,7 +28,7 @@ return user;
 };
 
 const adminCreate = async (userName, userPassword, userEmail) => {
-
+  console.log("in use");
   const rounds = 8;
   const passwordHash = await bcrypt.hash(userPassword, rounds);
 
@@ -117,16 +117,16 @@ const generateToken = (user) => {
 };
 
 const getUserLogin = async (email, password) => {
-  console.log(email);
+
   const user = await Users.findOne({
     where: {
       userEmail: email,
     },
-    // include: {
-    //   model: Carrito,
-    // },
+    include: {
+      model: Carrito,
+    },
   });
-  console.log(user);
+
   if (user && user.isActive === true) {
     const passwordMatch= await bcrypt.compare(password, user.userPassword)
     if (passwordMatch) {
@@ -156,6 +156,7 @@ const putUser = async (id, userName, userPassword, userEmail, userImage) => {
   };
 
 const patchUserInfo = async (id, userId, updates) => {
+  console.log(updates);
   const newName = updates.userName;
   const newEmail = updates.userEmail;
   const newImage = updates.userImage;
@@ -200,6 +201,8 @@ const patchUserInfo = async (id, userId, updates) => {
     if (newRole) updateFields.role = 'vendedor';
     if (newActive !== undefined) updateFields.isActive = false;
   };
+
+  console.log(updateFields);
   await userToChange.update(updateFields);
   const updatedUser = await Users.findByPk(id);
   return updatedUser;

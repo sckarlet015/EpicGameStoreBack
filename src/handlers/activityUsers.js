@@ -1,7 +1,6 @@
 const { creteCart } = require('../controllers/cartController');
 const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail, getUserDetail, getVendorById, getVendorDetail } =  require('../controllers/userController')
 
-
 const postUsers = async (req, res, next) => {
     const {
         userName, 
@@ -44,7 +43,6 @@ const getVendorByIdHandler = async (req, res) => {
 };
 
 const getUserLoginHandler = async (req, res, next) => {
-
     const userNull= 'Usuario no encontrado';
     const passwordError= 'Contraseña incorrecta';
     const {email, password} = req.body;
@@ -60,6 +58,7 @@ const getUserLoginHandler = async (req, res, next) => {
 };
 
 const patchUser = async (req, res) => {
+    console.log(req.body);
     try {
         const userId = req.user.id
         const { id } = req.params;
@@ -107,14 +106,12 @@ const createAdmin = async(req,res) => {
         userPassword, 
         userEmail, 
     } = req.body;
-
     try {
         const response = await adminCreate(
             userName, 
             userPassword, 
             userEmail
         );
-        console.log(response);
         if(response.message){
             res.status(400).json({error: response.message});
         }else{

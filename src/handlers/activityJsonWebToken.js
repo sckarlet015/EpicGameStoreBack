@@ -7,6 +7,7 @@ const jwtMiddleware = async (req, res, next) => {
     // JWT verification middleware
     // Get the token from the request headers
     // const token = req.headers.authorization?.split(' ')[1];
+    console.log();
     const token = req.headers.authorization?.split(' ')[1]
   
     if (!token) {

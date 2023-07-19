@@ -5,6 +5,7 @@ const pay = async (res) => {
 }
 
 const getPreference = async(req, res) => {
+    console.log(req.body)
 
     const {CartID, UserID, Videogames} = req.body
         const cartItemes = Videogames.map((item) => {
