@@ -122,9 +122,12 @@ const getUserLogin = async (email, password) => {
     where: {
       userEmail: email,
     },
-    // include: {
-    //   model: Carrito,
-    // },
+    include: {
+      model: Carrito,
+      where: {
+        status: true,
+      }
+    },
   });
 
   if (user && user.isActive === true) {
@@ -203,7 +206,12 @@ const patchUserInfo = async (id, userId, updates) => {
   };
 
   await userToChange.update(updateFields);
-  const updatedUser = await Users.findByPk(id);
+  const updatedUser = await Users.findByPk(id, {
+    include: {
+      model: Carrito,
+    },
+  });
+  
   return updatedUser;
 };
 
@@ -241,6 +249,7 @@ const getUserDetail = async (id) => {
       { model: Carrito,
         include: [Videogame],
       },
+      { model: Videogame, through: { attributes: [] } }
     ]
   });
   if(UserById) return UserById;

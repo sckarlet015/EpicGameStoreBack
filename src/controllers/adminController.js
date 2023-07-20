@@ -151,13 +151,27 @@ const videogameStats = async () => {
     ],
     raw: true,
   });
+
+  const totalVideogames = await Videogame.count();
+  pendingVideogames = await Videogame.count({where: { status: 'pendingApproval' }} );
+  activeVideogames = await Videogame.count( {where: { status: 'active' }});
+  inactiveVideogames = await Videogame.count( {where: { status: 'inactive' }});
+  bannedVideogames = await Videogame.count( {where: { status: 'banned' }});
   
   const videogameData = await Videogame.findAll({
     attributes: ['createdAt'], // Include the createdAt attribute
   });
   const createdDates = videogameData.map((videogame) => videogame.createdAt);
 
-  return { ...overallStats, createdDates};
+  return { 
+    ...overallStats, 
+    totalVideogames,
+    pendingVideogames,
+    activeVideogames,
+    inactiveVideogames,
+    bannedVideogames,
+    createdDates
+  };
 };
 
 module.exports = { 
