@@ -1,7 +1,12 @@
 const mercadopago = require("mercadopago");
+const { creteCart } = require("./cartController");
 
-const pay = async (res) => {
-    res.send('el servidor de mercado pago funciona ^^')
+const pay = async (user, cart) => {
+    await cart.update({
+        status: false
+    })
+    const newCart = await creteCart(user)
+    return newCart
 }
 
 const getPreference = async(req, res) => {
@@ -21,13 +26,12 @@ const getPreference = async(req, res) => {
     let preference = {
         items: cartItemes,
 		back_urls: {
-			"success": "http://localhost:3000/favorites",
-			"failure": "http://localhost:3000/home",
-			"pending": ""
+			"success": "http://localhost:3000/pay",
+			"failure": "http://localhost:3000/pay",
+			"pending": "http://localhost:3000/pay"
 		},
 		auto_return: "approved",
     }
-    // console.log(preference);
     return preference
 }
 

@@ -1,9 +1,13 @@
 const { getPreference, createPreference, getFeedback, pay } = require("../controllers/payController");
+const {Users, Carrito, Videogame, Stat} = require("../db.js");
 
 const getPay = async (req, res) => {
+    const {cartId, userId } = req.body
     try {
-        let getpay = await pay(res)
-        res.status(200).JSON(getpay)
+        const user = await Users.findByPk(userId)
+        const cart = await Carrito.findByPk(cartId)
+        const newCart = await pay(user, cart)
+        res.status(200).json(newCart)
     } catch (error) {
         console.log(error)
     }

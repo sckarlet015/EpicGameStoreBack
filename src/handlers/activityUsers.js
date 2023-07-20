@@ -112,10 +112,11 @@ const createAdmin = async(req,res) => {
             userPassword, 
             userEmail
         );
+        const newCart = await creteCart(response)
         if(response.message){
             res.status(400).json({error: response.message});
         }else{
-            res.status(200).json(response);
+            res.status(200).json({response, newCart})
         }
     } catch (error) {
         res.status(400).json({error: error.message})
@@ -124,6 +125,7 @@ const createAdmin = async(req,res) => {
 
 const getDetailUser = async (req, res) => {
     try {
+        console.log(req);
         const userId = req.user.id;
         const { id } = req.params;
         if(userId !== id){
