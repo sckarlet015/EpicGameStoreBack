@@ -1,4 +1,4 @@
-const {Users, Carrito, Videogame, Stat} = require("../db.js");
+const {Users, Carrito, Videogame, Stat, Genre} = require("../db.js");
 const { JWT_SECRET } = process.env;
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
@@ -249,7 +249,10 @@ const getUserDetail = async (id) => {
       { model: Carrito,
         include: [Videogame],
       },
-      { model: Videogame, through: { attributes: [] } }
+      { model: Videogame, through: { attributes: [] },
+    include: [
+      {model: Genre}
+    ] }
     ]
   });
   if(UserById) return UserById;
