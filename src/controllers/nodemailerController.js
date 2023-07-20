@@ -7,11 +7,10 @@ function sendRegisterMail(req, res) {
     post: 465,
     secure: true,
     auth: {
-      user: "alexemanuelruiz@gmail.com",
-      pass: "ufibxjkqrulqzryj",
+      user: "epicgames.store.pf2023@gmail.com",
+      pass: "rinmzsbkfezkmlew",
     },
   });
-
 
   const htmlContent = `
   <h1>Bienvenido a Epic Games Store.</h1>
@@ -45,8 +44,8 @@ function sendPaymentSuccessMail(req, res) {
     post: 465,
     secure: true,
     auth: {
-      user: "alexemanuelruiz@gmail.com",
-      pass: "ufibxjkqrulqzryj",
+      user: "epicgames.store.pf2023@gmail.com",
+      pass: "rinmzsbkfezkmlew",
     },
   });
 
