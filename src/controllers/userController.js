@@ -49,10 +49,10 @@ const getAllUsers = async () => {
 
     const allUsers = await Users.findAll(
         {
-            include: [
-                {model : Carrito},
-                {model : Videogame, through: {attributes:[]}}
-                ]
+            // include: [
+            //     {model : Carrito},
+            //     {model : Videogame, through: {attributes:[]}}
+            //     ]
         }
     )
 return allUsers;
@@ -122,9 +122,9 @@ const getUserLogin = async (email, password) => {
     where: {
       userEmail: email,
     },
-    include: {
-      model: Carrito,
-    },
+    // include: {
+    //   model: Carrito,
+    // },
   });
 
   if (user && user.isActive === true) {
@@ -202,7 +202,6 @@ const patchUserInfo = async (id, userId, updates) => {
     if (newActive !== undefined) updateFields.isActive = false;
   };
 
-  console.log(updateFields);
   await userToChange.update(updateFields);
   const updatedUser = await Users.findByPk(id);
   return updatedUser;

@@ -85,10 +85,10 @@ const findUserByStatus = async (userStatus) => {
     where: {
       isActive: userStatus
     },
-    include: [
-      { model: Carrito },
-      { model: Videogame, through: { attributes: [] } }
-    ]
+    // include: [
+    //   { model: Carrito },
+    //   { model: Videogame, through: { attributes: [] } }
+    // ]
   });
 
   if(users) return users;
@@ -100,10 +100,10 @@ const findUserByRole = async (userRole) => {
     where: {
       role: userRole
     },
-    include: [
-      { model: Carrito },
-      { model: Videogame, through: { attributes: [] } }
-    ]
+    // include: [
+    //   { model: Carrito },
+    //   { model: Videogame, through: { attributes: [] } }
+    // ]
   });
 
   if(users) return users;
