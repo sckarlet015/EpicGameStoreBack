@@ -169,7 +169,9 @@ const patchGame = async (videogameId, userId, updates) => {
     if(videogame.status === `pendingApproval` && userRole !== 'admin') return { message: "Juego pendiente de validación" }
     if (videogameUser !== userId && userRole !== 'admin') return { message: "cuenta no autorizada" };
     if(videogame.status === "banned" && userRole !== 'admin') return { message: "Este juego fue desactivado, por favor contactanos"};
-    if(newActive !== "banned" && newActive !== "active" && newActive !== "inactive") return { message: "Por favor ingresa un status valido"};
+    if(newActive){
+      if (newActive !== "banned" && newActive !== "active" && newActive !== "inactive") return { message: "Por favor ingresa un status valido"};
+    }
 
     if (newName) {
       const videogameByName = await Videogame.findOne({
