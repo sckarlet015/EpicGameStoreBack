@@ -55,6 +55,40 @@ const getFeedback = async(req) => {
 		MerchantOrder: req.query.merchant_order_id
 	});
     return feed;
-}
+};
 
-module.exports = {getPreference, createPreference, getFeedback, pay};
+const handlePayment = async (cartId) => {
+    try {
+        const carrito = await Carrito.findOne({
+            where: { id: cartId},
+            include: [{ model: Videogame }],
+          });
+          const currentDate = new Date();
+          carrito.purchaseDate = currentDate;
+          carrito.status = false
+          await carrito.save();
+
+          const videogames = carrito.Videogames
+          for (const videogame of videogames) {
+            await videogame.decrement('stock', { by: 1 });
+            if (videogame.stock <= 0) {
+                await videogame.update({ status: 'inactive' });
+            };
+            const stat = await videogame.getStat();
+            await stat.update({
+                revenue: stat.revenue + videogame.price,
+                copiesSold: stat.copiesSold + 1
+              });
+          };
+
+        const newCart = await Carrito.create();
+        newCart.UserId = carrito.UserId; // Set the UserId directly on the Carrito instance
+        await newCart.save();
+
+        return newCart.id
+    } catch (error) {
+        
+    }
+};
+
+module.exports = {getPreference, createPreference, getFeedback, pay, handlePayment};

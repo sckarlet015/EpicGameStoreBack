@@ -1,5 +1,5 @@
 const { getAllUsers } = require('../controllers/userController.js');
-const { findVideogameByStatus, findVideogamesBySeller, findAllVideogames, findGameById, findUserById, findUserByStatus, findUserByRole, userStats } = require (`../controllers/adminController.js`)
+const { findVideogameByStatus, findVideogamesBySeller, findAllVideogames, findGameById, findUserById, findUserByStatus, findUserByRole, userStats, videogameStats } = require (`../controllers/adminController.js`)
 
 const getUsers = async (req, res, next) => {
     try {
@@ -70,6 +70,15 @@ const getUserStats = async (req, res) => {
         res.status(200).json(stats);
     } catch (error) {
         res.status(400).json({ error:error.message });
+    };
+};
+
+const getVideogameStats = async (req, res) => {
+    try {
+        const stats = await videogameStats();
+        res.status(200).json(stats);
+    } catch (error) {
+        res.status(400).json({ error:error.message });
     }
 }
 
@@ -78,5 +87,6 @@ module.exports = {
     getVideogames,
     getVideogamesById,
     getUserById,
-    getUserStats
+    getUserStats,
+    getVideogameStats
 }

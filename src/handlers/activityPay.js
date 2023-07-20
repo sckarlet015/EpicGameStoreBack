@@ -9,7 +9,7 @@ const getPay = async (req, res) => {
         const newCart = await pay(user, cart)
         res.status(200).json(newCart)
     } catch (error) {
-        console.log(error)
+        res.status(400).json({ error:error.message });
     }
 }
 
@@ -20,17 +20,32 @@ const postPay = async(req, res) => {
         let newPreference = createPreference(preference, res)
         return newPreference
     } catch (error) {
-        console.log(error)
-    }
-}
+        res.status(400).json({ error:error.message });
+    };
+};
 
 const getFeedPay = async(req, res) => {
     try {
         const feed = await getFeedback(req)
-        res.status(200).JSON(feed)
+        res.status(200).json(feed)
     } catch (error) {
-        console.log(error)
+        res.status(400).json({ error:error.message });
+    };
+};
+
+const managePay = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const response = await handlePayment(id);
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(400).json({ error:error.message });
     }
 }
 
-module.exports = {getPay, postPay, getFeedPay}
+module.exports = {
+    getPay, 
+    postPay, 
+    getFeedPay,
+    managePay
+}

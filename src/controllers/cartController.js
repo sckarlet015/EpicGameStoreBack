@@ -2,9 +2,11 @@ const { Carrito, Videogame, Users } = require("../db.js");
 
 const creteCart = async(user) => {
     try {
-        const newCart = await Carrito.create()
-        await user.setCarrito(newCart)
-        return newCart
+      const newCart = await Carrito.create();
+      newCart.UserId = user.id; // Set the UserId directly on the Carrito instance
+      await newCart.save();
+  
+      return newCart;
     } catch (error) {
         console.log(error)
     }
@@ -14,15 +16,18 @@ const creteCart = async(user) => {
 const addGames = async(gameID, userID) => {
     try {
         const game =  await Videogame.findByPk(gameID)
-        const user = await Users.findByPk(userID, {
-            include: Carrito,
-          });
-          const cartId = user.Carrito.dataValues.id
-          const cart = await Carrito.findByPk(cartId)
-              if(game){
-                  await game.addCarrito(cart)
-                }
-        return cart.id
+        const carrito = await Carrito.findOne({
+          where: { UserId: userID, status: true },
+          include: [{ model: Videogame }],
+        });
+        
+        const cartID = carrito.id
+        
+        if (game && cartID) {
+          await game.addCarrito(cartID);
+        }
+        
+        return cartID;
     } catch (error) {
         console.log(error)
     }
