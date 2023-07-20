@@ -1,5 +1,5 @@
 const { creteCart } = require('../controllers/cartController');
-const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate } =  require('../controllers/userController')
+const {userCreate,  getUserById, getUserLogin,  patchUserInfo, adminCreate, getByEmailRegister, getByEmail, getUserDetail, getVendorById, getVendorDetail } =  require('../controllers/userController')
 
 const postUsers = async (req, res, next) => {
     const {
@@ -25,12 +25,23 @@ const postUsers = async (req, res, next) => {
 const getUserByIdHandler = async(req, res, next) => {
     const {id} = req.params;
     try {
-        const UserByIdH = await getUserById(id);
-        res.status(200).json(UserByIdH)
+        const UserById = await getUserById(id);
+        res.status(200).json(UserById)
     } catch (error) {
         res.status(400).json({ error:error.message })
+    };
+};
+
+const getVendorByIdHandler = async (req, res) => {
+    const {id} = req.params;
+    try {
+        const vendorById = await getVendorById(id);
+        res.status(200).json(vendorById)
+    } catch (error) {
+        res.status(400).json({error: error.message})
     }
-}
+};
+
 const getUserLoginHandler = async (req, res, next) => {
     const userNull= 'Usuario no encontrado';
     const passwordError= 'Contraseña incorrecta';
@@ -47,7 +58,6 @@ const getUserLoginHandler = async (req, res, next) => {
 };
 
 const patchUser = async (req, res) => {
-    console.log(req.body);
     try {
         const userId = req.user.id
         const { id } = req.params;
@@ -101,14 +111,57 @@ const createAdmin = async(req,res) => {
             userPassword, 
             userEmail
         );
+        const newCart = await creteCart(response)
         if(response.message){
             res.status(400).json({error: response.message});
         }else{
+            res.status(200).json({response, newCart})
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    };
+};
+
+const getDetailUser = async (req, res) => {
+    try {
+        console.log(req);
+        const userId = req.user.id;
+        const { id } = req.params;
+        if(userId !== id){
+            res.status(403).json("invalid request")
+        }else{
+            const response = await getUserDetail(id);
             res.status(200).json(response);
         }
     } catch (error) {
-        
-    }
-}
+        res.status(400).json({error: error.message})
+    };
+};
 
-module.exports =  { postUsers, getUserByIdHandler, getUserLoginHandler, patchUser, getUserByEmail, getUserEmailRegister, createAdmin }
+const getDetailVendor = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { id } = req.params;
+        if(userId !== id){
+            res.status(403).json("invalid request")
+        }else{
+            const response = await getVendorDetail(id);
+            res.status(200).json(response);
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    };
+};
+
+
+module.exports =  { 
+    postUsers, 
+    getUserByIdHandler, 
+    getUserLoginHandler, 
+    patchUser, getUserByEmail, 
+    getUserEmailRegister, 
+    createAdmin,
+    getDetailUser,
+    getVendorByIdHandler,
+    getDetailVendor
+}

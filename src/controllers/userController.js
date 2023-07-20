@@ -1,4 +1,4 @@
-const {Users, Carrito, Videogame} = require("../db.js");
+const {Users, Carrito, Videogame, Stat, Genre} = require("../db.js");
 const { JWT_SECRET } = process.env;
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
@@ -49,10 +49,10 @@ const getAllUsers = async () => {
 
     const allUsers = await Users.findAll(
         {
-            include: [
-                {model : Carrito},
-                {model : Videogame, through: {attributes:[]}}
-                ]
+            // include: [
+            //     {model : Carrito},
+            //     {model : Videogame, through: {attributes:[]}}
+            //     ]
         }
     )
 return allUsers;
@@ -65,13 +65,40 @@ const getUserById = async (id) => {
       id,
       isActive: true
     },
-    include: [
-      { model: Carrito },
-      { model: Videogame, through: { attributes: [] } }
-    ]
+    attributes: ['id', 'userName', `userImage`, `createdAt`]
   });
   if(UserById) return UserById;
   return { message: `usuario no encontrado`};
+};
+
+const getVendorById = async (id) => {
+  try {
+    const vendor = await Users.findOne({
+      where: {
+        id,
+        isActive: true
+      },
+      attributes: ['id', 'userName', 'userImage', 'createdAt'],
+      include: [
+        {
+          model: Videogame,
+          as: 'videogames',
+          where: {
+            status: 'active'
+          },
+          required: false
+        }
+      ]
+    });
+
+    if (!vendor) {
+      throw new Error('Vendor not found');
+    }
+
+    return vendor;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 const generateToken = (user) => {
@@ -97,6 +124,9 @@ const getUserLogin = async (email, password) => {
     },
     include: {
       model: Carrito,
+      where: {
+        status: true,
+      }
     },
   });
 
@@ -104,7 +134,6 @@ const getUserLogin = async (email, password) => {
     const passwordMatch= await bcrypt.compare(password, user.userPassword)
     if (passwordMatch) {
       const token = generateToken(user);
-      console.log(token); // Generate the JWT token
       return { user, token };
     } else {
       return false;
@@ -130,6 +159,7 @@ const putUser = async (id, userName, userPassword, userEmail, userImage) => {
   };
 
 const patchUserInfo = async (id, userId, updates) => {
+  console.log(updates);
   const newName = updates.userName;
   const newEmail = updates.userEmail;
   const newImage = updates.userImage;
@@ -172,24 +202,29 @@ const patchUserInfo = async (id, userId, updates) => {
     if (newActive !== undefined) updateFields.isActive = newActive;
   }else{
     if (newRole) updateFields.role = 'vendedor';
-    if (newActive) updateFields.isActive = false;
+    if (newActive !== undefined) updateFields.isActive = false;
   };
 
-  console.log(updateFields);
   await userToChange.update(updateFields);
-  const updatedUser = await Users.findByPk(id);
+  const updatedUser = await Users.findByPk(id, {
+    include: {
+      model: Carrito,
+    },
+  });
+  
   return updatedUser;
 };
 
 const getByEmail = async (email) => {
+ 
   const user = await Users.findOne({
     where: { userEmail: email },
     include: {
       model: Carrito,
     }
   });
-  console.log(user);
-  if(user) return user 
+  const token = generateToken(user);
+  if(user) return {user, token} 
 
   return null;
 }
@@ -204,6 +239,67 @@ const getByEmailRegister = async(email) => {
   }
 }
 
-module.exports = {userCreate, getAllUsers, getUserById, getUserLogin, putUser, patchUserInfo, getByEmail, getByEmailRegister, adminCreate};
+const getUserDetail = async (id) => {
+  const UserById = await Users.findOne({
+    where: {
+      id,
+      isActive: true
+    },
+    include: [
+      { model: Carrito,
+        include: [Videogame],
+      },
+      { model: Videogame, through: { attributes: [] },
+    include: [
+      {model: Genre}
+    ] }
+    ]
+  });
+  if(UserById) return UserById;
+  return { message: `usuario no encontrado`};
+};
+
+const getVendorDetail = async (id) => {
+  const vendor = await Users.findOne({
+    where: {
+      id,
+      isActive: true
+    },
+    include: [
+      {
+        model: Videogame,
+        as: 'videogames',
+        include: [
+          {
+            model: Stat,
+            as: 'Stat'
+          }
+        ]
+      }
+    ]
+  });
+
+  if (!vendor) {
+    throw new Error('Vendor not found');
+  }
+
+  return vendor;
+};
+
+
+module.exports = {
+  userCreate, 
+  getAllUsers, 
+  getUserById, 
+  getUserLogin, 
+  putUser, 
+  patchUserInfo, 
+  getByEmail, 
+  getByEmailRegister, 
+  adminCreate, 
+  getUserDetail,
+  getVendorById,
+  getVendorDetail
+};
 
 

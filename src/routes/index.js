@@ -1,15 +1,15 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const express = require("express");
 const genresRouter = require("./genresRouter.js");
 const videogamesRouter = require("./videogamesRouter.js");
-const platformsRouter = require("./platformsRouter.js")
+const platformsRouter = require("./platformsRouter.js");
 const { createPlatform } = require("../controllers/platformController.js");
-const developersRouter= require("./developersRouter.js");
+const developersRouter = require("./developersRouter.js");
 const userRouter = require("./userRouter.js");
-const payRouter = require('./payRouter.js');
-const cartRouter = require('./cartRouter.js');
-const favoritesRouter = require('./favoritesRouter.js');
-const reviewRouter = require('./reviewRouter.js');
+const payRouter = require("./payRouter.js");
+const cartRouter = require("./cartRouter.js");
+const favoritesRouter = require("./favoritesRouter.js");
+const reviewRouter = require("./reviewRouter.js");
 const emailRouter = require("./gmailRoute.js");
 const adminRouter = require(`./adminRouter.js`);
 
@@ -20,8 +20,7 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-
-router.use(createPlatform);  
+router.use(createPlatform);
 router.use(express.json());
 
 router.use("/platforms", platformsRouter);
@@ -36,4 +35,3 @@ router.use("/admin", adminRouter);
 // router.use("/reviews",reviewRouter )
 router.use("/send-email", emailRouter);
 module.exports = router;
-

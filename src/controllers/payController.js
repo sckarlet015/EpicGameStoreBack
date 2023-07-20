@@ -1,7 +1,12 @@
 const mercadopago = require("mercadopago");
+const { creteCart } = require("./cartController");
 
-const pay = async (res) => {
-    res.send('el servidor de mercado pago funciona ^^')
+const pay = async (user, cart) => {
+    await cart.update({
+        status: false
+    })
+    const newCart = await creteCart(user)
+    return newCart
 }
 
 const getPreference = async(req, res) => {
@@ -21,13 +26,12 @@ const getPreference = async(req, res) => {
     let preference = {
         items: cartItemes,
 		back_urls: {
-			"success": "http://localhost:3000/favorites",
-			"failure": "http://localhost:3000/home",
-			"pending": ""
+			"success": "http://localhost:3000/pay",
+			"failure": "http://localhost:3000/pay",
+			"pending": "http://localhost:3000/pay"
 		},
 		auto_return: "approved",
     }
-    // console.log(preference);
     return preference
 }
 
@@ -51,6 +55,40 @@ const getFeedback = async(req) => {
 		MerchantOrder: req.query.merchant_order_id
 	});
     return feed;
-}
+};
 
-module.exports = {getPreference, createPreference, getFeedback, pay};
+const handlePayment = async (cartId) => {
+    try {
+        const carrito = await Carrito.findOne({
+            where: { id: cartId},
+            include: [{ model: Videogame }],
+          });
+          const currentDate = new Date();
+          carrito.purchaseDate = currentDate;
+          carrito.status = false
+          await carrito.save();
+
+          const videogames = carrito.Videogames
+          for (const videogame of videogames) {
+            await videogame.decrement('stock', { by: 1 });
+            if (videogame.stock <= 0) {
+                await videogame.update({ status: 'inactive' });
+            };
+            const stat = await videogame.getStat();
+            await stat.update({
+                revenue: stat.revenue + videogame.price,
+                copiesSold: stat.copiesSold + 1
+              });
+          };
+
+        const newCart = await Carrito.create();
+        newCart.UserId = carrito.UserId; // Set the UserId directly on the Carrito instance
+        await newCart.save();
+
+        return newCart.id
+    } catch (error) {
+        
+    }
+};
+
+module.exports = {getPreference, createPreference, getFeedback, pay, handlePayment};

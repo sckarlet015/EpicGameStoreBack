@@ -47,10 +47,6 @@ app.use(express.json());
 //   allowedHeaders: ['Authorization'],
 //   origin: "*"
 // }));
-app.use(cors({
-  allowedHeaders: ['Authorization'],
-  allowedOrigins: ['http://localhost:3000/'],
-}));
 
 
 

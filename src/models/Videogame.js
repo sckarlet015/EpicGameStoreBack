@@ -50,7 +50,11 @@ module.exports = (sequelize) => {
     status: {
       type: DataTypes.ENUM('pendingApproval', 'active', 'inactive', 'banned'),
       defaultValue: 'pendingApproval'
-    }    
+    },
+    createdAt: {
+      type: DataTypes.DATEONLY,
+      defaultValue: DataTypes.NOW
+    }      
   },
   {timestamps: false}
   );

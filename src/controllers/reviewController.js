@@ -9,6 +9,8 @@ const createReview = async (userId, gameId, rating, comment) =>{
         const newGame = await Videogame.findByPk(gameId)
         console.log(newGame)
 
+        const stat = await newGame.getStat();
+        await stat.increment('totalReviews');
         const newReview = await Review.create(
             {
                 rating: rating,
