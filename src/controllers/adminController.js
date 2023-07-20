@@ -1,4 +1,5 @@
-const { Videogame, Platform, Developers, Genre, Users, Carrito} = require("../db.js");
+const { Videogame, Platform, Developers, Genre, Users, Carrito, Stat } = require("../db.js");
+const { Op } = require('sequelize');
 
 const findVideogameByStatus = async (gameStatus) => {
     try {
@@ -138,6 +139,27 @@ const userStats = async () => {
   }
 };
 
+const videogameStats = async () => {
+  const overallStats = await Stat.findOne({
+    attributes: [
+      [Stat.sequelize.fn('SUM', Stat.sequelize.col('favorites')), 'totalFavorites'],
+      [Stat.sequelize.fn('SUM', Stat.sequelize.col('unfavorites')), 'totalUnfavorites'],
+      [Stat.sequelize.fn('SUM', Stat.sequelize.col('click')), 'totalClicks'],
+      [Stat.sequelize.fn('SUM', Stat.sequelize.col('revenue')), 'totalRevenue'],
+      [Stat.sequelize.fn('SUM', Stat.sequelize.col('totalReviews')), 'totalReviews'],
+      [Stat.sequelize.fn('SUM', Stat.sequelize.col('copiesSold')), 'totalCopiesSold'],
+    ],
+    raw: true,
+  });
+  
+  const videogameData = await Videogame.findAll({
+    attributes: ['createdAt'], // Include the createdAt attribute
+  });
+  const createdDates = videogameData.map((videogame) => videogame.createdAt);
+
+  return { ...overallStats, createdDates};
+};
+
 module.exports = { 
     findVideogameByStatus,
     findVideogamesBySeller,
@@ -146,5 +168,6 @@ module.exports = {
     findUserById,
     findUserByRole,
     findUserByStatus,
-    userStats
+    userStats,
+    videogameStats
   }
