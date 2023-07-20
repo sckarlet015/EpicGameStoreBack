@@ -239,8 +239,9 @@ const getUserDetail = async (id) => {
       isActive: true
     },
     include: [
-      { model: Carrito },
-      { model: Videogame, through: { attributes: [] } }
+      { model: Carrito,
+        include: [Videogame],
+      },
     ]
   });
   if(UserById) return UserById;

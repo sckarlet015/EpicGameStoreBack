@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
     },
     pusrchaseDate: {
       type: DataTypes.DATEONLY,
-      allowNull:false
+      allowNull:true
     }
   }, {
     timestamps: false

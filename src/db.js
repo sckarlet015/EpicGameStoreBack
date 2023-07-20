@@ -52,8 +52,8 @@ Videogame.belongsToMany(Users, {through: "Favoritos"});
 Developers.hasMany(Videogame);
 Videogame.belongsTo(Developers);
 
-Videogame.belongsToMany(Carrito, { through: "VideogameCarrito" });
-Carrito.belongsToMany(Videogame, { through: "VideogameCarrito" });
+Users.hasMany(Carrito); 
+Carrito.belongsTo(Users);
 
 Videogame.belongsToMany(Carrito, {through: "VideogameCarrito"});
 Carrito.belongsToMany(Videogame, {through: "VideogameCarrito"});
