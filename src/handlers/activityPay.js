@@ -3,7 +3,7 @@ const { getPreference, createPreference, getFeedback, pay, handlePayment } = req
 const getPay = async (req, res) => {
     try {
         let getpay = await pay(res)
-        res.status(200).JSON(getpay)
+        res.status(200).json(getpay)
     } catch (error) {
         res.status(400).json({ error:error.message });
     }
@@ -23,7 +23,7 @@ const postPay = async(req, res) => {
 const getFeedPay = async(req, res) => {
     try {
         const feed = await getFeedback(req)
-        res.status(200).JSON(feed)
+        res.status(200).json(feed)
     } catch (error) {
         res.status(400).json({ error:error.message });
     };
@@ -32,8 +32,8 @@ const getFeedPay = async(req, res) => {
 const managePay = async (req, res) => {
     const { id } = req.params;
     try {
-        const response = await handlePayment(id)
-        res.status(200).JSON(response)
+        const response = await handlePayment(id);
+        res.status(200).json(response)
     } catch (error) {
         res.status(400).json({ error:error.message });
     }
