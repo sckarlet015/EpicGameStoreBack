@@ -13,7 +13,7 @@ require('./db.js');
 const server = express();
 
 server.use(cors({
-  origin: 'http://localhost:3000', // Update with your client's origin
+  origin: FRONT_LINK, // Update with your client's origin
   methods: ['GET', 'PUT', 'POST', `PATCH`],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
