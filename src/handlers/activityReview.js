@@ -2,6 +2,7 @@ const { createReview, getReviewsById, getAllReviews } = require("../controllers/
 const { Videogame, Users, Review } = require ("../db.js");
 
 const postReview = async (req,res) =>{
+    console.log(req);
     const { userId, gameId, rating, comment} = req.body
     console.log(req.body)
     try {     
