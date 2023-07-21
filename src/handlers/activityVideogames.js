@@ -39,8 +39,8 @@ const postVideogames = async (req, res) => {
         if(role === "cliente"){
             res.status(403).json("ingresa con una cuenta de vendedor");
         }else{
-            const { name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer} = req.body;
-            const newVideogame = await createGame(name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer, id);
+            const { name, description, launchDate, rating, image, price, stock , genreIds, platforms, developer} = req.body;
+            const newVideogame = await createGame(name, description, launchDate, rating, image, price, stock , genreIds, platforms, developer, id);
             res.status(200).json(newVideogame);
         };
     } catch (error) {

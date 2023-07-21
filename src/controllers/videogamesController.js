@@ -67,8 +67,17 @@ const getVideogamesByGenre = async (name) => {
     };
 };
 
-const createGame = async (name, description, launchDate, rating, image, screenshots, price, stock , genres, platforms, developer, sellerId) => {
+const createGame = async (name, description, launchDate, rating, image, price, stock , genres, platforms, developer, sellerId) => {
   try {
+    console.log({
+      name,
+        description,
+        launchDate,
+        rating,
+        image,
+        price,
+        stock,
+    });
     const user = await Users.findByPk(sellerId);
     userRole = user.role;
     userStatus = user.isActive;
@@ -80,18 +89,15 @@ const createGame = async (name, description, launchDate, rating, image, screensh
       
     if(game) return "intenta con otro nombre"
 
-    const screenshotsString = screenshots.join(',');
     const newVideogame = await Videogame.create({
         name,
         description,
         launchDate,
         rating,
         image,
-        screenshots: screenshotsString,
         price,
         stock,
     });
-
     const developerDb = await Developers.findOne({
         where: { name: developer }
     });
@@ -111,19 +117,15 @@ const createGame = async (name, description, launchDate, rating, image, screensh
         await newVideogame.setDeveloper(newDev.id);
       }
 
-      for (const name of genres) {
-        const genre = await Genre.findOne({
-            where: { genreName: name },
-          });
+      for (const id of genres) {
+        const genre = await Genre.findByPk(id);
         if (genre) {
             await newVideogame.addGenre(genre);
         }
     };
 
-    for (const name of platforms) {
-        const platform = await Platform.findOne({
-            where: { platformName: name },
-          });
+    for (const id of platforms) {
+        const platform = await Platform.findByPk(id)
         if (platform) {
             await newVideogame.addPlatform(platform);
         }
