@@ -1,4 +1,5 @@
 const mercadopago = require("mercadopago");
+const {Users, Carrito, Videogame, Stat, Genre} = require("../db.js");
 const { creteCart } = require("./cartController");
 
 const pay = async (user, cart) => {
@@ -82,9 +83,9 @@ const handlePayment = async (cartId) => {
           };
 
         const newCart = await Carrito.create();
-        newCart.UserId = carrito.UserId; // Set the UserId directly on the Carrito instance
+        newCart.UserId = carrito.UserId;
         await newCart.save();
-
+          console.log(newCart);
         return newCart.id
     } catch (error) {
         

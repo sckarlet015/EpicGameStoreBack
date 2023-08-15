@@ -33,7 +33,7 @@ const mercadopago = require("mercadopago");
 
 
 app.use(cors({
-  origin: FRONT_LINK, // Update with your client's origin
+  origin: 'http://localhost:3000', // Update with your client's origin
   methods: ['GET', 'PUT', 'POST','PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -51,8 +51,7 @@ app.use(express.json());
 
 
 mercadopago.configure({
-  access_token:
-    "TEST-3510852097062712-071920-8c291521074ff68bc65fe2dd93c87822-661793004",
+	access_token: "TEST-5157264431610939-070317-a713bdde3854ba34269cb1dd745a72bc-344061438",
 });
   
 

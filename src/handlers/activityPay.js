@@ -1,13 +1,9 @@
-const { getPreference, createPreference, getFeedback, pay } = require("../controllers/payController");
-const {Users, Carrito, Videogame, Stat} = require("../db.js");
+const { getPreference, createPreference, getFeedback, pay, handlePayment } = require("../controllers/payController");
 
 const getPay = async (req, res) => {
-    const {cartId, userId } = req.body
     try {
-        const user = await Users.findByPk(userId)
-        const cart = await Carrito.findByPk(cartId)
-        const newCart = await pay(user, cart)
-        res.status(200).json(newCart)
+        let getpay = await pay(res)
+        res.status(200).json(getpay)
     } catch (error) {
         res.status(400).json({ error:error.message });
     }

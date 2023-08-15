@@ -22,7 +22,7 @@ function sendRegisterMail(req, res) {
   const mailOptions = {
     from: "Epic Games Store",
     to: `${email}`,
-    subject: "enviado desde Epic Games Store.",
+    subject: "Registro Epic Games Store.",
     text: "¡Registro exitoso!",
     html: htmlContent,
   };
@@ -59,7 +59,7 @@ function sendPaymentSuccessMail(req, res) {
   const mailOptions2 = {
     from: "Epic Games Store",
     to: `${email}`,
-    subject: "enviado desde Epic Games Store.",
+    subject: "Compraste en Epic Games Store.",
     text: "¡Pago exitoso!",
     html: htmlContent2,
   };
